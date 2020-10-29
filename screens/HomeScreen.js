@@ -16,7 +16,7 @@ import { render } from 'react-dom';
 //import { List } from 'react-native-paper';
 //const theme = getTheme();
 
-const DetailsStack = createStackNavigator();
+
 const HomeScreen = ({navigation}) => {
 
   const imageheight = Dimensions.get('screen').height;
@@ -27,8 +27,8 @@ const HomeScreen = ({navigation}) => {
  
 
  const showcategory = (category,key)=>{
-                  navigation.navigate("Explore", {
-                  category_name:category,
+                  navigation.navigate("SupportScreen",{
+                    category_name:category,
                   });  
 };
  

@@ -1,20 +1,24 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
 import{ Picker }from'@react-native-community/picker';
 import { map } from 'jquery';
+import { Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
-const ExploreScreen = ({navigation,route}) => {
 
-  //const controller=new AbortController();
+
+const imagewidth = Dimensions.get('screen').width;
+const imageheight = Dimensions.get('screen').height;
+
+const ExploreScreen = ({route}) => {
+
 
   const [data, setData] = React.useState({
     servicecategories:[],
   });
  
-// alert(route.params.category_name);
-
-  const getcategory=()=>{}
+  
   const category=route.params.category_name;
   let usercategory = new FormData();
   usercategory.append('main_category',category);
@@ -35,6 +39,7 @@ const ExploreScreen = ({navigation,route}) => {
                   })
                   .catch((error) => console.error(error))
                   .finally(() => {
+                    
                   });
 
                   const [selectedValues, setSelectedValue] = React.useState({
@@ -53,7 +58,7 @@ const ExploreScreen = ({navigation,route}) => {
                   return(
                     <Picker
                       selectedValue={selectedValues.selectedValue}
-                      style={{height:20,width: 150 ,borderRadius:10}}
+                      style={{height:50,width:imagewidth*0.8,borderRadius:5,backgroundColor:'#fff',fontSize:30,fontWeight:'bold'}}
                       onValueChange={(itemValue) => sublist(itemValue)}
                     >
                       {pickeritem()}
@@ -71,7 +76,7 @@ const ExploreScreen = ({navigation,route}) => {
                 setSelectedValue({
                   selectedValue:itemValue,
                 })
-                const value=selectedValues.selectedValue;
+                
 
                 let subcategory = new FormData();
                 subcategory.append('main_category',category)
@@ -97,7 +102,7 @@ const ExploreScreen = ({navigation,route}) => {
               const subcategorylist=()=>{
                 return subcategories.subcategoriesarray.map(element => {
                   return (
-                  <View style={{flex:1}}><Text>{element}</Text></View>
+                  <View><Text style={{fontSize:15,fontStyle:'Calibri',fontWeight:'600'}}>{element}</Text></View>
                   );
                 });
               }
@@ -105,18 +110,41 @@ const ExploreScreen = ({navigation,route}) => {
                   
     return (
       <View style={styles.container}>
-        <Text>{data.servicecategories}</Text>
-        <Text>{subcategories.subcategoriesarray}</Text>
-        <Text>ExploreScreen</Text>
+          <View style={{flex:0.14,top:0,width:imagewidth,backgroundColor:"#1a237e",flexDirection:'row',alignItems:'center'}}>
+          <Icon.Button 
+            name="ios-arrow-back" 
+            size={25} 
+            backgroundColor="#1a237e" 
+            style={{marginLeft:5}} 
+            onPress={() => navigation.goBack()}>
+            </Icon.Button>
+            <Text style={{fontSize:25,
+              marginTop:5,
+              marginHorizontal:50,
+              color:'#fff',
+              fontWeight:'300',
+              marginLeft:imagewidth/4}}>Services</Text>
+            <Icon.Button 
+            name="ios-menu" 
+            size={25} 
+            backgroundColor="#1a237e" 
+            style={{marginLeft:30,right:0}} 
+            onPress={() => navigation.openDrawer()}>
+            </Icon.Button>
+          </View>
+        {/* <Text>{data.servicecategories}</Text>
+        <Text>{subcategories.subcategoriesarray}</Text> */}
+        <Text>Services for this category!</Text>
 
         <View style={{flex:1}}>
             {list()}
-        </View>
-        <View style={{flexDirection:'column',flex:1}}>
-            {subcategorylist()}
+            <View style={{flexDirection:'column',flex:1,borderColor:'#000',alignItems:'stretch'}}>
+              {subcategorylist()}
+          </View>
         </View>
         
-        <Button
+        
+        {/* <Button
           title="Click Here"
           onPress={() => alert(subcategories.subcategoriesarray)}
         />
@@ -127,7 +155,7 @@ const ExploreScreen = ({navigation,route}) => {
         <Button
           title="Go Back!"
           onPress={() => navigation.goBack()}
-        />
+        /> */}
       </View>
     );
 };

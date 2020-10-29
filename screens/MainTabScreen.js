@@ -42,6 +42,17 @@ const MainTabScreen = () => (
         }}
       />
       <Tab.Screen
+              name="Explore"
+              component={ExploreScreen}
+              options={{
+                tabBarLabel: 'Explore',
+                tabBarColor: '#1a237e',
+                tabBarIcon: ({ color }) => (
+                  <Icon name="ios-aperture" color={color} size={26} />
+                ),
+              }}
+            />
+      <Tab.Screen
         name="Notifications"
         component={DetailsStackScreen}
         options={{
@@ -63,17 +74,7 @@ const MainTabScreen = () => (
           ),
         }}
       />
-      <Tab.Screen
-        name="Explore"
-        component={ExploreScreen}
-        options={{
-          tabBarLabel: 'Explore',
-          tabBarColor: '#1a237e',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-aperture" color={color} size={26} />
-          ),
-        }}
-      />
+     
     </Tab.Navigator>
 );
 
