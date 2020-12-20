@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+	Button,
+	StyleSheet,
+	TouchableOpacity,
+	Image,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,28 +15,24 @@ import { FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AuthContext } from '../components/context';
 
-const imagewidth = Dimensions.get('screen').width;
-const imageheight = Dimensions.get('screen').height;
+const imagewidth = Dimensions.get('window').width;
+const imageheight = Dimensions.get('window').height;
 
-const itemsPerPage = 5;
-
-const SettingsScreen = ({ navigation }) => {
+const QuoteScreen = ({ navigation }) => {
 	const a = useContext(AuthContext);
-
-	const [name, setName] = useState();
 
 	const [details, setDetails] = useState([]);
 
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-invoices/', {
+		fetch('https://alsocio.geop.tech/app/get-quotes/', {
 			method: 'POST',
 			body: customer_name,
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				setDetails(responseJson.invoices);
+				setDetails(responseJson.quotes);
 			})
 			.catch((error) => console.error(error));
 	};
@@ -39,25 +42,43 @@ const SettingsScreen = ({ navigation }) => {
 		}
 	}, []);
 
-	const [page, setPage] = React.useState(0);
-	const from = page * itemsPerPage;
-	const to = (page + 1) * itemsPerPage;
+	const showImage = (ImageUrl) => {
+		// if (ImageUrl == "") {
+		// 	return null;
+		// }
+		return (
+			<Image
+				style={{
+					flexGrow: 1,
+					width: 100,
+					height: 200,
+					marginBottom: 10,
+					resizeMode:'contain'
+				}}
+				source={{
+					uri: 'https:alsocio.geop.tech/media/' + ImageUrl,
+				}}
+			/>
+		);
+	};
 
-	return a.UserName!=null ?(
+	return a.UserName != null ? (
 		<View style={styles.container}>
 			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Invoices'
+					title='Quotes'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
 				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
+
 			<FlatList
 				data={details}
 				style={styles.flatlist}
 				keyExtractor={(item, index) => item.id}
+				removeClippedSubviews={false}
 				renderItem={({ item }) => (
 					<Card
 						style={{
@@ -77,73 +98,78 @@ const SettingsScreen = ({ navigation }) => {
 									flexGrow: 1,
 									padding: 15,
 									borderBottomWidth: 0.45,
-									flexDirection:'row'
 								}}>
 								<Text
 									style={{
-										flexGrow:1,
 										fontSize: 18,
 										fontWeight: '900',
-										alignSelf: 'flex-start',
-										textAlign:'left'
+										alignSelf: 'center',
 									}}>
-									Date - {new Date(item.date).getDate()}-{new Date(item.date).getMonth()+1}-{new Date(item.date).getFullYear()}
+									{item.company_name}
 								</Text>
-								<Text
+							</View>
+							<View style={{ flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Description -</Text>
+								<Text style={styles.rightLabel}>{item.description}</Text>
+							</View>
+							<View style={{ flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Quote -</Text>
+								<Text style={styles.rightLabel}>{item.request}</Text>
+							</View>
+							<View style={{ flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Image -</Text>
+								{showImage(item.img)}
+								{/* <Image
 									style={{
-										flexGrow:1,
-										fontSize: 18,
-										fontWeight: '900',
-										alignSelf: 'flex-end',
-										textAlign:'right'
-									}}>
-									Time - {new Date(item.date).getHours()}:{new Date(item.date).getMinutes()}:{new Date(item.date).getSeconds()}
-								</Text>
+										flexGrow: 1,
+										width: 100,
+										height: 200,
+										marginBottom: 10,
+									}}
+									source={{
+										uri: 'https:alsocio.geop.tech/media/' + item.img,
+									}}
+								/> */}
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>No.of Services - </Text>
-								<Text style={styles.rightLabel}>{item.services}</Text>
+								<Text style={styles.leftLabel}>Reply -</Text>
+								<Text style={styles.rightLabel}>{item.reply}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Sub Total - </Text>
-								<Text style={styles.rightLabel}>{item.sub_total}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Service -</Text>
-								<Text style={styles.rightLabel}>{item.service_charges}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>ITBMS -</Text>
-								<Text style={styles.rightLabel}>{item.itbms}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Total Cost -</Text>
-								<Text style={styles.rightLabel}>{item.cost}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Status -</Text>
-								<Text style={styles.rightLabel}>{item.status}</Text>
-							</View>
-							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Refund -</Text>
-								<Text style={styles.rightLabel}>{item.refund}</Text>
-							</View>
-							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Refund Status -</Text>
-								<Text style={styles.rightLabel}>{item.refund_status}</Text>
+								<Text style={styles.leftLabel}>Total -</Text>
+								<Text style={styles.rightLabel}>{item.total}</Text>
 							</View>
 						</Card.Content>
 					</Card>
 				)}
+				ListEmptyComponent={
+					<View
+						style={{
+							flex: 1,
+							backgroundColor: '#e0e0e0',
+							alignItems: 'center',
+							justifyContent: 'center',
+							padding: 20,
+						}}>
+						<Text
+							style={{
+								fontSize: 20,
+								fontWeight: '900',
+								fontFamily: 'sans-serif-light',
+							}}>
+							No Quotes
+						</Text>
+					</View>
+				}
 			/>
 		</View>
-	):(
+	) : (
 		<View style={{ flex: 1 }}>
 			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Invoices'
+					title='Profile'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
 				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
@@ -171,10 +197,9 @@ const SettingsScreen = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 		</View>
-	)
+	);
 };
-
-export default SettingsScreen;
+export default QuoteScreen;
 
 const styles = StyleSheet.create({
 	container: {

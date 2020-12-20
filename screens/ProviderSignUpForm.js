@@ -16,13 +16,12 @@ import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
 import { Picker } from '@react-native-community/picker';
 import { ScrollView } from 'react-native-gesture-handler';
-import ProvderSignUpForm from './ProviderSignUpForm';
 import { UIActivityIndicator } from 'react-native-indicators';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
 
-const SignUpScreen = ({ navigation }) => {
+const ProvderSignUpForm = (props) => {
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -57,9 +56,6 @@ const SignUpScreen = ({ navigation }) => {
 				});
 			})
 			.catch((error) => console.error(error));
-		// return selectedRegion.map((element) => {
-		// 	// return <option value={element}>{element}</option>;
-		// });
 	};
 
 	useEffect(() => {
@@ -167,9 +163,9 @@ const SignUpScreen = ({ navigation }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				console.log(responseJson);
 				setIsLoading(false)
 				if (responseJson.user == 'OTP sent successfully') {
+                    console.log(responseJson)
 					setOtp(responseJson.otp);
 					alert(responseJson.user);
 				} else {
@@ -182,7 +178,8 @@ const SignUpScreen = ({ navigation }) => {
 
 	const [giveEmails, setGiveEmails] = useState(false);
 
-	const SignUpSchema = Yup.object().shape({
+	const ProviderSignUpSchema = Yup.object().shape({
+		company_name: Yup.string().required(' Company Name is Required'),
 		first_name: Yup.string().required(' First Name is Required'),
 		last_name: Yup.string().required('Last Name is Required'),
 		region: Yup.string().required('Please Select Your Location'),
@@ -203,18 +200,19 @@ const SignUpScreen = ({ navigation }) => {
 		otp: Yup.string().required('No OTP provided.').min(4, 'Invalid Otp'),
 	});
 
-	const registerUser = (parameters) => {
+	const registerProvider = (parameters) => {
 		setIsLoading(true)
 		let userDetails = new FormData();
+		userDetails.append('company_name', parameters.company_name);
 		userDetails.append('first_name', parameters.first_name);
 		userDetails.append('last_name', parameters.last_name);
-		userDetails.append('customer_city', parameters.city);
-		userDetails.append('customer_region', parameters.region);
+		userDetails.append('city', parameters.city);
+		userDetails.append('region', parameters.region);
 		userDetails.append('email', parameters.email);
 		userDetails.append('username', parameters.username);
 		userDetails.append('password', parameters.confirm_password);
 		userDetails.append('contact', parameters.contact);
-		fetch('https://alsocio.geop.tech/app/customer-signup/', {
+		fetch('https://alsocio.geop.tech/app/provider-signup/', {
 			method: 'POST',
 			body: userDetails,
 		})
@@ -222,17 +220,14 @@ const SignUpScreen = ({ navigation }) => {
 			.then((responseJson) => {
 				setIsLoading(false)
 				if (responseJson.signup == 'successful') {
-					navigation.navigate('SignInScreen');
+                    console.log(responseJson)
+					props.navigation.navigate('SignInScreen');
 				}
 			});
 	};
-
-	const [isCustomer, setIsCustomer] = useState(true);
-
-	const showForm = () => {
-		return isCustomer ? (
-			<View style={styles.container}>
-				{isLoading ? (
+	return (
+		<View style={styles.container}>
+			{isLoading ? (
 				<Animatable.View
 					style={{
 						flex: 1,
@@ -246,40 +241,53 @@ const SignUpScreen = ({ navigation }) => {
 					<UIActivityIndicator color='#1a237e' />
 				</Animatable.View>
 			) : null}
-				<Text
+            <Text
 					style={{
 						marginTop:20,
 						width: imagewidth,
 						backgroundColor: '#0d47a1',
 						textAlign: 'center',
-						padding: 20,
-						color:'#fff'
+                        padding: 20,
+                        color:'#fff'
 					}}>
-					Customer Registration
+					Provider Registration
 				</Text>
-				<Formik
-					initialValues={{
-						first_name: '',
-						last_name: '',
-						region: '',
-						city: '',
-						contact: '',
-						username: '',
-						email: '',
-						otp: '',
-						password: '',
-						confirm_password: '',
-						terms_conditions: false,
-						email_updates: false,
-					}}
-					onSubmit={(values) => {
-						registerUser(values);
-					}}
-					validationSchema={SignUpSchema}>
-					{(props) => (
-						<Card style={styles.card}>
-							{/* <View style={{ marginTop: 15 }}> */}
+			<Formik
+				initialValues={{
+					company_name: '',
+					first_name: '',
+					last_name: '',
+					region: '',
+					city: '',
+					contact: '',
+					username: '',
+					email: '',
+					otp: '',
+					password: '',
+					confirm_password: '',
+					terms_conditions: false,
+					email_updates: false,
+				}}
+				onSubmit={(values) => {
+					registerProvider(values);
+				}}
+				validationSchema={ProviderSignUpSchema}>
+				{(props) => (
+					<Card style={styles.card}>
+						<View style={{ marginTop: 15 }}>
 							<ScrollView style={{ margin: 20 }}>
+								<TextInput
+									placeholder='Company Name'
+									style={styles.textInput}
+									onBlur={() => props.setFieldTouched('company_name')}
+									onChangeText={props.handleChange('company_name')}
+									value={props.values.company_name}
+								/>
+								{props.touched.company_name && props.errors.company_name && (
+									<Text style={{ fontSize: 10, padding: 10, color: 'red' }}>
+										{props.errors.company_name}
+									</Text>
+								)}
 								<TextInput
 									placeholder='First Name'
 									style={styles.textInput}
@@ -517,76 +525,14 @@ const SignUpScreen = ({ navigation }) => {
 									</View>
 								</TouchableOpacity>
 							</ScrollView>
-							{/* </View> */}
-						</Card>
-					)}
-				</Formik>
-			</View>
-		) : (
-			<ProvderSignUpForm navigation={navigation}/>
-		);
-	};
-
-	return (
-		<View style={styles.container}>
-			<View
-				style={{
-					flexDirection: 'row',
-					marginTop: 70,
-					justifyContent: 'space-between',
-					flexBasis: 80,
-				}}>
-				<TouchableOpacity
-					style={{
-						backgroundColor: '#1a237e',
-						flexGrow: 1,
-						height: 40,
-						margin: 15,
-						borderRadius: 5,
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-					onPress={() => {
-						setIsCustomer(true);
-					}}>
-					<Text
-						style={{
-							color: '#fff',
-							alignSelf: 'center',
-							textAlign: 'center',
-						}}>
-						As a Customer
-					</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={{
-						backgroundColor: '#1a237e',
-						flexGrow: 1,
-						height: 40,
-						margin: 15,
-						borderRadius: 5,
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-					onPress={() => {
-						setIsCustomer(false);
-					}}>
-					<Text
-						style={{
-							color: '#fff',
-							alignSelf: 'center',
-							textAlign: 'center',
-						}}>
-						As a Provider
-					</Text>
-				</TouchableOpacity>
-			</View>
-			{showForm()}
+						</View>
+					</Card>
+				)}
+			</Formik>
 		</View>
 	);
 };
-
-export default SignUpScreen;
+export default ProvderSignUpForm;
 
 const styles = StyleSheet.create({
 	container: {
@@ -671,3 +617,5 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1a237e',
 	},
 });
+
+

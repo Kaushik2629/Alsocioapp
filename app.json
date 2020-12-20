@@ -4,11 +4,10 @@
     "slug": "alsocio",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/AppIcon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/icon.png",
+      "backgroundColor": "#1a237e"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,10 +16,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.Alsocio.AlsocioApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
+    },
+    "android": {
+      "package": "com.Alsocio.AlsocioApp",
+      "permissions": [],
+      "versionCode": 3
     },
     "description": "You are in Good Hands!"
   }

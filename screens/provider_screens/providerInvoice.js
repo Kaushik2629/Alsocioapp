@@ -6,14 +6,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Appbar, Card, DataTable } from 'react-native-paper';
 import { FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { AuthContext } from '../components/context';
+import { AuthContext } from '../../components/context';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
 
 const itemsPerPage = 5;
 
-const SettingsScreen = ({ navigation }) => {
+const providerInvoice = ({ navigation }) => {
 	const a = useContext(AuthContext);
 
 	const [name, setName] = useState();
@@ -23,7 +23,7 @@ const SettingsScreen = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-invoices/', {
+		fetch('https://alsocio.geop.tech/app/get-provider-invoices/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -43,7 +43,7 @@ const SettingsScreen = ({ navigation }) => {
 	const from = page * itemsPerPage;
 	const to = (page + 1) * itemsPerPage;
 
-	return a.UserName!=null ?(
+	return (
 		<View style={styles.container}>
 			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
@@ -81,23 +81,24 @@ const SettingsScreen = ({ navigation }) => {
 								}}>
 								<Text
 									style={{
-										flexGrow:1,
+										flexGrow: 1,
 										fontSize: 18,
 										fontWeight: '900',
 										alignSelf: 'flex-start',
-										textAlign:'left'
+										textAlign: 'left',
 									}}>
-									Date - {new Date(item.date).getDate()}-{new Date(item.date).getMonth()+1}-{new Date(item.date).getFullYear()}
+									Customer Email - 
 								</Text>
 								<Text
 									style={{
-										flexGrow:1,
-										fontSize: 18,
+										fontSize: 13,
 										fontWeight: '900',
 										alignSelf: 'flex-end',
-										textAlign:'right'
+										textAlign: 'right',
+										marginBottom:3,
+										marginLeft:5
 									}}>
-									Time - {new Date(item.date).getHours()}:{new Date(item.date).getMinutes()}:{new Date(item.date).getSeconds()}
+									{item.customer_email}
 								</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
@@ -109,7 +110,11 @@ const SettingsScreen = ({ navigation }) => {
 								<Text style={styles.rightLabel}>{item.sub_total}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Service -</Text>
+								<Text style={styles.leftLabel}>Provider Charges -</Text>
+								<Text style={styles.rightLabel}>{item.provider_charges}</Text>
+							</View>
+                            <View style={{ flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Service Charges -</Text>
 								<Text style={styles.rightLabel}>{item.service_charges}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
@@ -121,60 +126,34 @@ const SettingsScreen = ({ navigation }) => {
 								<Text style={styles.rightLabel}>{item.cost}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Address -</Text>
+								<Text style={styles.rightLabel}>{item.address}</Text>
+							</View>
+							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>City -</Text>
+								<Text style={styles.rightLabel}>{item.city}</Text>
+							</View>
+                            <View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Region -</Text>
+								<Text style={styles.rightLabel}>{item.region}</Text>
+							</View>
+							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Status -</Text>
 								<Text style={styles.rightLabel}>{item.status}</Text>
 							</View>
-							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Refund -</Text>
-								<Text style={styles.rightLabel}>{item.refund}</Text>
-							</View>
-							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Refund Status -</Text>
-								<Text style={styles.rightLabel}>{item.refund_status}</Text>
+                            <View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Payment Status -</Text>
+								<Text style={styles.rightLabel}>{item.payment_status}</Text>
 							</View>
 						</Card.Content>
 					</Card>
 				)}
 			/>
 		</View>
-	):(
-		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
-				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content
-					titleStyle={{ padding: 10 }}
-					title='Invoices'
-					subtitleStyle={{ marginBottom: 5 }}
-				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
-			</Appbar.Header>
-			<View>
-				<TouchableOpacity
-					style={{
-						borderRadius: 20,
-						fontSize: 15,
-						margin: 15,
-						backgroundColor: '#1a237e',
-					}}
-					onPress={() => navigation.navigate('SignInScreen')}>
-					<Text
-						style={{
-							alignSelf: 'center',
-							fontSize: 15,
-							fontWeight: 'bold',
-							margin: 15,
-							color: '#fff',
-							flexGrow: 1,
-						}}>
-						Login to view your Bookings
-					</Text>
-				</TouchableOpacity>
-			</View>
-		</View>
 	)
 };
 
-export default SettingsScreen;
+export default providerInvoice;
 
 const styles = StyleSheet.create({
 	container: {
