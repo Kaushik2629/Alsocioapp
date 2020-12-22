@@ -142,12 +142,13 @@ const App = () => {
 				dispatch({ type: 'COUNT', change: s });
 			},
 			fetchRole: async(response)=>{
+				const userType = response
 				try{
-					await AsyncStorage.setItem('userToken',response)
+					await AsyncStorage.setItem('userToken',userType)
 				}catch (e) {
 					console.log(e);
 				}
-				dispatch({type: 'ROLE', token:response})
+				dispatch({type: 'ROLE', token:userType})
 			},
 			Role: loginState.userToken,
 			UserName: loginState.userName,

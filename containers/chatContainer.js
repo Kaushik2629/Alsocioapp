@@ -9,6 +9,8 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	TextInput,
+	Platform,
+	KeyboardAvoidingView
 } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { Dimensions } from 'react-native';
@@ -110,6 +112,7 @@ const chatContainer = ({ route, navigation }) => {
 		let time = arr[1].toString();
 		return(<Text
 			style={{
+				// flexGrow:3,
 				alignSelf: 'flex-end',
 				fontSize: 10,
 				fontWeight: 'bold',
@@ -123,6 +126,7 @@ const chatContainer = ({ route, navigation }) => {
 		let time = arr[1].toString();
 		return(<Text
 			style={{
+				// flexGrow:3,
 				alignSelf: 'flex-end',
 				fontSize: 10,
 				fontWeight: 'bold',
@@ -133,6 +137,38 @@ const chatContainer = ({ route, navigation }) => {
 		}
 		
 	};
+
+	const showDateStamp = (DateString,Username) =>{
+		if(Username!=a.UserName){
+			let arr = [DateString].toString();
+		arr = arr.split('T');
+		let time = arr[0].toString();
+		return(<Text
+			style={{
+				flexGrow:1,
+				alignSelf: 'flex-start',
+				fontSize: 10,
+				fontWeight: 'bold',
+				color: '#fff',
+			}}>
+			{time}
+		</Text>)
+		}else{
+			let arr = [DateString].toString();
+		arr = arr.split('T');
+		let time = arr[0].toString();
+		return(<Text
+			style={{
+				flexGrow:1,
+				alignSelf: 'flex-start',
+				fontSize: 10,
+				fontWeight: 'bold',
+				color: '#000',
+			}}>
+			{time}
+		</Text>)
+		}
+	}
 
 	const checkUserChat = (Username, Time, Message) => {
 		if (Username != a.UserName) {
@@ -153,9 +189,11 @@ const chatContainer = ({ route, navigation }) => {
 					<View
 						style={{
 							flexGrow: 1,
+							flexDirection:'row',
 							paddingVertical: 10,
-							marginRight: 10,
+							marginHorizontal: 10,
 						}}>
+						{showDateStamp(Time,Username)}
 						{showTimeStamp(Time,Username)}
 					</View>
 					<View style={{ flexGrow: 1, marginBottom: 25 }}>
@@ -183,18 +221,12 @@ const chatContainer = ({ route, navigation }) => {
 					<View
 						style={{
 							flexGrow: 1,
+							flexDirection:'row',
 							paddingVertical: 10,
-							marginRight: 10,
+							marginHorizontal: 10,
 						}}>
-						<Text
-							style={{
-								alignSelf: 'flex-end',
-								fontSize: 10,
-								fontWeight: 'bold',
-								color: '#000',
-							}}>
-							{showTimeStamp(Time,Username)}
-						</Text>
+						{showDateStamp(Time,Username)}
+						{showTimeStamp(Time,Username)}
 					</View>
 					<View style={{ flexGrow: 1, marginBottom: 25 }}>
 						<Text style={{ alignSelf: 'center', color: '#000' }}>
@@ -227,7 +259,28 @@ const chatContainer = ({ route, navigation }) => {
 					</View>
 				)}
 			/>
-			<View style={styles.action}>
+			{Platform.OS=='ios'?(
+				<KeyboardAvoidingView style={styles.action} behavior='padding'>
+				<TextInput
+					placeholder='Type your message here..'
+					placeholderTextColor='#666666'
+					style={styles.textInput}
+					autoCapitalize='none'
+					onChangeText={(val) => {
+						setMessage(val);
+					}}
+				/>
+				<TouchableOpacity onPress={() => handleSend}>
+					<IconButton
+						size={40}
+						icon='send-circle'
+						color='#1a237e'
+						onPress={() => handleSend()}
+					/>
+				</TouchableOpacity>
+			</KeyboardAvoidingView>
+			):(
+				<View style={styles.action} behavior='padding'>
 				<TextInput
 					placeholder='Type your message here..'
 					placeholderTextColor='#666666'
@@ -246,6 +299,7 @@ const chatContainer = ({ route, navigation }) => {
 					/>
 				</TouchableOpacity>
 			</View>
+			)}
 		</View>
 	);
 };

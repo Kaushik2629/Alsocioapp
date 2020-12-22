@@ -218,7 +218,6 @@ const providerBookings = ({ navigation }) => {
 							style={{
 								fontSize: 20,
 								fontWeight: '900',
-								fontFamily: 'sans-serif-light',
 							}}>
 							No Bookings
 						</Text>

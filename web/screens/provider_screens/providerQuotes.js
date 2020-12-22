@@ -152,8 +152,7 @@ const providerQuotes = ({ navigation }) => {
 						<Text
 							style={{
 								fontSize: 20,
-								fontWeight: '900',
-								fontFamily: 'sans-serif-light',
+								fontWeight: '700',
 							}}>
 							No Quotes
 						</Text>

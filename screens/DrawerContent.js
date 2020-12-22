@@ -84,8 +84,14 @@ export function DrawerContent(props) {
 							)}
 							label='Home'
 							onPress={() => {
-								props.navigation.navigate('Home');
-							}}
+								{
+									if (a.Role == 'Customer') {
+										props.navigation.navigate('Home');
+									}
+									if (a.Role == 'Provider') {
+										props.navigation.navigate('providerHome');
+									}
+								}							}}
 						/>
 						<DrawerItem
 							icon={({ color, size }) => (

@@ -4,9 +4,9 @@
     "slug": "alsocio",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/AppIcon.png",
+    "icon": "./assets/Logo_AlSocio.png",
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./assets/AppIcon.png",
       "backgroundColor": "#1a237e"
     },
     "updates": {
@@ -17,7 +17,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.Alsocio.AlsocioApp"
+      "bundleIdentifier": "com.Alsocio.AlsocioApp",
+      "buildNumber": "1.0.0"
     },
     "web": {
       "favicon": "./assets/icon.png"

@@ -85,7 +85,7 @@ const showServices = ({ navigation, route }) => {
 		<View styles={styles.container}>
 			<Appbar.Header style={{ backgroundColor: '#1a237e'}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content titleStyle={{ padding: 10 }} title={listMainCategory} />
+				<Appbar.Content titleStyle={{ padding: 10 }} title={list} />
 				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 			{isLoading?(
@@ -194,8 +194,7 @@ const showServices = ({ navigation, route }) => {
 						<Text
 							style={{
 								fontSize: 20,
-								fontWeight: '900',
-								fontFamily: 'sans-serif-light',
+								fontWeight: '700',
 							}}>
 							No services available
 						</Text>

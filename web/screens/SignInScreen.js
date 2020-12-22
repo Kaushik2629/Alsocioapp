@@ -239,8 +239,8 @@ const SignInScreen = ({ navigation }) => {
 						Forgot password?
 					</Text>
 				</TouchableOpacity>
-				<View style={styles.button}>
-					<TouchableOpacity
+				{/* <View style={styles.button}> */}
+					{/* <TouchableOpacity
 						style={styles.signIn}
 						onPress={() => {
 							loginHandle(data.username, data.password);
@@ -258,9 +258,9 @@ const SignInScreen = ({ navigation }) => {
 								Sign In
 							</Text>
 						</LinearGradient>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress={() => navigation.navigate('SignUpScreen')}
 						style={[
 							styles.signIn,
@@ -279,8 +279,8 @@ const SignInScreen = ({ navigation }) => {
 							]}>
 							Sign Up
 						</Text>
-					</TouchableOpacity>
-				</View>
+					</TouchableOpacity> */}
+				{/* </View> */}
 			</Animatable.View>
 		</View>
 	);
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
 		height: 50,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 50,
+		borderRadius: 0,
 	},
 	textSign: {
 		fontSize: 18,

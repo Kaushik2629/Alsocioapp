@@ -178,7 +178,7 @@ const showServices = ({ navigation, route }) => {
 							justifyContent: 'center',
 							padding: 20,
 						}}>
-						<Text style={{ fontSize: 20, fontWeight: '900',fontFamily:'sans-serif-light'}}>
+						<Text style={{ fontSize: 20, fontWeight: '700'}}>
 							No services available
 						</Text>
 					</View>
