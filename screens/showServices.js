@@ -6,10 +6,12 @@ import {
 	Image,
 	Dimensions,
 	TouchableOpacity,
+	FlatList
 } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import {ScrollView } from 'react-native-gesture-handler';
 import { MaterialIndicator } from 'react-native-indicators';
 import { Appbar, Card } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
@@ -21,7 +23,7 @@ const showServices = ({ navigation, route }) => {
 
 	const [serviceData, setServiceData] = useState([]);
 
-	const [isLoading,setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		let services = new FormData();
@@ -37,7 +39,7 @@ const showServices = ({ navigation, route }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				setIsLoading(false)
+				setIsLoading(false);
 				console.log(responseJson);
 				setServiceData(responseJson);
 				// Replaced console(responseJson);
@@ -81,127 +83,176 @@ const showServices = ({ navigation, route }) => {
 		);
 	};
 
+	const showRatings = (rating) => {
+		let stars = [];
+		for (let i = 1; i <= 5; i++) {
+			stars.push(
+				<View>
+					{i <= rating ? (
+						<Icon
+							name='md-star'
+							color='#fbc02d'
+							size={26}
+							style={{ margin: 0 }}
+						/>
+					) : (
+						<Icon
+							name='md-star'
+							color='grey'
+							size={26}
+							color='#bdbdbd'
+							style={{ margin: 0 }}
+						/>
+					)}
+				</View>
+			);
+		}
+
+		return (
+			<View
+				style={{
+					flexDirection: 'row',
+					alignSelf: 'flex-start',
+					marginLeft: 20,
+				}}>
+				{stars}
+			</View>
+		);
+	};
+
 	return (
 		<View styles={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e'}}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content titleStyle={{ padding: 10 }} title={list} />
 				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
-			{isLoading?(
+			{isLoading ? (
 				<View
-				style={{
-					padding: 20,
-					alignContent: 'center',
-					justifyContent: 'center',
-					marginTop:20
-				}}>
-				<MaterialIndicator color='#1a237e' />
-			</View>
-			):(
+					style={{
+						padding: 20,
+						alignContent: 'center',
+						justifyContent: 'center',
+						marginTop: 20,
+					}}>
+					<MaterialIndicator color='#1a237e' />
+				</View>
+			) : (
+				// <View style={{flexGrow:1,height:imageheight/1.3}}>
 				<FlatList
-				data={serviceData}
-				keyExtractor={(item, index) => item.id}
-				style={{flexGrow:0.85}}
-				renderItem={({ item }) => (
-					<Card
-						style={{
-							// width: imagewidth,
-							// alignItems: 'center',
-							shadowColor: '#000',
-							shadowOffset: { width: 0, height: 1 },
-							shadowOpacity: 0.5,
-							shadowRadius: 10,
-							elevation: 10,
-							margin: 10,
-							borderRadius: 10,
-						}}>
-						<Card.Content>
-							<Image
-								style={{
-									width: 'auto',
-									height: 200,
-									marginVertical: 10,
-								}}
-								source={{ uri: 'https:alsocio.geop.tech/media/' + item.img }}
-							/>
-
-							<View style={{ flexDirection: 'row', flex: 1 }}>
-								<View style={{ flexGrow: 1 }}>
-									{showDiscount(item.service_cost, item.discount)}
-									<Text
+					data={serviceData}
+					style={{height:imageheight-160}}
+					keyExtractor={(item, index) => item.id}
+					renderItem={({ item }) => (
+						<Card
+							style={{
+								width: imagewidth - 20,
+								shadowColor: '#000',
+								shadowOffset: { width: 1, height: 1 },
+								shadowOpacity: 0.5,
+								shadowRadius: 10,
+								elevation: 15,
+								margin: 10,
+								borderRadius: 10,
+								marginBottom: 10,
+							}}>
+							<Card.Content>
+								<View>
+									<Image
 										style={{
-											fontSize: 15,
-											marginLeft: 20,
-											fontWeight: 'bold',
-											marginBottom: 8,
-										}}>
-										Service By:
-										<Text style={{ fontWeight: '400' }}>
-											{item.company_name}
-										</Text>
-									</Text>
-									<Text
-										style={{ fontSize: 15, fontWeight: '400', marginLeft: 20 }}>
-										{item.category}
-									</Text>
+											width: 'auto',
+											height: 200,
+											marginVertical: 10,
+										}}
+										source={{
+											uri: 'https:alsocio.geop.tech/media/' + item.img,
+										}}
+									/>
 								</View>
-								<TouchableOpacity
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 1 }}>
+										{showDiscount(item.service_cost, item.discount)}
+										<Text
+											style={{
+												fontSize: 15,
+												marginLeft: 20,
+												fontWeight: 'bold',
+												marginBottom: 8,
+											}}>
+											Service By:
+											<Text style={{ fontWeight: '400' }}>
+												{item.company_name}
+											</Text>
+										</Text>
+										{showRatings(item.rating)}
+										<Text
+											style={{
+												fontSize: 15,
+												fontWeight: '400',
+												marginLeft: 20,
+											}}>
+											{item.category}
+										</Text>
+									</View>
+									<View>
+										<TouchableOpacity
+											style={{
+												backgroundColor: '#1a237e',
+												width: 120,
+												height: 60,
+												borderRadius: 5,
+												margin: 'auto',
+											}}
+											onPress={() =>
+												navigation.navigate('showDetails', {
+													service_id: item.id,
+												})
+											}>
+											<Text
+												style={{
+													color: '#fff',
+													textAlign: 'center',
+													padding: 20,
+												}}>
+												Book
+											</Text>
+										</TouchableOpacity>
+									</View>
+								</View>
+								{/* <Text
 									style={{
-										backgroundColor: '#1a237e',
-										width: 120,
-										height: 60,
-										borderRadius: 5,
-										margin: 'auto',
-									}}
-									onPress={() =>
-										navigation.navigate('showDetails', {
-											service_id: item.id,
-										})
-									}>
-									<Text
-										style={{
-											color: '#fff',
-											textAlign: 'center',
-											padding: 20,
-										}}>
-										Book
-									</Text>
-								</TouchableOpacity>
-							</View>
+										fontSize: 15,
+										marginLeft: 20,
+										marginBottom: 5,
+										fontWeight: '300',
+									}}>
+									{item.description}
+								</Text> */}
+							</Card.Content>
+						</Card>
+					)}
+					// extraData={cartCount}
+					ListEmptyComponent={
+						<View
+							style={{
+								flex: 1,
+								backgroundColor: '#e0e0e0',
+								alignItems: 'center',
+								justifyContent: 'center',
+								padding: 20,
+							}}>
 							<Text
 								style={{
-									fontSize: 15,
-									marginLeft: 20,
-									marginBottom: 5,
-									fontWeight: '300',
+									fontSize: 20,
+									fontWeight: '700',
 								}}>
-								{item.description}
+								No services available
 							</Text>
-						</Card.Content>
-					</Card>
-				)}
-				// extraData={cartCount}
-				ListEmptyComponent={
-					<View
-						style={{
-							flex: 1,
-							backgroundColor: '#e0e0e0',
-							alignItems: 'center',
-							justifyContent: 'center',
-							padding: 20,
-						}}>
-						<Text
-							style={{
-								fontSize: 20,
-								fontWeight: '700',
-							}}>
-							No services available
-						</Text>
-					</View>
-				}
-			/>
-			)}		
+						</View>
+					}
+				/>
+				// </View>
+			)}
 		</View>
 	);
 };
@@ -210,8 +261,5 @@ export default showServices;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-		flexWrap: 'nowrap',
 	},
 });

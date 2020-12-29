@@ -421,6 +421,9 @@ const HomeScreen = ({ route, navigation }) => {
                       backgroundColor="#fff"
                       color="#000"
                       style={{ padding: 15, textAlign: "right" }}
+                      onPress={() => {
+                        setShowPickerModal(!showPickerModal);
+                      }}
                     ></Icon.Button>
                   </TouchableOpacity>
                   {showPicker(props)}

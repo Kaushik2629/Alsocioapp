@@ -143,6 +143,17 @@ export function DrawerContent(props) {
 								}
 							}}
 						/>
+						{a.Role=='Provider'?(
+							<DrawerItem
+							icon={({ color, size }) => (
+								<Icon name='currency-usd' color={color} size={size} />
+							)}
+							label='Payment Details'
+							onPress={() => {								
+								props.navigation.navigate('providerPaymentDetails')							
+							}}
+						/>
+						):(null)}
 					</Drawer.Section>
 				</View>
 			</DrawerContentScrollView>

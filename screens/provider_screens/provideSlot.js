@@ -139,7 +139,6 @@ const providerSlot = ({ navigation }) => {
           title="Your Business Hours"
           subtitleStyle={{ marginBottom: 5 }}
         />
-        <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
       </Appbar.Header>
 
       <Modal

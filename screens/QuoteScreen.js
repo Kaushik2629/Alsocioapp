@@ -71,7 +71,6 @@ const QuoteScreen = ({ navigation }) => {
 					title='Quotes'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 
 			<FlatList

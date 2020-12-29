@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import {
 	NavigationContainer,
@@ -17,9 +17,10 @@ import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import QuoteScreen from './screens/QuoteScreen';
-
 import { AuthContext } from './components/context';
-
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import showBookings from './containers/showBookings';
@@ -32,19 +33,25 @@ import providerInvoice from './screens/provider_screens/providerInvoice';
 import providerQuotes from './screens/provider_screens/providerQuotes';
 import providerBranches from './screens/provider_screens/providerBranches';
 import providerTeamMembers from './screens/provider_screens/providerTeamMembers';
-import ProvderSignUpForm from './screens/ProviderSignUpForm';
-
+import providerPaymentDetails from './screens/provider_screens/providerPaymentDetails';
 
 const Drawer = createDrawerNavigator();
 
-const App = () => {
-	
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+	  shouldShowAlert: true,
+	  shouldPlaySound: false,
+	  shouldSetBadge: false,
+	}),
+  });
 
+const App = () => {
 	const initialLoginState = {
 		isLoading: true,
 		userName: null,
 		userToken: null,
 		showCount: 0,
+		// notification:'',
 	};
 
 	const CustomDefaultTheme = {
@@ -96,10 +103,15 @@ const App = () => {
 					showCount: action.change,
 				};
 			case 'ROLE':
-				return{
+				return {
 					...prevState,
-					userToken: action.token
-				}
+					userToken: action.token,
+				};
+			// case 'NOTIFY':
+			// 	return{
+			// 		...prevState,
+			// 		notification: action.getNotifications
+			// 	}
 		}
 	};
 
@@ -110,7 +122,7 @@ const App = () => {
 
 	const authContext = useMemo(
 		() => ({
-			signIn: async(foundUser) => {
+			signIn: async (foundUser) => {
 				const userName = foundUser;
 				const password = String(foundUser[0].password);
 				try {
@@ -118,14 +130,14 @@ const App = () => {
 				} catch (e) {
 					console.log(e);
 				}
-				
+
 				dispatch({ type: 'LOGIN', id: userName });
 			},
 			signOut: async () => {
 				try {
 					await AsyncStorage.removeItem('userName');
 					await AsyncStorage.removeItem('userToken');
-					await AsyncStorage.removeItem('userType')
+					await AsyncStorage.removeItem('userType');
 				} catch (e) {
 					console.log(e);
 				}
@@ -141,18 +153,24 @@ const App = () => {
 			changeCount: (s) => {
 				dispatch({ type: 'COUNT', change: s });
 			},
-			fetchRole: async(response)=>{
-				const userType = response
-				try{
-					await AsyncStorage.setItem('userToken',userType)
-				}catch (e) {
+			fetchRole: async (response) => {
+				const userType = response;
+				try {
+					await AsyncStorage.setItem('userToken', userType);
+				} catch (e) {
 					console.log(e);
 				}
-				dispatch({type: 'ROLE', token:userType})
+				dispatch({ type: 'ROLE', token: userType });
 			},
+			// notifyUser: (message)=>{
+			// 	let x = [];
+			// 	x=x.push(message)
+			// 	dispatch({type: 'NOTIFY', getNotifications:x})
+			// },
 			Role: loginState.userToken,
 			UserName: loginState.userName,
 			itemCount: loginState.showCount,
+			// notificationMessage:loginState.notification
 		}),
 		[loginState]
 	);
@@ -161,7 +179,6 @@ const App = () => {
 		setTimeout(async () => {
 			let x = [];
 			let s = 0;
-
 			let userRole = null;
 			let a = null;
 			try {
@@ -175,7 +192,6 @@ const App = () => {
 					const element = x[index][1];
 					s = s + element;
 				}
-
 			} catch (e) {
 				console.log(e);
 			}
@@ -183,11 +199,120 @@ const App = () => {
 				type: 'RETRIEVE_TOKEN',
 				token: userRole,
 				id: a,
-				change:s,
+				change: s,
 				isLoading: false,
 			});
 		}, 100);
 	}, []);
+
+	const [notificationBody, setNotificationBody] = useState([]);
+	const fetchNotifications = () => {
+		if (loginState.userName != null) {
+			let customer_name = new FormData();
+			customer_name.append('username', loginState.userName);
+			fetch('https://alsocio.geop.tech/app/get-notifications/', {
+				method: 'POST',
+				body: customer_name,
+			})
+				.then((response) => response.json())
+				.then((responseJson) => {
+					console.log(responseJson);
+					setNotificationBody(responseJson.notifications);
+				})
+				.catch((error) => console.error(error));
+		}
+	};
+	useEffect(() => {
+		var t = setInterval(() => {
+			if (loginState.userName != null) {
+				fetchNotifications();
+			}
+		}, 10000);
+		return () => {
+			clearTimeout(t);
+		};
+	}, [loginState]);
+
+	//to send expo notification
+	const [expoPushToken, setExpoPushToken] = useState('');
+	const [notification, setNotification] = useState(false);
+	const notificationListener = useRef();
+	const responseListener = useRef();
+
+	useEffect(() => {
+		registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+		// This listener is fired whenever a notification is received while the app is foregrounded
+		notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+		  setNotification(notification);
+		});
+
+		// This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+		responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+		  console.log(response);
+		});
+
+		return () => {
+		  Notifications.removeNotificationSubscription(notificationListener);
+		  Notifications.removeNotificationSubscription(responseListener);
+		};
+	  }, []);
+
+	if (notificationBody.length != 0) {
+		notificationBody.map((item) => {
+			alert(item.notification);
+			sendPushNotification(expoPushToken,item.notification)
+		});
+	}
+
+	async function sendPushNotification(expoPushToken,notifiedMessage) {
+		const message = {
+		  to: expoPushToken,
+		  sound: 'default',
+		  title: 'Original Title',
+		  body: 'Hi its Kaushik',
+		  data: { data: 'goes here' },
+		};
+
+		await fetch('https://exp.host/--/api/v2/push/send', {
+		  method: 'POST',
+		  headers: {
+			Accept: 'application/json',
+			'Accept-encoding': 'gzip, deflate',
+			'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify(message),
+		});
+	  }
+
+	async function registerForPushNotificationsAsync() {
+		let token;
+		if (Constants.isDevice) {
+		  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+		  let finalStatus = existingStatus;
+		  if (existingStatus !== 'granted') {
+			const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+			finalStatus = status;
+		  }
+		  if (finalStatus !== 'granted') {
+			alert('Failed to get push token for push notification!');
+			return;
+		  }
+		  token = (await Notifications.getExpoPushTokenAsync()).data;
+		  console.log(token);
+		} else {
+		  alert('Must use physical device for Push Notifications');
+		}
+
+		if (Platform.OS === 'android') {
+		  Notifications.setNotificationChannelAsync('default', {
+			name: 'default',
+			importance: Notifications.AndroidImportance.MAX,
+			vibrationPattern: [0, 250, 250, 250],
+			lightColor: '#FF231F7C',
+		  });
+		}
+	}
 
 	if (loginState.isLoading) {
 		return (
@@ -221,11 +346,27 @@ const App = () => {
 						<Drawer.Navigator
 							drawerContent={(props) => <DrawerContent {...props} />}>
 							<Drawer.Screen name='providerDrawer' component={providerTabs} />
-							<Drawer.Screen name='providerServices' component={providerServices} />
-							<Drawer.Screen name='providerInvoice' component={providerInvoice} />
+							<Drawer.Screen
+								name='providerServices'
+								component={providerServices}
+							/>
+							<Drawer.Screen
+								name='providerInvoice'
+								component={providerInvoice}
+							/>
 							<Drawer.Screen name='providerQuotes' component={providerQuotes} />
-							<Drawer.Screen name='providerBranches' component={providerBranches} />
-							<Drawer.Screen name='providerTeamMembers' component={providerTeamMembers} />
+							<Drawer.Screen
+								name='providerBranches'
+								component={providerBranches}
+							/>
+							<Drawer.Screen
+								name='providerTeamMembers'
+								component={providerTeamMembers}
+							/>
+							<Drawer.Screen
+								name='providerPaymentDetails'
+								component={providerPaymentDetails}
+							/>
 						</Drawer.Navigator>
 					</NavigationContainer>
 				</AuthContext.Provider>

@@ -177,13 +177,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 					tabBarLabel: 'Bookings',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
-						<Image
-							source={require('../assets/calendar.png')}
-							style={{
-								width: 26,
-								height: 26,
-							}}
-						/>
+						<Icon name='md-calendar' color={color} size={26} />
 					),
 				}}
 			/>

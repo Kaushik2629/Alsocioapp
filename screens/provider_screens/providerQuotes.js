@@ -133,7 +133,6 @@ const providerQuotes = ({ navigation }) => {
           title="Quotes"
           subtitleStyle={{ marginBottom: 5 }}
         />
-        <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
       </Appbar.Header>
 
       <Modal
@@ -220,38 +219,24 @@ const providerQuotes = ({ navigation }) => {
               }}
             >
               <Card.Content>
-                <View
-                  style={{
-                    flexGrow: 1,
-                    padding: 15,
-                    borderBottomWidth: 0.45,
-                    flexDirection: "row",
-                  }}
-                >
-                  <Text
-                    style={{
-                      flexGrow: 1,
-                      fontSize: 15,
-                      fontWeight: "900",
-                      alignSelf: "flex-start",
-					  textAlign: "left",
-					  marginRight:10
-                    }}
-                  >
-                    Customer Email -
-                  </Text>
-                  <Text
-                    style={{
-					  fontSize: 12,
-					  flexGrow:1,
-                      fontWeight: "800",
-					  alignSelf: "flex-end",					  
-                      textAlign: "right",					 
-                    }}
-                  >
-                    {item.customer_email}
-                  </Text>
-                </View>
+              <View
+										style={{
+											flexGrow: 1,
+											padding: 15,
+											borderBottomWidth: 0.45,
+											flexDirection: 'row',
+										}}>
+										<Text
+											style={{
+												flexGrow: 1,
+												fontSize: 18,
+												fontWeight: '900',
+												marginTop: 15,
+												textAlign: 'center',
+											}}>
+											{item.customer_name}
+										</Text>
+									</View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
                   <Text style={styles.leftLabel}>Customer Name -</Text>
                   <Text style={styles.rightLabel}>{item.customer_name}</Text>

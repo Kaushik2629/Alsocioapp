@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -11,7 +10,6 @@ import { Image, StatusBar } from 'react-native';
 import { Dimensions } from 'react-native';
 
 // import { CartContext } from '../components/context';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import providerHome from './providerHome';
 import providerBookings from './providerBookings';
@@ -69,13 +67,7 @@ const providerStackScreen = ({ navigation, route }) => {
 					tabBarLabel: 'Bookings',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
-						<Image
-							source={require('../../assets/calendar.png')}
-							style={{
-								width: 26,
-								height: 26,
-							}}
-						/>
+						<Icon name='md-calendar' color={color} size={26} />
 					),
 				}}
 			/>

@@ -58,11 +58,11 @@ const providerPaymentDetails = ({ navigation }) => {
 			);
 		}
 		return (
-			<ScrollView>
-					<View
-						style={{
-							marginTop: 0,
-						}}>
+		
+					// <View
+					// 	style={{
+					// 		marginTop: 0,
+					// 	}}>
 						<View
 							style={{
 								backgroundColor: '#fff',
@@ -81,29 +81,31 @@ const providerPaymentDetails = ({ navigation }) => {
 							<Formik
 								enableReinitialize
 								initialValues={{
-									account_name: `${details[account_name]}`,
-									bank_name: `${details[bank_name]}`,
-									account_type: `${details[account_type]}`,
-									account_number: `${details[account_number]}`,
-									ruc: `${details[ruc]}`,
+									account_name: `${details.account_name}`,
+									bank_name: `${details.bank_name}`,
+									account_type: `${details.account_type}`,
+									account_number: `${details.account_number}`,
+									ruc: `${details.ruc}`,
 								}}
 								onSubmit={(values) => {
-									// let userdetails = new FormData();
-									// userdetails.append('username', a.UserName);
-									// userdetails.append('account_name', values.account_name);
-									// userdetails.append('bank_name', values.bank_name);
-									// userdetails.append('account_type', values.account_type);
-									// userdetails.append('account_number', values.account_number);
-									// userdetails.append('ruc', values.ruc);
-									// fetch('https://alsocio.geop.tech/app/update-profile/', {
-									// 	method: 'POST',
-									// 	body: userdetails,
-									// })
-									// 	.then((response) => response.json())
-									// 	.then((responseJson) => {
-									// 		setDetails(responseJson);
-									// 	})
-									// 	.catch((error) => console.error(error));
+									setIsLoading(true)
+									let userdetails = new FormData();
+									userdetails.append('username', a.UserName);
+									userdetails.append('account_name', values.account_name);
+									userdetails.append('bank_name', values.bank_name);
+									userdetails.append('account_type', values.account_type);
+									userdetails.append('account_number', values.account_number);
+									userdetails.append('ruc', values.ruc);
+									fetch('https://alsocio.geop.tech/app/update-provider-payout-details/', {
+										method: 'POST',
+										body: userdetails,
+									})
+										.then((response) => response.json())
+										.then((responseJson) => {
+											setIsLoading(false)
+											setDetails(responseJson.payout);
+										})
+										.catch((error) => console.error(error));
 								}}
                                 >
 								{(props) => (
@@ -192,7 +194,6 @@ const providerPaymentDetails = ({ navigation }) => {
 												height: 40,
 												borderColor: '#1a237e',
 												borderWidth: 1,
-												borderRadius: 15,
 												fontSize: 10,
 												fontWeight: 'bold',
 												color: '#000',
@@ -203,6 +204,7 @@ const providerPaymentDetails = ({ navigation }) => {
 										/>
 										
 										<TouchableOpacity
+											activeOpacity={0.7}
 											style={{
 												borderRadius: 20,
 												fontSize: 15,
@@ -226,8 +228,8 @@ const providerPaymentDetails = ({ navigation }) => {
 								)}
 							</Formik>
 						</View>
-					</View>
-			</ScrollView>
+					// </View>
+			
 		);
 	};
 
@@ -237,12 +239,13 @@ const providerPaymentDetails = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Payment Details'
+					title='Payout Details'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
+			<View style={{marginTop:15}}>
 			{showPaymentDetails()}
+			</View>
 		</View>
 	);
 };
@@ -267,30 +270,16 @@ const styles = StyleSheet.create({
 		paddingVertical: 15,
 	},
 	textInput: {
-		width: 150,
+		width: imagewidth/2.7,
 		margin: 10,
 		textAlign: 'left',
 		paddingLeft: 10,
 		height: 40,
 		borderColor: '#1a237e',
 		borderWidth: 1,
-		borderRadius: 15,
 		fontSize: 10,
 		fontWeight: 'bold',
 		color: '#000',
-	},
-	regionOptions: {
-		flexGrow: 1,
-		height: 40,
-		borderColor: '#1a237e',
-		borderWidth: 1,
-		borderRadius: 15,
-		fontSize: 10,
-		fontWeight: 'bold',
-		color: '#000',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#e0e0e0',
-		marginTop: 10,
 	},
 });
+
