@@ -36,7 +36,7 @@ const providerBookings = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-provider-bookings/', {
+		fetch('https://alsocio.com/app/get-provider-bookings/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -58,7 +58,7 @@ const providerBookings = ({ navigation }) => {
 	const fetchTeamMembers = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-provider-team-members/', {
+		fetch('https://alsocio.com/app/get-provider-team-members/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -83,7 +83,7 @@ const providerBookings = ({ navigation }) => {
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
-			fetch('https://alsocio.geop.tech/app/reject-booking/', {
+			fetch('https://alsocio.com/app/reject-booking/', {
 				method: 'POST',
 				body: bookingdetails,
 			})
@@ -297,7 +297,7 @@ const providerBookings = ({ navigation }) => {
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
-			fetch('https://alsocio.geop.tech/app/complete-booking/', {
+			fetch('https://alsocio.com/app/complete-booking/', {
 				method: 'POST',
 				body: bookingdetails,
 			})
@@ -368,7 +368,7 @@ const providerBookings = ({ navigation }) => {
 							quoteDetails.append('username', a.UserName);
 							quoteDetails.append('booking_id', bookingId);
 							quoteDetails.append('additional_charges', values.additionalcost);
-							fetch('https://alsocio.geop.tech/app/additional-charges/', {
+							fetch('https://alsocio.com/app/additional-charges/', {
 								method: 'POST',
 								body: quoteDetails,
 							})
@@ -583,7 +583,7 @@ const providerBookings = ({ navigation }) => {
 							bookingdetails.append('booking_id', bookingId);
 							bookingdetails.append('username', a.UserName);
 							bookingdetails.append('team_member', teamMemberValue);
-							fetch('https://alsocio.geop.tech/app/accept-booking/', {
+							fetch('https://alsocio.com/app/accept-booking/', {
 								method: 'POST',
 								body: bookingdetails,
 							})

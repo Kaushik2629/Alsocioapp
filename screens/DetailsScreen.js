@@ -25,7 +25,7 @@ const DetailsScreen = ({ navigation }) => {
 	const fetchUsername = () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-notifications/', {
+		fetch('https://alsocio.com/app/get-notifications/', {
 			method: 'POST',
 			body: customer_name,
 		})

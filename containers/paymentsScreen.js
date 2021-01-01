@@ -8,15 +8,15 @@ import {
 	TouchableOpacity,
 	Button,
 	Modal,
-	TextInput,
 } from 'react-native';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import * as Animatable from 'react-native-animatable';
-import { Card } from 'react-native-paper';
+import { Card, TextInput } from 'react-native-paper';
 import DatePicker from 'react-native-datepicker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AuthContext } from '../components/context';
+import { UIActivityIndicator } from 'react-native-indicators';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
@@ -44,7 +44,7 @@ const paymentsScreen = ({ route, navigation }) => {
 			.min(10, 'Invalid Card Number')
 			.required('Card Number cannot be empty!'),
 
-		expiry: Yup.date().required('Field cannot be empty!'),
+		expiry: Yup.string().required('Field cannot be empty!'),
 
 		CVV: Yup.string().min(3).required('CVV cannot be empty'),
 	});
@@ -64,7 +64,7 @@ const paymentsScreen = ({ route, navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const payFunction = (parameters) => {
-		setIsLoading(true)
+		setIsLoading(true);
 		let servicedetails = new FormData();
 		servicedetails.append('username', name);
 		servicedetails.append('cart_items', JSON.stringify(route.params.cartItems));
@@ -78,12 +78,13 @@ const paymentsScreen = ({ route, navigation }) => {
 		servicedetails.append('expiration', parameters.expiry);
 		servicedetails.append('cvv', parameters.CVV);
 
-		fetch('https://alsocio.geop.tech/app/card-book-order/', {
+		fetch('https://alsocio.com/app/card-book-order/', {
 			method: 'POST',
 			body: servicedetails,
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
+				console.log(responseJson);
 				setIsLoading(false);
 				if (responseJson.order_status == 'placed') {
 					setConfirmModal(true);
@@ -96,185 +97,195 @@ const paymentsScreen = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			{isLoading ? (
-				<Animatable.View
-					style={{
-						flex: 1,
-						padding: 20,
-						alignContent: 'center',
-						justifyContent: 'center',
-						alignSelf: 'center',
-						padding: 20,
-						marginTop: 50,
-					}}>
-					<Text style={{ textAlign: 'center' }}>Order is Processing!!</Text>
-					<UIActivityIndicator color='#1a237e' />
-				</Animatable.View>
-			) : null}
-
 			<Modal animationType='fade' visible={confirmModal} transparent={true}>
 				<View
 					style={{
-						marginTop: 60,
+						backgroundColor: '#fff',
+						shadowColor: '#000',
+						marginHorizontal: 20,
+						borderRadius: 15,
+						shadowOffset: {
+							width: 2,
+							height: 2,
+						},
+						padding: 10,
+						shadowOpacity: 0.25,
+						shadowRadius: 3.84,
+						elevation: 5,
 					}}>
-					<View
+					<Text style={{ fontSize: 20, fontWeight: 'bold', padding: 15 }}>
+						Your Order has been Confirmed!
+					</Text>
+					<Button
+						title='Go Back To Home Page'
+						color='#1a237e'
 						style={{
-							backgroundColor: '#fff',
-							shadowColor: '#000',
-							marginTop: 50,
-							marginHorizontal: 20,
-							borderRadius: 15,
-							shadowOffset: {
-								width: 2,
-								height: 2,
-							},
-							padding: 10,
-							shadowOpacity: 0.25,
-							shadowRadius: 3.84,
-							elevation: 5,
-						}}>
-						<Text style={{ fontSize: 20, fontWeight: 'bold', padding: 15 }}>
-							Your Order has been Confirmed!
-						</Text>
-						<Button
-							title='Go Back To Home Page'
-							color='#1a237e'
-							style={{
-								borderRadius: 20,
-								fontSize: 15,
-							}}
-							onPress={() => {
-								changeCount(0),
-									setConfirmModal(!confirmModal),
-									navigation.navigate('Home');
-							}}
-						/>
-					</View>
+							borderRadius: 20,
+							fontSize: 15,
+						}}
+						onPress={() => {
+							changeCount(0),
+								setConfirmModal(!confirmModal),
+								navigation.navigate('Home');
+						}}
+					/>
 				</View>
 			</Modal>
 
 			<Formik
-				initialValues={{ cardName: '', cardNumber: 0, expiry: null, CVV: 0 }}
+				initialValues={{ cardName: '', cardNumber: 0, expiry: '', CVV: 0 }}
 				onSubmit={(values) => {
-					{
-						payFunction(values);
-					}
+					payFunction(values);
 				}}
 				validationSchema={DetailsSchema}>
 				{(props) => (
 					<Card style={styles.card}>
+						{isLoading ? (
+							<Animatable.View
+								style={{
+									position: 'absolute',
+									backgroundColor: '#fff',
+									shadowColor: '#000',
+									width:imagewidth-15,
+									marginTop:15,
+									borderRadius: 15,
+									shadowOffset: {
+										width: 2,
+										height: 2,
+									},
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+									zIndex: 999,
+								}}>
+								<View style={{ justifyContent: 'center' }}>
+									<UIActivityIndicator
+										color='#1a237e'
+										style={{ padding: 20 }}
+									/>
+									<Text style={{ textAlign: 'center', padding: 20 }}>
+										Order is Processing!!
+									</Text>
+								</View>
+							</Animatable.View>
+						) : // <Text>Loading...</Text>
+						null}
 						<Card.Content>
 							{/* <View style={{ marginTop: 15 }}> */}
-							<View style={{ flexDirection: 'row' }}>
-								<View>
+							<View>
+								<View style={{ flexDirection: 'row' }}>
 									<TextInput
 										placeholder={'Enter Name On Card'}
+										mode='outlined'
 										style={styles.textInput}
 										onBlur={() => props.setFieldTouched('cardName')}
 										onChangeText={props.handleChange('cardName')}
 										value={props.values.cardName}
 									/>
-									{props.touched.cardName && props.errors.cardName && (
-										<Text style={{ fontSize: 10, color: 'red' }}>
-											{props.errors.cardName}
-										</Text>
-									)}
-								</View>
-								<View>
 									<TextInput
 										placeholder={'Enter Card Number'}
+										mode='outlined'
 										style={styles.textInput}
 										onBlur={() => props.setFieldTouched('cardNumber')}
 										onChangeText={props.handleChange('cardNumber')}
 										value={props.values.cardNumber}
 										keyboardType={'numeric'}
 									/>
+								</View>
+								<View style={{ flexDirection: 'row' }}>
+									{props.touched.cardName && props.errors.cardName && (
+										<Text
+											style={{
+												fontSize: 10,
+												width: imagewidth / 2.5,
+												textAlign: 'center',
+												color: 'red',
+											}}>
+											{props.errors.cardName}
+										</Text>
+									)}
 									{props.touched.cardNumber && props.errors.cardNumber && (
-										<Text style={{ fontSize: 10, color: 'red' }}>
+										<Text
+											style={{
+												fontSize: 10,
+												width: imagewidth / 2.5,
+												marginLeft: 25,
+												textAlign: 'center',
+												color: 'red',
+											}}>
 											{props.errors.cardNumber}
 										</Text>
 									)}
 								</View>
-							</View>
-
-							<View style={{ flexDirection: 'row', marginBottom: 15 }}>
-								<View>
-									<Text style={{ marginLeft: 0, fontSize: 12, marginTop: 20 }}>
-										Enter Expiration Date
-									</Text>
-									<DatePicker
-										date={props.values.expiry} // Initial date from state
-										mode='date' // The enum of date, datetime and time
-										placeholder={props.values.expiry}
-										format='YYYY-MM'
-										confirmBtnText='Confirm'
-										cancelBtnText='Cancel'
-										customStyles={{
-											dateIcon: {
-												position: 'absolute',
-												left: 0,
-												top: 15,
-												marginLeft: 2,
-											},
-											dateInput: {
-												marginLeft: 36,
-												marginTop: 20,
-												backgroundColor: '#fff',
-											},
-										}}
-										onDateChange={(date) => {
-											// setDate(date);
-											props.setFieldValue('expiry', date);
-										}}
-									/>
+								<View style={{ flexDirection: 'row' }}>
+									<View style={styles.textInput}>
+										<Text style={{ marginLeft: 0, fontSize: 12 }}>
+											Enter Expiration Date
+										</Text>
+										<DatePicker
+											date={props.values.expiry} // Initial date from state
+											mode='date' // The enum of date, datetime and time
+											placeholder={props.values.expiry}
+											format='YYYY-MM'
+											confirmBtnText='Confirm'
+											cancelBtnText='Cancel'
+											customStyles={{
+												dateIcon: {
+													position: 'absolute',
+													left: 0,
+													top: 15,
+													marginLeft: 2,
+												},
+												dateInput: {
+													marginLeft: 36,
+													marginTop: 20,
+													backgroundColor: '#fff',
+												},
+											}}
+											onDateChange={(date) => {
+												// setDate(date);
+												props.setFieldValue('expiry', date);
+											}}
+										/>
+									</View>
+									<View style={styles.textInput}>
+										<TextInput
+											placeholder={'Enter CVV'}
+											maxLength={3}
+											mode='outlined'
+											style={{
+												width: imagewidth / 3,
+												marginLeft: 20,
+											}}
+											onBlur={() => props.setFieldTouched('CVV')}
+											onChangeText={props.handleChange('CVV')}
+											value={props.values.CVV}
+											keyboardType={'numeric'}
+											secureTextEntry={true}
+										/>
+									</View>
+								</View>
+								<View style={{ flexDirection: 'row' }}>
 									{props.touched.expiry && props.errors.expiry && (
 										<Text
 											style={{
 												fontSize: 10,
+												width: imagewidth / 2.5,
+												textAlign: 'center',
 												color: 'red',
-												width: 150,
-												marginTop: 10,
 											}}>
 											{props.errors.expiry}
 										</Text>
 									)}
-								</View>
-
-								<View
-									style={{
-										flexGrow: 1,
-										alignSelf: 'flex-end',
-										marginLeft: 60,
-										marginTop: 40,
-									}}>
-									<TextInput
-										placeholder={'Enter CVV'}
-										style={{
-											width: 80,
-											textAlign: 'left',
-											paddingLeft: 10,
-											height: 40,
-											borderColor: '#1a237e',
-											borderWidth: 1,
-											borderRadius: 15,
-											fontSize: 10,
-											fontWeight: 'bold',
-											color: '#000',
-											backgroundColor: '#fff',
-										}}
-										onBlur={() => props.setFieldTouched('CVV')}
-										onChangeText={props.handleChange('CVV')}
-										value={props.values.CVV}
-										keyboardType={'numeric'}
-										secureTextEntry={true}
-									/>
 									{props.touched.CVV && props.errors.CVV && (
 										<Text
 											style={{
+												flexGrow: 1,
 												fontSize: 10,
+												width: imagewidth / 2.5,
+												alignSelf: 'flex-end',
+												textAlign: 'right',
 												color: 'red',
-												marginTop: 10,
-												width: 80,
 											}}>
 											{props.errors.CVV}
 										</Text>
@@ -312,11 +323,13 @@ export default paymentsScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	card: {
-		width: imagewidth - 15,
+		width: imagewidth - 20,
+		justifyContent:'center',
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.5,
@@ -326,17 +339,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#e0e0e0',
 	},
 	textInput: {
-		width: 150,
+		width: imagewidth / 2.5,
 		margin: 10,
 		textAlign: 'left',
-		paddingLeft: 10,
-		height: 40,
-		borderColor: '#1a237e',
-		borderWidth: 1,
-		borderRadius: 15,
-		fontSize: 10,
-		fontWeight: 'bold',
 		color: '#000',
-		backgroundColor: '#fff',
+		fontSize: 13,
 	},
 });

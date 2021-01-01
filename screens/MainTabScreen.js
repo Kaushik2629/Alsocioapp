@@ -127,13 +127,6 @@ const MainTabScreen = ({ navigation }) => {
 						fontWeight: 'bold',
 					},
 					title: 'Payments',
-					headerRight: () => (
-						<Icon.Button
-							name='ios-menu'
-							size={25}
-							backgroundColor='#1a237e'
-							onPress={() => navigation.openDrawer()}></Icon.Button>
-					),
 				}}
 			/>
 			<HomeStack.Screen

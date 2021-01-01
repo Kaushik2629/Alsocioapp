@@ -6,9 +6,9 @@ import {
 	Image,
 	Dimensions,
 	TouchableOpacity,
-	FlatList
+	FlatList,
 } from 'react-native';
-import {ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import { MaterialIndicator } from 'react-native-indicators';
 import { Appbar, Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -33,7 +33,7 @@ const showServices = ({ navigation, route }) => {
 		services.append('region', route.params.region);
 		services.append('city', route.params.city);
 		//services.append('location', 'Alanje');
-		fetch('https://alsocio.geop.tech/app/get-services/', {
+		fetch('https://alsocio.com/app/get-services/', {
 			method: 'POST',
 			body: services,
 		})
@@ -121,11 +121,10 @@ const showServices = ({ navigation, route }) => {
 	};
 
 	return (
-		<View styles={styles.container}>
+		<View style={styles.container}>
 			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content titleStyle={{ padding: 10 }} title={list} />
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 			{isLoading ? (
 				<View
@@ -138,23 +137,21 @@ const showServices = ({ navigation, route }) => {
 					<MaterialIndicator color='#1a237e' />
 				</View>
 			) : (
-				// <View style={{flexGrow:1,height:imageheight/1.3}}>
 				<FlatList
 					data={serviceData}
-					style={{height:imageheight-160}}
+					style={styles.flatlist}
 					keyExtractor={(item, index) => item.id}
 					renderItem={({ item }) => (
 						<Card
 							style={{
-								width: imagewidth - 20,
 								shadowColor: '#000',
-								shadowOffset: { width: 1, height: 1 },
+								shadowOffset: { width: 0, height: 1 },
 								shadowOpacity: 0.5,
 								shadowRadius: 10,
-								elevation: 15,
+								elevation: 10,
 								margin: 10,
 								borderRadius: 10,
-								marginBottom: 10,
+								marginBottom: 20,
 							}}>
 							<Card.Content>
 								<View>
@@ -165,7 +162,7 @@ const showServices = ({ navigation, route }) => {
 											marginVertical: 10,
 										}}
 										source={{
-											uri: 'https:alsocio.geop.tech/media/' + item.img,
+											uri: 'https:alsocio.com/media/' + item.img,
 										}}
 									/>
 								</View>
@@ -219,15 +216,6 @@ const showServices = ({ navigation, route }) => {
 										</TouchableOpacity>
 									</View>
 								</View>
-								{/* <Text
-									style={{
-										fontSize: 15,
-										marginLeft: 20,
-										marginBottom: 5,
-										fontWeight: '300',
-									}}>
-									{item.description}
-								</Text> */}
 							</Card.Content>
 						</Card>
 					)}
@@ -251,6 +239,11 @@ const showServices = ({ navigation, route }) => {
 						</View>
 					}
 				/>
+
+				// <View style={{ flex:1 }}>
+				// 	<View style={{flex:1,marginTop:40,backgroundColor:'#000'}}>
+
+				// 	</View>
 				// </View>
 			)}
 		</View>
@@ -261,5 +254,12 @@ export default showServices;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		// display: 'flex',
+		// alignItems: 'center',
+		// justifyContent: 'center',
+	},
+	flatlist: {
+		// flex: 1,
+		padding: 0,
 	},
 });

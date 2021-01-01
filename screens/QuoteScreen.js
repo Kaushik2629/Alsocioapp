@@ -26,7 +26,7 @@ const QuoteScreen = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-quotes/', {
+		fetch('https://alsocio.com/app/get-quotes/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -56,7 +56,7 @@ const QuoteScreen = ({ navigation }) => {
 					resizeMode:'contain'
 				}}
 				source={{
-					uri: 'https:alsocio.geop.tech/media/' + ImageUrl,
+					uri: 'https:alsocio.com/media/' + ImageUrl,
 				}}
 			/>
 		);
@@ -126,7 +126,7 @@ const QuoteScreen = ({ navigation }) => {
 										marginBottom: 10,
 									}}
 									source={{
-										uri: 'https:alsocio.geop.tech/media/' + item.img,
+										uri: 'https:alsocio.com/media/' + item.img,
 									}}
 								/> */}
 							</View>

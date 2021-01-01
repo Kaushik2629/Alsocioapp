@@ -26,7 +26,7 @@ const providerPaymentDetails = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-provider-payout-details/', {
+		fetch('https://alsocio.com/app/get-provider-payout-details/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -96,7 +96,7 @@ const providerPaymentDetails = ({ navigation }) => {
 									userdetails.append('account_type', values.account_type);
 									userdetails.append('account_number', values.account_number);
 									userdetails.append('ruc', values.ruc);
-									fetch('https://alsocio.geop.tech/app/update-provider-payout-details/', {
+									fetch('https://alsocio.com/app/update-provider-payout-details/', {
 										method: 'POST',
 										body: userdetails,
 									})

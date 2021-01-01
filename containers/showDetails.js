@@ -39,7 +39,7 @@ const showDetails = ({ route, navigation }) => {
 	const fetchDetails = () => {
 		useEffect(() => {
 			function fetchData() {
-				fetch('https://alsocio.geop.tech/app/get-service-details/', {
+				fetch('https://alsocio.com/app/get-service-details/', {
 					method: 'POST',
 					body: servicedetails,
 				})
@@ -54,6 +54,7 @@ const showDetails = ({ route, navigation }) => {
 		}, [serviceId]);
 	};
 
+	// for fetching asyncArray1  and setting the cartCount
 	const [cartCount, setCartcount] = useState([]);
 	// const [button, setButtons] = useState(true);
 	let a = [];
@@ -165,7 +166,9 @@ const showDetails = ({ route, navigation }) => {
 						onPress={() => {
 							if (addedToCart && slotValue == '') {
 								alert('Please add Slots!');
-							} else {
+							} else if(addedToCart && slotValue == 'No Slots Available'){
+								alert('Cannot Proceed without adding slots')
+							}else{
 								navigation.navigate('showCartitems');
 							}
 						}}>
@@ -354,7 +357,7 @@ const showDetails = ({ route, navigation }) => {
 							name: filename,
 							type,
 						});
-						fetch('https://alsocio.geop.tech/app/send-quote/', {
+						fetch('https://alsocio.com/app/send-quote/', {
 							method: 'POST',
 							body: quoteDetails,
 							headers: {
@@ -473,17 +476,16 @@ const showDetails = ({ route, navigation }) => {
 
 		async function arrayDateCount(serviceIdChange, changeDate) {
 			const arrayDate = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-			for (let index = 0; index < arrayDate.length; index++) {
-				const element = arrayDate[index];
+			for (let index = 0; index < cartCount.length; index++) {
+				const element = cartCount[index];
 				if (serviceIdChange == element[0]) {
 					element[2] = changeDate;
-					const arrayChangeDate = [...arrayDate];
+					const arrayChangeDate = [...cartCount];
 					await AsyncStorage.setItem(
 						'asyncArray1',
 						JSON.stringify(arrayChangeDate)
 					);
 					setCartcount(arrayChangeDate);
-					break;
 				}
 			}
 		}
@@ -496,8 +498,8 @@ const showDetails = ({ route, navigation }) => {
 
 	async function arraySlot(serviceIdChange) {
 		const arrayDate = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		for (let index = 0; index < arrayDate.length; index++) {
-			const element = arrayDate[index];
+		for (let index = 0; index < cartCount.length; index++) {
+			const element = cartCount[index];
 			if (serviceIdChange == element[0]) {
 				let get_Date = new Date(element[2]);
 				let arr = [element[2]].toString();
@@ -509,14 +511,14 @@ const showDetails = ({ route, navigation }) => {
 				let slotDetails = new FormData();
 				slotDetails.append('day', day);
 				slotDetails.append('service_id', serviceIdChange);
-				fetch('https://alsocio.geop.tech/app/get-time-slots/', {
+				fetch('https://alsocio.com/app/get-time-slots/', {
 					method: 'POST',
 					body: slotDetails,
 				})
 					.then((response) => response.json())
 					.then((responseJson) => {
 						setSlot(responseJson.slots);
-						changeDate(serviceId, get_Date);
+						changeDate(serviceIdChange, time);
 					});
 			}
 		}
@@ -604,9 +606,9 @@ const showDetails = ({ route, navigation }) => {
 
 											<DatePicker
 												// style={{ width: 200}}
-												date={date} // Initial date from state
+												date={newDate} // Initial date from state
 												mode='date' // The enum of date, datetime and time
-												placeholder={date}
+												placeholder={newDate}
 												format='YYYY-MM-DD'
 												minDate={currentDate}
 												confirmBtnText='Confirm'
@@ -630,7 +632,7 @@ const showDetails = ({ route, navigation }) => {
 													slotDetails.append('day', day);
 													slotDetails.append('service_id', serviceId);
 													fetch(
-														'https://alsocio.geop.tech/app/get-time-slots/',
+														'https://alsocio.com/app/get-time-slots/',
 														{
 															method: 'POST',
 															body: slotDetails,
@@ -666,19 +668,19 @@ const showDetails = ({ route, navigation }) => {
 														);
 														for (
 															let index = 0;
-															index < arrayDate.length;
+															index < cartCount.length;
 															index++
 														) {
-															const element = arrayDate[index];
+															const element = cartCount[index];
 															if (serviceIdChange == element[0]) {
 																element[3] = changeTime;
-																const arrayChangeDate = [...arrayDate];
+																const arrayChangeDate = [...cartCount];
 																await AsyncStorage.setItem(
 																	'asyncArray1',
 																	JSON.stringify(arrayChangeDate)
 																);
 																setCartcount(arrayChangeDate);
-																break;
+																return
 															}
 														}
 													}
@@ -936,7 +938,7 @@ const showDetails = ({ route, navigation }) => {
 											marginVertical: 10,
 										}}
 										source={{
-											uri: 'https:alsocio.geop.tech/media/' + item.img,
+											uri: 'https:alsocio.com/media/' + item.img,
 										}}
 									/>
 									<View

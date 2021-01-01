@@ -23,7 +23,7 @@ const SettingsScreen = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-invoices/', {
+		fetch('https://alsocio.com/app/get-invoices/', {
 			method: 'POST',
 			body: customer_name,
 		})

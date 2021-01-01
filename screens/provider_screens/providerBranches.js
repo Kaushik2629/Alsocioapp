@@ -29,7 +29,7 @@ const providerBranches = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-provider-branches/', {
+		fetch('https://alsocio.com/app/get-provider-branches/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -55,7 +55,7 @@ const providerBranches = ({ navigation }) => {
 		let region_array = [];
 		let showCity_array = [];
 		let showRegion_array = [];
-		fetch('https://alsocio.geop.tech/app/get-city-region/', {
+		fetch('https://alsocio.com/app/get-city-region/', {
 			method: 'GET',
 		})
 			.then((response) => response.json())
@@ -216,7 +216,7 @@ const providerBranches = ({ navigation }) => {
 								branchDetails.append('username', a.UserName);
 								branchDetails.append('region', values.region);
 								branchDetails.append('city', values.city);
-								fetch('https://alsocio.geop.tech/app/add-provider-branch/', {
+								fetch('https://alsocio.com/app/add-provider-branch/', {
 									method: 'POST',
 									body: branchDetails,
 								})

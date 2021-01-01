@@ -23,7 +23,7 @@ const providerInvoice = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-provider-invoices/', {
+		fetch('https://alsocio.com/app/get-provider-invoices/', {
 			method: 'POST',
 			body: customer_name,
 		})

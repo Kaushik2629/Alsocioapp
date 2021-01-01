@@ -44,7 +44,7 @@ const HomeScreen = ({ route, navigation }) => {
     let region_array = [];
     let showCity_array = [];
     let showRegion_array = [];
-    fetch("https://alsocio.geop.tech/app/get-city-region/", {
+    fetch("https://alsocio.com/app/get-city-region/", {
       method: "GET",
     })
       .then((response) => response.json())
@@ -260,14 +260,14 @@ const HomeScreen = ({ route, navigation }) => {
           color="#1a237e"
           size={20}
           style={{ marginLeft: 25 }}
-          onPress={() => navigation.navigate("SignUpScreen")}
+          onPress={() => navigation.navigate("continueWith")}
         />
         <Text
           style={{
             fontSize: 12,
             color: "#1a237e",
           }}
-          onPress={() => navigation.navigate("SignUpScreen")}
+          onPress={() => navigation.navigate("continueWith")}
         >
           SignUp
         </Text>
@@ -305,7 +305,7 @@ const HomeScreen = ({ route, navigation }) => {
   const [mainCategoryImages, setMainCategoryImages] = useState([]);
 
   const getMainCategory = () => {
-    fetch("https://alsocio.geop.tech/app/get-main-categories/", {
+    fetch("https://alsocio.com/app/get-main-categories/", {
       method: "GET",
       // body: usercategory,
     })
@@ -343,7 +343,7 @@ const HomeScreen = ({ route, navigation }) => {
   const [featuredServicesArray, setFeaturedServicesArray] = useState([]);
 
   const getFeaturedServices = () => {
-    fetch("https://alsocio.geop.tech/app/get-featured-services/", {
+    fetch("https://alsocio.com/app/get-featured-services/", {
       method: "GET",
       // body: usercategory,
     })
@@ -583,7 +583,7 @@ const HomeScreen = ({ route, navigation }) => {
                     >
                       <Card.Cover
                         source={{
-                          uri: "https://alsocio.geop.tech/media/" + item.image,
+                          uri: "https://alsocio.com/media/" + item.image,
                         }}
                       />
                       <Card.Content>

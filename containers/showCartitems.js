@@ -52,7 +52,7 @@ const showCartitems = ({ route, navigation }, props) => {
 				const element = check[index];
 				let servicedetails = new FormData();
 				servicedetails.append('service_id', element[0]);
-				fetch('https://alsocio.geop.tech/app/get-service-details/', {
+				fetch('https://alsocio.com/app/get-service-details/', {
 					method: 'POST',
 					body: servicedetails,
 				})
@@ -455,7 +455,7 @@ const showCartitems = ({ route, navigation }, props) => {
 									backgroundColor: '#1a237e',
 								}}
 								onPress={() => {
-									navigation.navigate('SignUpScreen'),
+									navigation.navigate('customerSignUpScreen'),
 										setShowPickerModal(!showPickerModal);
 								}}>
 								<Text
@@ -498,7 +498,7 @@ const showCartitems = ({ route, navigation }, props) => {
 										marginVertical: 10,
 									}}
 									source={{
-										uri: 'https:alsocio.geop.tech/media/' + item.img,
+										uri: 'https:alsocio.com/media/' + item.img,
 									}}
 								/>
 								<Grid>

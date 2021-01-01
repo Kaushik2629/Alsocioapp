@@ -41,7 +41,7 @@ const SupportScreen = ({ route, navigation }) => {
 		// const [city_Array, setCityArray] = useState([]);
 
 		useEffect(() => {
-			fetch('https://alsocio.geop.tech/app/get-categories-subcategories/', {
+			fetch('https://alsocio.com/app/get-categories-subcategories/', {
 				method: 'POST',
 				body: usercategory,
 			})

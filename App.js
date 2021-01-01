@@ -26,7 +26,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import showBookings from './containers/showBookings';
 import SplashScreen from './screens/SplashScreen';
 import SignInScreen from './screens/SignInScreen';
-import SignUpScreen from './screens/SignUpScreen';
+import customerSignUpScreen from './screens/customerSignUpScreen';
 import providerTabs from './screens/provider_screens/providerTabs';
 import providerServices from './screens/provider_screens/providerServices';
 import providerInvoice from './screens/provider_screens/providerInvoice';
@@ -34,16 +34,18 @@ import providerQuotes from './screens/provider_screens/providerQuotes';
 import providerBranches from './screens/provider_screens/providerBranches';
 import providerTeamMembers from './screens/provider_screens/providerTeamMembers';
 import providerPaymentDetails from './screens/provider_screens/providerPaymentDetails';
+import continueWith from './screens/continueWith';
+import ProviderSignUpForm from './screens/ProviderSignUpForm';
 
 const Drawer = createDrawerNavigator();
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
-	  shouldShowAlert: true,
-	  shouldPlaySound: false,
-	  shouldSetBadge: false,
+		shouldShowAlert: true,
+		shouldPlaySound: true,
+		shouldSetBadge: true,
 	}),
-  });
+});
 
 const App = () => {
 	const initialLoginState = {
@@ -210,14 +212,16 @@ const App = () => {
 		if (loginState.userName != null) {
 			let customer_name = new FormData();
 			customer_name.append('username', loginState.userName);
-			fetch('https://alsocio.geop.tech/app/get-notifications/', {
+			fetch('https://alsocio.com/app/get-notifications/', {
 				method: 'POST',
 				body: customer_name,
 			})
 				.then((response) => response.json())
 				.then((responseJson) => {
 					console.log(responseJson);
-					setNotificationBody(responseJson.notifications);
+					if (responseJson.notifications != []) {
+						setNotificationBody(responseJson.notifications);
+					}
 				})
 				.catch((error) => console.error(error));
 		}
@@ -227,7 +231,7 @@ const App = () => {
 			if (loginState.userName != null) {
 				fetchNotifications();
 			}
-		}, 10000);
+		}, 8000);
 		return () => {
 			clearTimeout(t);
 		};
@@ -239,79 +243,92 @@ const App = () => {
 	const notificationListener = useRef();
 	const responseListener = useRef();
 
-	useEffect(() => {
-		registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-		// This listener is fired whenever a notification is received while the app is foregrounded
-		notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-		  setNotification(notification);
-		});
-
-		// This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-		responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-		  console.log(response);
-		});
-
-		return () => {
-		  Notifications.removeNotificationSubscription(notificationListener);
-		  Notifications.removeNotificationSubscription(responseListener);
-		};
-	  }, []);
-
-	if (notificationBody.length != 0) {
-		notificationBody.map((item) => {
-			alert(item.notification);
-			sendPushNotification(expoPushToken,item.notification)
-		});
-	}
-
-	async function sendPushNotification(expoPushToken,notifiedMessage) {
-		const message = {
-		  to: expoPushToken,
-		  sound: 'default',
-		  title: 'Original Title',
-		  body: 'Hi its Kaushik',
-		  data: { data: 'goes here' },
-		};
-
-		await fetch('https://exp.host/--/api/v2/push/send', {
-		  method: 'POST',
-		  headers: {
-			Accept: 'application/json',
-			'Accept-encoding': 'gzip, deflate',
-			'Content-Type': 'application/json',
-		  },
-		  body: JSON.stringify(message),
-		});
-	  }
-
 	async function registerForPushNotificationsAsync() {
 		let token;
 		if (Constants.isDevice) {
-		  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-		  let finalStatus = existingStatus;
-		  if (existingStatus !== 'granted') {
-			const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-			finalStatus = status;
-		  }
-		  if (finalStatus !== 'granted') {
-			alert('Failed to get push token for push notification!');
-			return;
-		  }
-		  token = (await Notifications.getExpoPushTokenAsync()).data;
-		  console.log(token);
+			const { status: existingStatus } = await Permissions.getAsync(
+				Permissions.NOTIFICATIONS
+			);
+			let finalStatus = existingStatus;
+			if (existingStatus !== 'granted') {
+				const { status } = await Permissions.askAsync(
+					Permissions.NOTIFICATIONS
+				);
+				finalStatus = status;
+			}
+			if (finalStatus !== 'granted') {
+				alert('Failed to get push token for push notification!');
+				return;
+			}
+			token = (await Notifications.getExpoPushTokenAsync()).data;
+			console.log(token);
 		} else {
-		  alert('Must use physical device for Push Notifications');
+			console.log('Must use physical device for Push Notifications');
 		}
 
 		if (Platform.OS === 'android') {
-		  Notifications.setNotificationChannelAsync('default', {
-			name: 'default',
-			importance: Notifications.AndroidImportance.MAX,
-			vibrationPattern: [0, 250, 250, 250],
-			lightColor: '#FF231F7C',
-		  });
+			Notifications.setNotificationChannelAsync('default', {
+				name: 'default',
+				importance: Notifications.AndroidImportance.MAX,
+				vibrationPattern: [0, 250, 250, 250],
+				lightColor: '#FF231F7C',
+			});
 		}
+
+		return token;
+	}
+
+	useEffect(() => {
+		registerForPushNotificationsAsync().then((token) =>
+			setExpoPushToken(token)
+		);
+
+		// This listener is fired whenever a notification is received while the app is foregrounded
+		notificationListener.current = Notifications.addNotificationReceivedListener(
+			(notification) => {
+				setNotification(notification);
+			}
+		);
+
+		// This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+		responseListener.current = Notifications.addNotificationResponseReceivedListener(
+			(response) => {
+				console.log(response);
+			}
+		);
+
+		return () => {
+			Notifications.removeNotificationSubscription(notificationListener);
+			Notifications.removeNotificationSubscription(responseListener);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (notificationBody.length != 0) {
+			notificationBody.map((item) => {
+				sendPushNotification(expoPushToken, item.notification);
+			});
+		}
+	}, [notificationBody]);
+
+	async function sendPushNotification(expoPushToken, notifiedMessage) {
+		const message = {
+			to: expoPushToken,
+			sound: 'default',
+			title: 'Notifying You!',
+			body: notifiedMessage,
+			data: { data: 'goes here' },
+		};
+
+		await fetch('https://exp.host/--/api/v2/push/send', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Accept-encoding': 'gzip, deflate',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(message),
+		});
 	}
 
 	if (loginState.isLoading) {
@@ -336,7 +353,15 @@ const App = () => {
 							<Drawer.Screen name='QuoteScreen' component={QuoteScreen} />
 							<Drawer.Screen name='showBookings' component={showBookings} />
 							<Drawer.Screen name='SignInScreen' component={SignInScreen} />
-							<Drawer.Screen name='SignUpScreen' component={SignUpScreen} />
+							<Drawer.Screen
+								name='customerSignUpScreen'
+								component={customerSignUpScreen}
+							/>
+							<Drawer.Screen
+								name='ProviderSignUpForm'
+								component={ProviderSignUpForm}
+							/>
+							<Drawer.Screen name='continueWith' component={continueWith} />
 						</Drawer.Navigator>
 					</NavigationContainer>
 				</AuthContext.Provider>

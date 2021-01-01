@@ -20,7 +20,7 @@ import { UIActivityIndicator } from 'react-native-indicators';
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
 
-const ProviderSignUpForm = ({ navigation }) => {
+const customerSignUpScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const [regionArray, setRegionArray] = useState([]);
@@ -193,9 +193,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 				}
 			});
 	};
-
-	const ProviderSignUpSchema = Yup.object().shape({
-		company_name: Yup.string().required(' Company Name is Required'),
+	const SignUpSchema = Yup.object().shape({
 		first_name: Yup.string().required(' First Name is Required'),
 		last_name: Yup.string().required('Last Name is Required'),
 		region: Yup.string().required('Please Select Your Location'),
@@ -214,19 +212,18 @@ const ProviderSignUpForm = ({ navigation }) => {
 		otp: Yup.string().required('No OTP provided.').min(4, 'Invalid Otp'),
 	});
 
-	const registerProvider = (parameters) => {
+	const registerUser = (parameters) => {
 		setIsLoading(true);
 		let userDetails = new FormData();
-		userDetails.append('company_name', parameters.company_name);
 		userDetails.append('first_name', parameters.first_name);
 		userDetails.append('last_name', parameters.last_name);
-		userDetails.append('city', parameters.city);
-		userDetails.append('region', parameters.region);
+		userDetails.append('customer_city', parameters.city);
+		userDetails.append('customer_region', parameters.region);
 		userDetails.append('email', parameters.email);
 		userDetails.append('username', parameters.username);
 		userDetails.append('password', parameters.confirm_password);
 		userDetails.append('contact', parameters.contact);
-		fetch('https://alsocio.com/app/provider-signup/', {
+		fetch('https://alsocio.com/app/customer-signup/', {
 			method: 'POST',
 			body: userDetails,
 		})
@@ -234,11 +231,11 @@ const ProviderSignUpForm = ({ navigation }) => {
 			.then((responseJson) => {
 				setIsLoading(false);
 				if (responseJson.signup == 'successful') {
-					console.log(responseJson);
 					navigation.navigate('SignInScreen');
 				}
 			});
 	};
+
 	// const [isCustomer, setIsCustomer] = useState(true);
 
 	const [showSignUpBox, setShowSignUpBox] = useState(false);
@@ -273,7 +270,6 @@ const ProviderSignUpForm = ({ navigation }) => {
 			) : null}
 			<Formik
 				initialValues={{
-					company_name: '',
 					first_name: '',
 					last_name: '',
 					region: '',
@@ -286,12 +282,11 @@ const ProviderSignUpForm = ({ navigation }) => {
 					confirm_password: '',
 					terms_conditions: false,
 					email_updates: false,
-					social_distancing: false
 				}}
 				onSubmit={(values) => {
-					registerProvider(values);
+					registerUser(values);
 				}}
-				validationSchema={ProviderSignUpSchema}>
+				validationSchema={SignUpSchema}>
 				{(props) => (
 					<Card style={styles.card}>
 						{/* <View style={{ marginTop: 15 }}> */}
@@ -426,11 +421,12 @@ const ProviderSignUpForm = ({ navigation }) => {
 									style={styles.otp}
 									activeOpacity={0.7}
 									onPress={() => {
-										if (props.values.otp == OTP) {
-											setShowSignUpBox(true);
+										if (props.values.otp==OTP) {
+											alert('Successfull');
+											setShowSignUpBox(true)
 											return;
-										} else {
-											alert('Please enter a valid OTP');
+										}else{
+											alert('Please enter a valid OTP')
 										}
 									}}>
 									<Text
@@ -505,20 +501,6 @@ const ProviderSignUpForm = ({ navigation }) => {
 												{props.errors.contact}
 											</Text>
 										)}
-										<TextInput
-											mode={'outlined'}
-											placeholder='Enter Company Name'
-											onBlur={() => props.setFieldTouched('company_name')}
-											onChangeText={props.handleChange('company_name')}
-											value={props.values.company_name}
-										/>
-										{props.touched.company_name &&
-											props.errors.company_name && (
-												<Text
-													style={{ fontSize: 10, padding: 10, color: 'red' }}>
-													{props.errors.company_name}
-												</Text>
-											)}
 										{regionDivision()}
 										<TextInput
 											mode={'outlined'}
@@ -589,26 +571,6 @@ const ProviderSignUpForm = ({ navigation }) => {
 												I would like to get updates and promotions by Email
 											</Text>
 										</View>
-										<View style={styles.checkbox}>
-											<Checkbox
-												color='#1a237e'
-												value={props.values.social_distancing}
-												status={
-													props.values.social_distancing === true
-														? 'checked'
-														: 'unchecked'
-												}
-												onPress={() => {
-													props.setFieldValue(
-														'social_distancing',
-														!props.values.social_distancing
-													);
-												}}
-											/>
-											<Text style={styles.label}>
-												Maintain Social Distancing
-											</Text>
-										</View>
 									</View>
 									<View style={{ justifyContent: 'center', padding: 5 }}>
 										<TouchableOpacity
@@ -642,13 +604,13 @@ const ProviderSignUpForm = ({ navigation }) => {
 	);
 };
 
-export default ProviderSignUpForm;
+export default customerSignUpScreen;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 80,
-		marginBottom: 10,
+		marginTop:80,
+		marginBottom:10,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

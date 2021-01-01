@@ -33,7 +33,7 @@ const providerTeamMembers = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.geop.tech/app/get-provider-team-members/', {
+		fetch('https://alsocio.com/app/get-provider-team-members/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -173,7 +173,7 @@ const providerTeamMembers = ({ navigation }) => {
 										type,
 									});
 									fetch(
-										'https://alsocio.geop.tech/app/add-provider-team-member/',
+										'https://alsocio.com/app/add-provider-team-member/',
 										{
 											method: 'POST',
 											body: teamMemberDetails,
@@ -385,7 +385,7 @@ const providerTeamMembers = ({ navigation }) => {
 													marginBottom: 10,
 												}}
 												source={{
-													uri: 'https:alsocio.geop.tech/media/' + item.img,
+													uri: 'https:alsocio.com/media/' + item.img,
 												}}
 											/>
 										) : (
