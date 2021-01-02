@@ -225,54 +225,7 @@ const HomeScreen = ({ route, navigation }) => {
   };
 
   const checkUser = () => {
-    return a.UserName == null ? (
-      <View
-        style={{
-          flexGrow: 1,
-          flexDirection: "row",
-          width: 150,
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: 10,
-          borderWidth: 0.2,
-          borderColor: "#1a237e",
-          height: 40,
-          marginBottom: 15,
-        }}
-      >
-        <FontAwesome
-          name="user-o"
-          color="#1a237e"
-          size={20}
-          onPress={() => navigation.navigate("SignInScreen")}
-        />
-        <Text
-          style={{
-            fontSize: 12,
-            color: "#1a237e",
-          }}
-          onPress={() => navigation.navigate("SignInScreen")}
-        >
-          Login
-        </Text>
-        <FontAwesome
-          name="plus"
-          color="#1a237e"
-          size={20}
-          style={{ marginLeft: 25 }}
-          onPress={() => navigation.navigate("continueWith")}
-        />
-        <Text
-          style={{
-            fontSize: 12,
-            color: "#1a237e",
-          }}
-          onPress={() => navigation.navigate("continueWith")}
-        >
-          SignUp
-        </Text>
-      </View>
-    ) : (
+    return a.UserName != null ? (
       <View
         style={{
           flexGrow: 1,
@@ -297,7 +250,9 @@ const HomeScreen = ({ route, navigation }) => {
           Hi,{a.UserName}
         </Text>
       </View>
-    );
+    ):(
+      null
+    )
   };
 
   const [mainCategoryArray, setMainCategoryArray] = useState([]);
