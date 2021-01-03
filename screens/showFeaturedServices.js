@@ -189,7 +189,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 												fontWeight: '400',
 												marginLeft: 20,
 											}}>
-											{item.category}
+											{item.service}
 										</Text>
 									</View>
 									<View>

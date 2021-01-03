@@ -382,7 +382,7 @@ const HomeScreen = ({ route, navigation }) => {
 
 				<StatusBar backgroundColor='#1a237e' barStyle='light-content' />
 				<Header
-					statusBarProps={{ barStyle: 'light-content' }}
+					// statusBarProps={{ barStyle: 'light-content' }}
 					barStyle='light-content' // or directly
 					containerStyle={{
 						backgroundColor: '#fff',
@@ -393,7 +393,7 @@ const HomeScreen = ({ route, navigation }) => {
 					rightContainerStyle={{ marginTop: 12 }}
 				/>
 				<Header
-					statusBarProps={{ barStyle: 'light-content' }}
+					// statusBarProps={{ barStyle: 'light-content' }}
 					barStyle='light-content' // or directly
 					containerStyle={{
 						backgroundColor: '#c5cae9',
