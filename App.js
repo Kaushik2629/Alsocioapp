@@ -36,6 +36,7 @@ import providerTeamMembers from './screens/provider_screens/providerTeamMembers'
 import providerPaymentDetails from './screens/provider_screens/providerPaymentDetails';
 import continueWith from './screens/continueWith';
 import ProviderSignUpForm from './screens/ProviderSignUpForm';
+import showFeaturedServices from './screens/showFeaturedServices';
 
 const Drawer = createDrawerNavigator();
 
@@ -353,6 +354,7 @@ const App = () => {
 							<Drawer.Screen name='QuoteScreen' component={QuoteScreen} />
 							<Drawer.Screen name='showBookings' component={showBookings} />
 							<Drawer.Screen name='SignInScreen' component={SignInScreen} />
+							<Drawer.Screen name='showFeaturedServices' component={showFeaturedServices} />
 							<Drawer.Screen
 								name='customerSignUpScreen'
 								component={customerSignUpScreen}

@@ -166,9 +166,9 @@ const showDetails = ({ route, navigation }) => {
 						onPress={() => {
 							if (addedToCart && slotValue == '') {
 								alert('Please add Slots!');
-							} else if(addedToCart && slotValue == 'No Slots Available'){
-								alert('Cannot Proceed without adding slots')
-							}else{
+							} else if (addedToCart && slotValue == 'No Slots Available') {
+								alert('Cannot Proceed without adding slots');
+							} else {
 								navigation.navigate('showCartitems');
 							}
 						}}>
@@ -631,13 +631,10 @@ const showDetails = ({ route, navigation }) => {
 													let slotDetails = new FormData();
 													slotDetails.append('day', day);
 													slotDetails.append('service_id', serviceId);
-													fetch(
-														'https://alsocio.com/app/get-time-slots/',
-														{
-															method: 'POST',
-															body: slotDetails,
-														}
-													)
+													fetch('https://alsocio.com/app/get-time-slots/', {
+														method: 'POST',
+														body: slotDetails,
+													})
 														.then((response) => response.json())
 														.then((responseJson) => {
 															if (responseJson.slots == 'No Slots Available') {
@@ -680,7 +677,7 @@ const showDetails = ({ route, navigation }) => {
 																	JSON.stringify(arrayChangeDate)
 																);
 																setCartcount(arrayChangeDate);
-																return
+																return;
 															}
 														}
 													}
@@ -987,7 +984,39 @@ const showDetails = ({ route, navigation }) => {
 											}}>
 											{item.description}
 										</Text>
-
+										{/* <View style={{ justifyContent: 'center' }}> */}
+											{item.covid_norms == true ? (
+												<View style={{ flexDirection: 'row' }}>
+													<Icon
+														name='ios-checkbox-outline'
+														color='#1a237e'
+														size={36}
+														style={{ marginHorizontal: 10 }}
+													/>
+													<Text
+														style={{
+															fontSize: 15,
+															fontWeight: '400',
+															alignSelf: 'center',
+														}}>
+														This service follows COVID-19 norms
+													</Text>
+												</View>
+											) : null}
+											{item.additional_charges == true ? (
+												<Text
+													style={{
+														fontSize: 10,
+														padding: 10,
+														color: 'red',
+														flexGrow: 1,
+														textAlign: 'right',
+														alignSelf: 'flex-start',
+													}}>
+													*Additional Charges may be Applied
+												</Text>
+											) : null}
+										{/* </View> */}
 										<TouchableOpacity
 											style={{
 												backgroundColor: '#1a237e',
