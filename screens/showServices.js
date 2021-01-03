@@ -211,10 +211,43 @@ const showServices = ({ navigation, route }) => {
 													textAlign: 'center',
 													padding: 20,
 												}}>
-												Book
+												Details
 											</Text>
 										</TouchableOpacity>
 									</View>
+								</View>
+								<View style={{ justifyContent: 'center', padding: 10 }}>
+									{item.covid_norms == true ? (
+										<View style={{ flexDirection: 'row' }}>
+											<Icon
+												name='ios-checkbox-outline'
+												color='#1a237e'
+												size={36}
+												style={{ marginHorizontal: 10 }}
+											/>
+											<Text
+												style={{
+													fontSize: 15,
+													fontWeight: '400',
+													alignSelf:'center'
+												}}>
+												This service follows COVID-19 norms
+											</Text>
+										</View>
+									) : null}
+									{item.additional_charges == true ? (
+										<Text
+											style={{
+												fontSize: 10,
+												padding: 10,
+												color: 'red',
+												flexGrow: 1,
+												textAlign: 'right',
+												alignSelf: 'flex-start',
+											}}>
+											*Additional Charges may be Applied
+										</Text>
+									) : null}
 								</View>
 							</Card.Content>
 						</Card>
