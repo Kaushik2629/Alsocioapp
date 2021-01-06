@@ -206,7 +206,7 @@ const HomeScreen = ({ route, navigation }) => {
             // textAlign: 'center',
           }}
         >
-          Hi,{a.UserName}
+          Hola,{a.UserName}
         </Text>
       </View>
     ) : null;
@@ -413,7 +413,7 @@ const HomeScreen = ({ route, navigation }) => {
 
         <StatusBar backgroundColor="#1a237e" barStyle="light-content" />
         <Appbar.Header
-          style={{ backgroundColor: "#1a237e", height: 0,marginTop:0 }}
+          style={{ backgroundColor: "#1a237e", height: 0, marginTop: 0 }}
         ></Appbar.Header>
         <View style={styles.upperHeaderContainer}>
           {TopLeftNavScreen()}
@@ -538,7 +538,7 @@ const HomeScreen = ({ route, navigation }) => {
                       }
                     >
                       <Card.Cover
-                        style={{ marginBottom: 10 }}
+                        style={{ marginBottom: 10,height:imageheight/3,}}
                         source={{
                           uri: "https://alsocio.com/media/" + item.image,
                         }}

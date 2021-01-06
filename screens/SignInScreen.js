@@ -199,7 +199,7 @@ const SignInScreen = ({ navigation }) => {
 				{data.isValidUser ? null : (
 					<Animatable.View animation='fadeInLeft' duration={500}>
 						<Text style={styles.errorMsg}>
-							Username must be 4 characters long.
+						El nombre de usuario debe tener 4 caracteres.
 						</Text>
 					</Animatable.View>
 				)}
@@ -240,16 +240,16 @@ const SignInScreen = ({ navigation }) => {
 				{data.isValidPassword ? null : (
 					<Animatable.View animation='fadeInLeft' duration={500}>
 						<Text style={styles.errorMsg}>
-							Password must be 8 characters long.
+						La contraseña debe tener 8 caracteres.
 						</Text>
 					</Animatable.View>
 				)}
 
-				<TouchableOpacity>
+				{/* <TouchableOpacity>
 					<Text style={{ color: '#009387', marginTop: 15 }}>
 						Forgot password?
 					</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 				<View style={styles.button}>
 					<TouchableOpacity
 						activeOpacity={0.7}

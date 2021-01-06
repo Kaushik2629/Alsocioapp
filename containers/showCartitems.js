@@ -504,8 +504,8 @@ const showCartitems = ({ route, navigation }, props) => {
 
 								<Image
 									style={{
-										width: imagewidth * 0.8,
-										height: 150,
+										width: imagewidth - 50,
+										height: imageheight/3,
 										marginHorizontal: 20,
 										marginVertical: 10,
 									}}

@@ -157,8 +157,8 @@ const showServices = ({ navigation, route }) => {
 								<View>
 									<Image
 										style={{
-											width: 'auto',
-											height: 200,
+											width: imagewidth-50,
+											height: imageheight/3,
 											marginVertical: 10,
 										}}
 										source={{

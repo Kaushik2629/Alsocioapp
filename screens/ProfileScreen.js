@@ -179,6 +179,7 @@ const ProfileScreen = ({ navigation }) => {
 						}}>
 						<View
 							style={{
+								marginTop:50,
 								backgroundColor: '#fff',
 								shadowColor: '#000',
 								marginHorizontal: 20,
@@ -553,6 +554,7 @@ const ProfileScreen = ({ navigation }) => {
 						}}>
 						<View
 							style={{
+								marginTop:50,
 								backgroundColor: '#fff',
 								shadowColor: '#000',
 								marginHorizontal: 20,
@@ -956,7 +958,7 @@ const ProfileScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Perf.il'
+					title='Perfil'
 					// subtitleStyle={{ marginBottom: 5 }}
 				/>
 				{/* <Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} /> */}
@@ -1007,7 +1009,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 15,
 	},
 	textInput: {
-		width: 150,
+		flexGrow: 1,
 		margin: 10,
 		textAlign: 'left',
 		paddingLeft: 10,

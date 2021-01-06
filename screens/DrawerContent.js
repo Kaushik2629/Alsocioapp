@@ -39,13 +39,17 @@ export function DrawerContent(props) {
 	const showName = () => {
 		return a.UserName == null ? (
 			<View style={{ marginLeft: 15 }}>
-				<Title style={styles.title}>Guest</Title>
+				<Title style={styles.title}>Invitado</Title>
 				{/* <Caption style={styles.caption}>@Guest</Caption> */}
 			</View>
 		) : (
 			<View style={{ marginLeft: 15 }}>
 				<Title style={styles.title}>{a.UserName}</Title>
-				<Caption style={styles.caption}>{a.Role}</Caption>
+				{a.Role=='Customer'?(
+					<Caption style={styles.caption}>Cliente</Caption>
+				):(
+					<Caption style={styles.caption}>Proveedor</Caption>
+				)}
 			</View>
 		);
 	};
