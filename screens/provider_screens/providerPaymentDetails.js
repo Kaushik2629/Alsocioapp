@@ -117,7 +117,7 @@ const providerPaymentDetails = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Account Name
+											Nombre de la cuenta
 											</Text>
 											<Text
 												style={{
@@ -125,7 +125,7 @@ const providerPaymentDetails = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Bank Name
+												Nombre del banco
 											</Text>
 										</View>
 										<View style={{ flexDirection: 'row' }}>
@@ -153,7 +153,7 @@ const providerPaymentDetails = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Account Number
+												Número de cuenta
 											</Text>
 											<Text
 												style={{
@@ -161,7 +161,7 @@ const providerPaymentDetails = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Account Type
+												Tipo de cuenta
 											</Text>
 										</View>
 										<View style={{ flexDirection: 'row' }}>
@@ -221,7 +221,7 @@ const providerPaymentDetails = ({ navigation }) => {
 													color: '#fff',
 													flexGrow: 1,
 												}}>
-												Save Changes
+												Guardar cambios
 											</Text>
 										</TouchableOpacity>										
 									</View>
@@ -239,7 +239,7 @@ const providerPaymentDetails = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Payout Details'
+					title='Detalles de pago'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
 			</Appbar.Header>

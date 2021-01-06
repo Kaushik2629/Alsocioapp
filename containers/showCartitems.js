@@ -24,6 +24,8 @@ const imageheight = Dimensions.get('window').height;
 const showCartitems = ({ route, navigation }, props) => {
 	const { changeCount } = useContext(AuthContext);
 
+	const count = useContext(AuthContext);
+
 	const [isLoading, setIsLoading] = useState(true);
 
 	const checkName = useContext(AuthContext);
@@ -35,21 +37,28 @@ const showCartitems = ({ route, navigation }, props) => {
 		if (check != null) {
 			a = [...check];
 			setCartcount(a);
+			return;
+		}
+		else{
+			setIsLoading(false)
+			setDetails([])
 		}
 	};
 	// fetchCount();
 	useEffect(() => {
 		fetchCount();
-	}, []);
+	}, [count.itemCount]);
 
 	const [details, setDetails] = useState([]);
 
 	const fetchDetails = async () => {
+		// alert('ijijj')
 		let showList = [];
-		let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		if (check != null) {
-			for (let index = 0; index < check.length; index++) {
-				const element = check[index];
+		// let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
+		if (cartCount.length!=0) {
+			// console.log(check)
+			for (let index = 0; index < cartCount.length; index++) {
+				const element = cartCount[index];
 				let servicedetails = new FormData();
 				servicedetails.append('service_id', element[0]);
 				fetch('https://alsocio.com/app/get-service-details/', {
@@ -58,16 +67,18 @@ const showCartitems = ({ route, navigation }, props) => {
 				})
 					.then((response) => response.json())
 					.then((responseJson) => {
+						// console.log(responseJson)
 						setIsLoading(false);
 						showList = [...showList, ...responseJson.service];
 						setDetails(showList);
 					});
 			}
+			return;
 		}
 	};
 	useEffect(() => {
 		fetchDetails();
-	}, []);
+	}, [cartCount.length]);
 
 	const removeItem = async (serviceId) => {
 		const filterObject = details.filter((item) => item.id != serviceId);
@@ -80,11 +91,9 @@ const showCartitems = ({ route, navigation }, props) => {
 				const element = arrayCartCount[index];
 				if (serviceId == element[0]) {
 					element[1] = 0;
-					// Replaced console(element);
 				}
 			}
 			const filterData = [...arrayCartCount].filter((item) => item[1] > 0);
-			// Replaced console(filterData);
 			const arrayDecCount = [...filterData];
 			await AsyncStorage.setItem('asyncArray1', JSON.stringify(filterData));
 			setCartcount(arrayDecCount);
@@ -207,11 +216,11 @@ const showCartitems = ({ route, navigation }, props) => {
 					marginLeft: 20,
 					marginTop: 10,
 				}}>
-				Cost is -${cost}
+				El costo es -${cost}
 			</Text>
 		) : (
 			<View style={{ flexDirection: 'row' }}>
-				<Text>Cost is -</Text>
+				<Text>El costo es -</Text>
 				<Text
 					style={{
 						fontSize: 15,
@@ -257,7 +266,7 @@ const showCartitems = ({ route, navigation }, props) => {
 					padding: 20,
 					alignContent: 'center',
 					justifyContent: 'center',
-					marginTop:20
+					marginTop: 20,
 				}}>
 				<MaterialIndicator color='#1a237e' />
 			</View>
@@ -304,67 +313,71 @@ const showCartitems = ({ route, navigation }, props) => {
 
 			const handleSentence = () => {
 				if (s == 1) {
-					return <Text>service is added</Text>;
+					return <Text>1 service is added</Text>;
 				}
 				if (s > 1) {
-					return <Text>services added</Text>;
+					return <Text>{s} services added</Text>;
 				}
 			};
 
 			return s ? (
 				<Animatable.View
 					style={{
-						bottom: 0,
 						flexDirection: 'row',
 						backgroundColor: '#fff',
-						width: imagewidth,
+						borderWidth: 0.5,
+						shadowColor: '#000',
+						shadowOffset: { width: 0, height: 1 },
+						shadowOpacity: 0.8,
+						shadowRadius: 2,
+						elevation: 15,
+						alignItems: 'center',
+						justifyContent: 'center',
+						paddingVertical: 15,
 					}}
-					animation='fadeIn'>
+					animation='fadeInUpBig'>
 					<View style={{ flexDirection: 'row', padding: 15 }}>
 						<View>
-							<Text
-								style={{
-									fontWeight: '900',
-								}}>
-								{s}
-								{handleSentence()}
-							</Text>
-							<Text
-								style={{
-									fontWeight: '900',
-								}}>
-								${showTotalCostPopup()}
-							</Text>
+							<View style={{ flexGrow: 1 }}>
+								<Text>{handleSentence()}</Text>
+							</View>
+							<View style={{ flexGrow: 1 }}>
+								<Text>${showTotalCostPopup()}</Text>
+							</View>
 						</View>
-
-						<TouchableOpacity
+						<View
 							style={{
-								backgroundColor: '#1a237e',
-								width: 200,
-								height: 35,
-								marginBottom: 5,
-								borderRadius: 5,
-								marginLeft: 30,
-							}}
-							onPress={() => {
-								if (checkName.UserName == null) {
-									setShowPickerModal(true);
-								} else {
-									navigation.navigate('showBookings', {
-										cartDetails: cartCount,
-										cost: totalCost,
-									});
-								}
+								flexGrow: 1,
+								alignItems: 'center',
+								justifyContent: 'center',
 							}}>
-							<Text
+							<TouchableOpacity
 								style={{
-									color: '#fff',
-									textAlign: 'center',
-									marginTop: 10,
+									alignSelf: 'flex-end',
+									backgroundColor: '#1a237e',
+									width: 200,
+									borderRadius: 5,
+								}}
+								onPress={() => {
+									if (checkName.UserName == null) {
+										setShowPickerModal(true);
+									} else {
+										navigation.navigate('showBookings', {
+											cartDetails: cartCount,
+											cost: totalCost,
+										});
+									}
 								}}>
-								Checkout!
-							</Text>
-						</TouchableOpacity>
+								<Text
+									style={{
+										color: '#fff',
+										textAlign: 'center',
+										paddingVertical: 15,
+									}}>
+									Revisa
+								</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</Animatable.View>
 			) : null;
@@ -423,7 +436,7 @@ const showCartitems = ({ route, navigation }, props) => {
 									fontWeight: 'bold',
 									margin: 15,
 								}}>
-								Please Login/SignUp to continue
+								Ingrese / Regístrese para continuar
 							</Text>
 							<TouchableOpacity
 								style={{
@@ -444,7 +457,7 @@ const showCartitems = ({ route, navigation }, props) => {
 										margin: 15,
 										color: '#fff',
 									}}>
-									Sign In
+									Iniciar sesión
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
@@ -466,7 +479,7 @@ const showCartitems = ({ route, navigation }, props) => {
 										margin: 15,
 										color: '#fff',
 									}}>
-									Sign Up
+									Regístrate
 								</Text>
 							</TouchableOpacity>
 						</View>
@@ -511,7 +524,9 @@ const showCartitems = ({ route, navigation }, props) => {
 													marginBottom: 5,
 													fontWeight: '300',
 												}}>
-												<Text style={{ fontWeight: 'bold' }}>Service By:</Text>
+												<Text style={{ fontWeight: 'bold' }}>
+													Servicio por:
+												</Text>
 												{item.company_name}
 											</Text>
 										</Col>
@@ -541,7 +556,7 @@ const showCartitems = ({ route, navigation }, props) => {
 														alignSelf: 'center',
 														textAlign: 'center',
 													}}>
-													Edit Details
+													Editar detalles
 												</Text>
 											</TouchableOpacity>
 											<TouchableOpacity
@@ -580,8 +595,8 @@ const showCartitems = ({ route, navigation }, props) => {
 					// extraData={dateArray[1]}
 					ListEmptyComponent={<Text>You've deleted the items!</Text>}
 				/>
-				{showPopUp()}
-				<View style={styles.footer}></View>
+
+				<View>{showPopUp()}</View>
 			</View>
 		);
 	} else {
@@ -605,10 +620,5 @@ const styles = StyleSheet.create({
 	footer: {
 		bottom: 0,
 		flex: 0.8,
-		backgroundColor: '#fff',
-		borderTopLeftRadius: 30,
-		borderTopRightRadius: 30,
-		paddingVertical: 50,
-		paddingHorizontal: 30,
 	},
 });

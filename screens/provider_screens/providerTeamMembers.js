@@ -17,6 +17,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
@@ -93,10 +94,9 @@ const providerTeamMembers = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Your Team Members'
+					title='Los miembros de su equipo'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 
 			{isLoading ? (
@@ -110,7 +110,7 @@ const providerTeamMembers = ({ navigation }) => {
 					<MaterialIndicator color='#1a237e' />
 				</View>
 			) : (
-				<View style={{flex:0.95}}>
+				<View style={{ flex: 0.95 }}>
 					<Modal
 						animationType='fade'
 						visible={showTeamMembersModal}
@@ -150,183 +150,181 @@ const providerTeamMembers = ({ navigation }) => {
 										setShowTeamMembersModal(!showTeamMembersModal);
 									}}></Icon.Button>
 							</TouchableOpacity>
-							<Formik
-								initialValues={{
-									first_name: '',
-									last_name: '',
-									email: '',
-									contact: '',
-									uri: '',
-								}}
-								onSubmit={(values) => {
-									setIsLoading(true);
-									setShowTeamMembersModal(false);
-									let teamMemberDetails = new FormData();
-									teamMemberDetails.append('username', a.UserName);
-									teamMemberDetails.append('first_name', values.first_name);
-									teamMemberDetails.append('last_name', values.last_name);
-									teamMemberDetails.append('email', values.email);
-									teamMemberDetails.append('contact', values.contact);
-									teamMemberDetails.append('image', {
-										uri: values.uri,
-										name: filename,
-										type,
-									});
-									fetch(
-										'https://alsocio.com/app/add-provider-team-member/',
-										{
+							
+								<Formik
+									initialValues={{
+										first_name: '',
+										last_name: '',
+										email: '',
+										contact: '',
+										uri: '',
+									}}
+									onSubmit={(values) => {
+										setIsLoading(true);
+										setShowTeamMembersModal(false);
+										let teamMemberDetails = new FormData();
+										teamMemberDetails.append('username', a.UserName);
+										teamMemberDetails.append('first_name', values.first_name);
+										teamMemberDetails.append('last_name', values.last_name);
+										teamMemberDetails.append('email', values.email);
+										teamMemberDetails.append('contact', values.contact);
+										teamMemberDetails.append('image', {
+											uri: values.uri,
+											name: filename,
+											type,
+										});
+										fetch('https://alsocio.com/app/add-provider-team-member/', {
 											method: 'POST',
 											body: teamMemberDetails,
 											headers: {
 												'content-type': 'multipart/form-data',
 											},
-										}
-									)
-										.then((response) => response.json())
-										.then((responseJson) => {
-											setDetails(responseJson);
-											alert('Team Member Added Successfully');
-											setIsLoading(false);
-										});
-								}}
-								validationSchema={TeamMemberSchema}>
-								{(props) => (
-									<View style={{ alignItems: 'center' }}>
-										<View style={{ flexDirection: 'row' }}>
-											<View>
-												<TextInput
-													style={styles.textInput}
-													placeholder='First Name'
-													onBlur={() => props.setFieldTouched('first_name')}
-													onChangeText={props.handleChange('first_name')}
-													value={props.values.first_name}
-												/>
-												{props.touched.first_name && props.errors.first_name && (
-													<Text
-														style={{
-															fontSize: 10,
-															padding: 10,
-															color: 'red',
-														}}>
-														{props.errors.first_name}
-													</Text>
-												)}
+										})
+											.then((response) => response.json())
+											.then((responseJson) => {
+												setDetails(responseJson);
+												alert('Miembro del equipo agregado con éxito');
+												setIsLoading(false);
+											});
+									}}
+									validationSchema={TeamMemberSchema}>
+									{(props) => (
+										<View style={{ alignItems: 'center' }}>
+											<View style={{ flexDirection: 'row' }}>
+												<View>
+													<TextInput
+														style={styles.textInput}
+														placeholder='Primer nombre'
+														onBlur={() => props.setFieldTouched('first_name')}
+														onChangeText={props.handleChange('first_name')}
+														value={props.values.first_name}
+													/>
+													{props.touched.first_name && props.errors.first_name && (
+														<Text
+															style={{
+																fontSize: 10,
+																padding: 10,
+																color: 'red',
+															}}>
+															{props.errors.first_name}
+														</Text>
+													)}
+												</View>
+												<View>
+													<TextInput
+														style={styles.textInput}
+														placeholder='Apellido'
+														onBlur={() => props.setFieldTouched('last_name')}
+														onChangeText={props.handleChange('last_name')}
+														value={props.values.last_name}
+													/>
+													{props.touched.last_name && props.errors.last_name && (
+														<Text
+															style={{
+																fontSize: 10,
+																padding: 10,
+																color: 'red',
+															}}>
+															{props.errors.last_name}
+														</Text>
+													)}
+												</View>
 											</View>
-											<View>
-												<TextInput
-													style={styles.textInput}
-													placeholder='Last Name'
-													onBlur={() => props.setFieldTouched('last_name')}
-													onChangeText={props.handleChange('last_name')}
-													value={props.values.last_name}
-												/>
-												{props.touched.last_name && props.errors.last_name && (
-													<Text
-														style={{
-															fontSize: 10,
-															padding: 10,
-															color: 'red',
-														}}>
-														{props.errors.last_name}
-													</Text>
-												)}
-											</View>
-										</View>
 
-										<View style={{ flexDirection: 'row' }}>
-											<View>
-												<TextInput
-													style={styles.textInput}
-													placeholder='Email'
-													onBlur={() => props.setFieldTouched('email')}
-													onChangeText={props.handleChange('email')}
-													value={props.values.email}
-												/>
-												{props.touched.email && props.errors.email && (
-													<Text
-														style={{
-															fontSize: 10,
-															padding: 10,
-															color: 'red',
-														}}>
-														{props.errors.email}
-													</Text>
-												)}
+											<View style={{ flexDirection: 'row' }}>
+												<View>
+													<TextInput
+														style={styles.textInput}
+														placeholder='Email'
+														onBlur={() => props.setFieldTouched('email')}
+														onChangeText={props.handleChange('email')}
+														value={props.values.email}
+													/>
+													{props.touched.email && props.errors.email && (
+														<Text
+															style={{
+																fontSize: 10,
+																padding: 10,
+																color: 'red',
+															}}>
+															{props.errors.email}
+														</Text>
+													)}
+												</View>
+												<View>
+													<TextInput
+														keyboardType={'numeric'}
+														style={styles.textInput}
+														placeholder='Número de contacto'
+														onBlur={() => props.setFieldTouched('contact')}
+														onChangeText={props.handleChange('contact')}
+														value={props.values.contact}
+													/>
+													{props.touched.contact && props.errors.contact && (
+														<Text
+															style={{
+																fontSize: 10,
+																padding: 10,
+																color: 'red',
+															}}>
+															{props.errors.contact}
+														</Text>
+													)}
+												</View>
 											</View>
-											<View>
-												<TextInput
-													keyboardType={'numeric'}
-													style={styles.textInput}
-													placeholder='Contact Number'
-													onBlur={() => props.setFieldTouched('contact')}
-													onChangeText={props.handleChange('contact')}
-													value={props.values.contact}
-												/>
-												{props.touched.contact && props.errors.contact && (
-													<Text
-														style={{
-															fontSize: 10,
-															padding: 10,
-															color: 'red',
-														}}>
-														{props.errors.contact}
-													</Text>
-												)}
-											</View>
-										</View>
 
-										<View>
-											<TouchableOpacity onPress={() => uploadImage(props)}>
-												<Text
+											<View>
+												<TouchableOpacity onPress={() => uploadImage(props)}>
+													<Text
+														style={{
+															fontSize: 12,
+															marginLeft: 10,
+															marginTop: 10,
+															textAlign: 'left',
+															alignSelf: 'flex-start',
+														}}>
+														Cargar imagen
+													</Text>
+												</TouchableOpacity>
+												<Card
 													style={{
-														fontSize: 12,
-														marginLeft: 10,
-														marginTop: 10,
-														textAlign: 'left',
-														alignSelf: 'flex-start',
-													}}>
-													Upload Image
-												</Text>
-											</TouchableOpacity>
-											<Card
-												style={{
-													borderWidth: 1,
-													borderColor: '#ddd',
-													borderRadius: 8,
-													width: imagewidth / 1.5,
-													margin: 10,
-													fontSize: 15,
-												}}
-												onPress={() => uploadImage(props)}>
-												<Text>{props.values.uri}</Text>
-											</Card>
+														borderWidth: 1,
+														borderColor: '#ddd',
+														borderRadius: 8,
+														width: imagewidth / 1.5,
+														margin: 10,
+														fontSize: 15,
+													}}
+													onPress={() => uploadImage(props)}>
+													<Text>{props.values.uri}</Text>
+												</Card>
 
-											<TouchableOpacity
-												activeOpacity={0.7}
-												style={{
-													borderRadius: 15,
-													margin: 10,
-													backgroundColor: '#1a237e',
-													width: imagewidth / 1.5,
-												}}
-												onPress={() => {
-													props.handleSubmit();
-												}}>
-												<Text
+												<TouchableOpacity
+													activeOpacity={0.7}
 													style={{
-														alignSelf: 'center',
-														fontSize: 12,
-														fontWeight: 'bold',
-														margin: 15,
-														color: '#fff',
+														borderRadius: 15,
+														margin: 10,
+														backgroundColor: '#1a237e',
+														width: imagewidth / 1.5,
+													}}
+													onPress={() => {
+														props.handleSubmit();
 													}}>
-													Submit
-												</Text>
-											</TouchableOpacity>
+													<Text
+														style={{
+															alignSelf: 'center',
+															fontSize: 12,
+															fontWeight: 'bold',
+															margin: 15,
+															color: '#fff',
+														}}>
+														Enviar
+													</Text>
+												</TouchableOpacity>
+											</View>
 										</View>
-									</View>
-								)}
-							</Formik>
+									)}
+								</Formik>
 						</View>
 					</Modal>
 
@@ -371,11 +369,11 @@ const providerTeamMembers = ({ navigation }) => {
 										<Text style={styles.rightLabel}>{item.email}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Contact - </Text>
+										<Text style={styles.leftLabel}>Contacto - </Text>
 										<Text style={styles.rightLabel}>{item.contact}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Image -</Text>
+										<Text style={styles.leftLabel}>Imagen -</Text>
 										{item.image != '' ? (
 											<Image
 												style={{
@@ -389,11 +387,13 @@ const providerTeamMembers = ({ navigation }) => {
 												}}
 											/>
 										) : (
-											<Text style={styles.rightLabel}>No Image Available</Text>
+											<Text style={styles.rightLabel}>
+												No hay imagen disponible
+											</Text>
 										)}
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Service - </Text>
+										<Text style={styles.leftLabel}>Servicio - </Text>
 										<Text style={styles.rightLabel}>{item.service}</Text>
 									</View>
 								</Card.Content>
@@ -413,7 +413,7 @@ const providerTeamMembers = ({ navigation }) => {
 										fontSize: 20,
 										fontWeight: '700',
 									}}>
-									No Team Members
+									Sin miembros del equipo
 								</Text>
 							</View>
 						}

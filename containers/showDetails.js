@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -19,11 +19,12 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Formik } from 'formik';
-import { Card, TextInput } from 'react-native-paper';
+import { Appbar, Card, TextInput } from 'react-native-paper';
 import DatePicker from 'react-native-datepicker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 import { MaterialIndicator } from 'react-native-indicators';
+import { AuthContext } from '../components/context';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
@@ -33,7 +34,7 @@ const showDetails = ({ route, navigation }) => {
 	const serviceId = route.params.service_id;
 	let servicedetails = new FormData();
 	servicedetails.append('service_id', serviceId);
-
+	const { changeCount } = useContext(AuthContext);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const fetchDetails = () => {
@@ -60,9 +61,10 @@ const showDetails = ({ route, navigation }) => {
 	let a = [];
 	const fetchCount = async () => {
 		let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		a = [...check];
-
-		setCartcount(a);
+		if (check != null) {
+			a = [...check];
+			setCartcount(a);
+		}
 	};
 	// fetchCount();
 	useEffect(() => {
@@ -70,6 +72,19 @@ const showDetails = ({ route, navigation }) => {
 	}, []);
 
 	const [addedToCart, setAddedToCart] = useState(false);
+
+	//to change count from context
+	useEffect(() => {
+		let s = 0;
+		const showCartPopUp = async () => {
+			for (let index = 0; index < cartCount.length; index++) {
+				const element = cartCount[index][1];
+				s = s + element;
+			}
+		};
+		showCartPopUp();
+		changeCount(s);
+	}, [cartCount]);
 
 	//For Decrement
 	const handleDecrement = (e, serviceIdDec) => {
@@ -131,43 +146,53 @@ const showDetails = ({ route, navigation }) => {
 
 		const handleSentence = () => {
 			if (s == 1) {
-				return <Text>service is added</Text>;
+				return (
+					<Text style={{ textAlign: 'center' }}> 1 Servicio agregados</Text>
+				);
 			}
 			if (s > 1) {
-				return <Text>services added</Text>;
+				return (
+					<Text style={{ textAlign: 'center' }}>{s} Servicios agregados</Text>
+				);
 			}
 		};
 		return s ? (
 			<Animatable.View
 				style={{
-					marginBottom: 20,
 					flexDirection: 'row',
 					backgroundColor: '#fff',
-					width: imagewidth,
+					borderWidth: 0.5,
+					shadowColor: '#000',
+					shadowOffset: { width: 0, height: 1 },
+					shadowOpacity: 0.8,
+					shadowRadius: 2,
+					elevation: 15,
+					alignItems: 'center',
+					justifyContent: 'center',
+					paddingVertical: 15,
 				}}
-				animation='fadeIn'>
-				<View style={{ flexDirection: 'row', padding: 15 }}>
-					<Text
-						style={{
-							fontWeight: '900',
-						}}>
-						{s}
-						{handleSentence()}
-					</Text>
+				animation='fadeInUpBig'>
+				{/* <View style={{ flexDirection: 'row', padding: 15,alignItems:'center',justifyContent:'center' }}> */}
+				<View style={{ flexGrow: 1 }}>{handleSentence()}</View>
+				<View
+					style={{
+						flexGrow: 1,
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}>
 					<TouchableOpacity
 						style={{
 							backgroundColor: '#1a237e',
 							width: 200,
-							height: 35,
-							marginBottom: 5,
 							borderRadius: 5,
-							marginLeft: 30,
 						}}
 						onPress={() => {
 							if (addedToCart && slotValue == '') {
 								alert('Please add Slots!');
 							} else if (addedToCart && slotValue == 'No Slots Available') {
 								alert('Cannot Proceed without adding slots');
+							} else if (newDate == '') {
+								alert('Please add Slots!');
 							} else {
 								navigation.navigate('showCartitems');
 							}
@@ -176,12 +201,14 @@ const showDetails = ({ route, navigation }) => {
 							style={{
 								color: '#fff',
 								textAlign: 'center',
-								marginTop: 10,
+								paddingVertical: 15,
 							}}>
-							Proceed to Cart!
+							Ir al carrito
 						</Text>
 					</TouchableOpacity>
 				</View>
+
+				{/* </View> */}
 			</Animatable.View>
 		) : null;
 	};
@@ -385,7 +412,8 @@ const showDetails = ({ route, navigation }) => {
 									fontSize: 15,
 									margin: 10,
 								}}
-								placeholder='Enter your Request'
+								placeholder='
+								Ingrese su Solicitud'
 								onChangeText={props.handleChange('request')}
 								value={props.values.request}
 							/>
@@ -406,7 +434,7 @@ const showDetails = ({ route, navigation }) => {
 									margin: 10,
 									marginBottom: 20,
 								}}
-								placeholder='Enter your Description'
+								placeholder='Ingrese su descripción'
 								onChangeText={props.handleChange('description')}
 								value={props.values.description}
 							/>
@@ -417,7 +445,7 @@ const showDetails = ({ route, navigation }) => {
 							)}
 							<TouchableOpacity onPress={() => uploadImage(props)}>
 								<Text style={{ fontSize: 12, marginLeft: 10, marginTop: 10 }}>
-									Upload Image
+									Cargar imagen
 								</Text>
 							</TouchableOpacity>
 							<Card
@@ -439,7 +467,7 @@ const showDetails = ({ route, navigation }) => {
 							)}
 
 							<Button
-								title='Submit'
+								title='Enviar'
 								color='#1a237e'
 								style={{
 									borderRadius: 20,
@@ -464,6 +492,10 @@ const showDetails = ({ route, navigation }) => {
 		setCurrentDate(year + '/' + month + '/' + date1);
 	}, []);
 
+	//to change date and slot value
+	const [newDate, setnewDate] = useState(currentDate);
+	const [slotValue, setSlotValue] = useState();
+
 	const changeDate = async (serviceIdChange, date) => {
 		let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
 		if (check == null) {
@@ -471,7 +503,6 @@ const showDetails = ({ route, navigation }) => {
 			await AsyncStorage.setItem('dateTimeArray', JSON.stringify(temp));
 			const data = [...temp];
 			setCartcount(data);
-			return;
 		}
 
 		async function arrayDateCount(serviceIdChange, changeDate) {
@@ -494,40 +525,39 @@ const showDetails = ({ route, navigation }) => {
 
 	const [slot, setSlot] = useState([]);
 
-	const [slotValue, setSlotValue] = useState();
-
-	async function arraySlot(serviceIdChange) {
-		const arrayDate = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		for (let index = 0; index < cartCount.length; index++) {
-			const element = cartCount[index];
-			if (serviceIdChange == element[0]) {
-				let get_Date = new Date(element[2]);
-				let arr = [element[2]].toString();
-				arr = arr.split('T');
-				let time = arr[0].toString();
-				setnewDate(time);
-				setSlotValue(element[3]);
-				let day = get_Date.getDay();
-				let slotDetails = new FormData();
-				slotDetails.append('day', day);
-				slotDetails.append('service_id', serviceIdChange);
-				fetch('https://alsocio.com/app/get-time-slots/', {
-					method: 'POST',
-					body: slotDetails,
-				})
-					.then((response) => response.json())
-					.then((responseJson) => {
-						setSlot(responseJson.slots);
-						changeDate(serviceIdChange, time);
-					});
+	const arraySlot = (serviceIdChange) => {
+		if (cartCount.length != 0) {
+			for (let index = 0; index < cartCount.length; index++) {
+				const element = cartCount[index];
+				if (serviceIdChange == element[0]) {
+					// alert('jbjibdr');
+					let get_Date = new Date(element[2]);
+					let arr = [element[2]].toString();
+					arr = arr.split('T');
+					let time = arr[0].toString();
+					setnewDate(time);
+					setSlotValue(element[3]);
+					let day = get_Date.getDay();
+					let slotDetails = new FormData();
+					slotDetails.append('day', day);
+					slotDetails.append('service_id', serviceIdChange);
+					fetch('https://alsocio.com/app/get-time-slots/', {
+						method: 'POST',
+						body: slotDetails,
+					})
+						.then((response) => response.json())
+						.then((responseJson) => {
+							setSlot(responseJson.slots);
+							changeDate(serviceIdChange, time);
+						});
+				}
 			}
+			return;
 		}
-	}
+	};
 	useEffect(() => {
 		arraySlot(serviceId);
-	}, []);
-
-	const [newDate, setnewDate] = useState(currentDate);
+	}, [cartCount.length]);
 
 	const showDatePicker = (serviceId) => {
 		// await AsyncStorage.removeItem('dateTimeArray')
@@ -535,11 +565,11 @@ const showDetails = ({ route, navigation }) => {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				if (element[0] == serviceId) {
-					let date = cartCount[index][2];
-					if (date == '') {
-						date = currentDate;
-					}
-					let time = cartCount[index][3];
+					// let date = cartCount[index][2];
+					// if (date == '') {
+					// 	date = currentDate;
+					// }
+					// let time = cartCount[index][3];
 
 					return (
 						<View>
@@ -584,7 +614,6 @@ const showDetails = ({ route, navigation }) => {
 												style={{ padding: 15, textAlign: 'right' }}
 												onPress={() => {
 													setSlotPickerModal(!slotPickerModal);
-													//setSlotValue('');
 												}}></Icon.Button>
 										</TouchableOpacity>
 										<View
@@ -601,7 +630,7 @@ const showDetails = ({ route, navigation }) => {
 													fontWeight: 'bold',
 													marginBottom: 15,
 												}}>
-												Select Date and Time Slot
+												Seleccionar ranuras de fecha y hora
 											</Text>
 
 											<DatePicker
@@ -647,7 +676,7 @@ const showDetails = ({ route, navigation }) => {
 												}}
 											/>
 											<Picker
-												selectedValue={time}
+												selectedValue={slotValue}
 												style={{
 													marginVertical: 20,
 													width: imagewidth / 2,
@@ -684,7 +713,7 @@ const showDetails = ({ route, navigation }) => {
 													arrayTimeSlot(serviceId, itemValue);
 												}}
 												multiple={false}>
-												<Picker.Item label='Select Slots' value='' />
+												<Picker.Item label='Ranuras de servicio' value='' />
 												{pickeritem(slot)}
 											</Picker>
 										</View>
@@ -706,7 +735,7 @@ const showDetails = ({ route, navigation }) => {
 													margin: 15,
 													color: '#fff',
 												}}>
-												Submit
+												Enviar
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -721,7 +750,7 @@ const showDetails = ({ route, navigation }) => {
 											fontSize: 20,
 											fontWeight: '800',
 										}}>
-										Date :
+										Fecha :
 									</Text>
 									<Text style={{ margin: 15, fontSize: 20 }}>{newDate}</Text>
 									<Text
@@ -731,7 +760,7 @@ const showDetails = ({ route, navigation }) => {
 											fontSize: 20,
 											fontWeight: '800',
 										}}>
-										Slot :
+										Espacio :
 									</Text>
 									<Text style={{ margin: 15, fontSize: 20 }}>{slotValue}</Text>
 								</View>
@@ -851,6 +880,13 @@ const showDetails = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+				<Appbar.BackAction onPress={() => navigation.goBack()} />
+				<Appbar.Content
+					titleStyle={{ padding: 10 }}
+					title='Detalles del servicio'
+				/>
+			</Appbar.Header>
 			<ScrollView>
 				{fetchDetails()}
 				{isLoading ? (
@@ -959,8 +995,8 @@ const showDetails = ({ route, navigation }) => {
 												fontWeight: 'bold',
 												marginBottom: 8,
 											}}>
-											Service By:
-											<Text style={{ fontWeight: '700' }}>
+											Servicio por :{' '}
+											<Text style={{ fontWeight: '500' }}>
 												{item.company_name}
 											</Text>
 										</Text>
@@ -985,37 +1021,38 @@ const showDetails = ({ route, navigation }) => {
 											{item.description}
 										</Text>
 										{/* <View style={{ justifyContent: 'center' }}> */}
-											{item.covid_norms == true ? (
-												<View style={{ flexDirection: 'row' }}>
-													<Icon
-														name='ios-checkbox-outline'
-														color='#1a237e'
-														size={36}
-														style={{ marginHorizontal: 10 }}
-													/>
-													<Text
-														style={{
-															fontSize: 15,
-															fontWeight: '400',
-															alignSelf: 'center',
-														}}>
-														This service follows COVID-19 norms
-													</Text>
-												</View>
-											) : null}
-											{item.additional_charges == true ? (
+										{item.covid_norms == true ? (
+											<View style={{ flexDirection: 'row', marginLeft: 20 }}>
+												<Icon
+													name='ios-checkbox-outline'
+													color='#1a237e'
+													size={36}
+													style={{ marginHorizontal: 10 }}
+												/>
 												<Text
 													style={{
-														fontSize: 10,
-														padding: 10,
-														color: 'red',
-														flexGrow: 1,
-														textAlign: 'right',
-														alignSelf: 'flex-start',
+														fontSize: 15,
+														fontWeight: '400',
+														alignSelf: 'center',
 													}}>
-													*Additional Charges may be Applied
+													Este servicio sigue las normas COVID-19
 												</Text>
-											) : null}
+											</View>
+										) : null}
+										{item.additional_charges == true ? (
+											<Text
+												style={{
+													fontSize: 10,
+													padding: 10,
+													marginLeft: 20,
+													color: 'red',
+													flexGrow: 1,
+													textAlign: 'right',
+													alignSelf: 'flex-start',
+												}}>
+												*Se pueden aplicar cargos adicionales
+											</Text>
+										) : null}
 										{/* </View> */}
 										<TouchableOpacity
 											style={{
@@ -1033,7 +1070,7 @@ const showDetails = ({ route, navigation }) => {
 													textAlign: 'center',
 													marginTop: 10,
 												}}>
-												Quote
+												Citar
 											</Text>
 										</TouchableOpacity>
 										{showDatePicker(item.id)}
@@ -1046,7 +1083,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 15,
 												fontWeight: 'bold',
 											}}>
-											Additional Requirements
+											Requerimientos adicionales
 										</Text>
 										{showRequirements(item.additional_requirements)}
 										<Text
@@ -1056,7 +1093,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 15,
 												fontWeight: 'bold',
 											}}>
-											Includes
+											Incluye
 										</Text>
 										{showIncludes(item.includes)}
 									</View>
@@ -1078,7 +1115,7 @@ const showDetails = ({ route, navigation }) => {
 									fontSize: 20,
 									fontWeight: 'bold',
 								}}>
-								Business Hours
+								Horas de trabajo
 							</Text>
 							<Grid>
 								<Row style={{ borderBottomWidth: 0.5, padding: 10 }}>
@@ -1167,7 +1204,7 @@ const showDetails = ({ route, navigation }) => {
 									fontSize: 20,
 									fontWeight: 'bold',
 								}}>
-								Provider Region
+								Región del proveedor
 							</Text>
 							<Grid>
 								<Row style={{ borderBottomWidth: 0.5, padding: 10 }}>
@@ -1200,7 +1237,7 @@ const showDetails = ({ route, navigation }) => {
 								renderItem={({ item }) => (
 									<View style={{ marginTop: 10 }}>
 										<Grid>
-											<Row>
+											<Row style={{ borderBottomWidth: 0.2, padding: 10 }}>
 												<Col>
 													<Text
 														style={{

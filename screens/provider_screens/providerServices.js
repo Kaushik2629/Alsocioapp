@@ -167,7 +167,6 @@ const providerServices = ({ navigation }) => {
 			quality: 1,
 		});
 
-
 		if (!result.cancelled) {
 			properties.setFieldValue('uri', result.uri);
 
@@ -186,7 +185,7 @@ const providerServices = ({ navigation }) => {
 		category: Yup.string().required('Category is Required'),
 		sub_category: Yup.string().required('Sub Category is Required'),
 		service: Yup.string().required('Service Name is Required'),
-		service_cost: Yup.string().required('Service Cost is Required'),
+		service_cost: Yup.string().required('Service El costo es Required'),
 		includes: Yup.string().required('Includes is Required'),
 		uri: Yup.string().required('Image is Required'),
 	});
@@ -236,7 +235,7 @@ const providerServices = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Your Added Services'
+					title='Sus servicios agregados'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
 			</Appbar.Header>
@@ -329,7 +328,10 @@ const providerServices = ({ navigation }) => {
 													setMainCategoryValue(itemValue);
 													props.setFieldValue('main_category', itemValue);
 												}}>
-												<Picker.Item label='Select Main Category' value='' />
+												<Picker.Item
+													label='Seleccionar categoría principal'
+													value=''
+												/>
 												{mainCategoryPicker()}
 											</Picker>
 											{props.touched.main_category &&
@@ -352,7 +354,10 @@ const providerServices = ({ navigation }) => {
 													setCategoryValue(itemValue);
 													props.setFieldValue('category', itemValue);
 												}}>
-												<Picker.Item label='Select Category' value='' />
+												<Picker.Item
+													label='Selecciona una categoría'
+													value=''
+												/>
 												{categoryPicker()}
 											</Picker>
 											{props.touched.category && props.errors.category && (
@@ -374,7 +379,10 @@ const providerServices = ({ navigation }) => {
 													setSubCategoryValue(itemValue);
 													props.setFieldValue('sub_category', itemValue);
 												}}>
-												<Picker.Item label='Select Sub Category' value='' />
+												<Picker.Item
+													label='Seleccionar subcategoría'
+													value=''
+												/>
 												{showSubCategoryPicker()}
 											</Picker>
 											{props.touched.sub_category &&
@@ -389,7 +397,7 @@ const providerServices = ({ navigation }) => {
 												<View>
 													<TextInput
 														style={styles.textInput}
-														placeholder='Service Name'
+														placeholder='Nombre del Servicio'
 														onBlur={() => props.setFieldTouched('service')}
 														onChangeText={props.handleChange('service')}
 														value={props.values.service}
@@ -410,7 +418,7 @@ const providerServices = ({ navigation }) => {
 													<TextInput
 														style={styles.textInput}
 														keyboardType='numeric'
-														placeholder='Cost'
+														placeholder='Costo'
 														onBlur={() => props.setFieldTouched('service_cost')}
 														onChangeText={props.handleChange('service_cost')}
 														value={props.values.service_cost}
@@ -432,7 +440,7 @@ const providerServices = ({ navigation }) => {
 													<TextInput
 														style={styles.textInput}
 														keyboardType='numeric'
-														placeholder='Discount'
+														placeholder='Descuento'
 														onBlur={() => props.setFieldTouched('discount')}
 														onChangeText={props.handleChange('discount')}
 														value={props.values.discount}
@@ -446,7 +454,7 @@ const providerServices = ({ navigation }) => {
 														multiline
 														minHeight={20}
 														style={styles.textArea}
-														placeholder='Includes'
+														placeholder='Incluye'
 														onBlur={() => props.setFieldTouched('includes')}
 														onChangeText={props.handleChange('includes')}
 														value={props.values.includes}
@@ -467,7 +475,7 @@ const providerServices = ({ navigation }) => {
 													<TextInput
 														multiline
 														style={styles.textArea}
-														placeholder='Description'
+														placeholder='Descripción'
 														onBlur={() => props.setFieldTouched('description')}
 														onChangeText={props.handleChange('description')}
 														value={props.values.description}
@@ -495,7 +503,7 @@ const providerServices = ({ navigation }) => {
 														marginLeft: 10,
 														marginTop: 10,
 													}}>
-													Upload Image
+													Cargar imagen
 												</Text>
 											</TouchableOpacity>
 											<Card
@@ -532,7 +540,7 @@ const providerServices = ({ navigation }) => {
 														);
 													}}
 												/>
-												<Text style={{ margin: 8 }}>Additional Charges</Text>
+												<Text style={{ margin: 8 }}>Cargos adicionales</Text>
 											</View>
 											<View style={styles.checkbox}>
 												<Checkbox
@@ -551,7 +559,7 @@ const providerServices = ({ navigation }) => {
 													}}
 												/>
 												<Text style={{ margin: 8 }}>
-													Maintain Social-Distancing
+													Mantener el distanciamiento social
 												</Text>
 											</View>
 											<TouchableOpacity
@@ -573,7 +581,7 @@ const providerServices = ({ navigation }) => {
 														margin: 15,
 														color: '#fff',
 													}}>
-													Submit
+													Enviar
 												</Text>
 											</TouchableOpacity>
 										</View>
@@ -619,33 +627,33 @@ const providerServices = ({ navigation }) => {
 										</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Main Category -</Text>
+										<Text style={styles.leftLabel}>Categoria principal -</Text>
 										<Text style={styles.rightLabel}>{item.main_category}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Category -</Text>
+										<Text style={styles.leftLabel}>Categoría -</Text>
 										<Text style={styles.rightLabel}>{item.category}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Sub Category -</Text>
+										<Text style={styles.leftLabel}>Subcategoría -</Text>
 										<Text style={styles.rightLabel}>{item.sub_category}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Service -</Text>
+										<Text style={styles.leftLabel}>Servicio -</Text>
 										<Text style={styles.rightLabel}>{item.service}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Service Cost -</Text>
+										<Text style={styles.leftLabel}>Costo del servicio -</Text>
 										<Text style={styles.rightLabel}>${item.service_cost}</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Discount - </Text>
+										<Text style={styles.leftLabel}>Descuento - </Text>
 										<Text style={styles.rightLabel}>${item.discount}</Text>
 									</View>
 									<View
 										style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
 										<Text style={styles.leftLabel}>
-											Additional Requirements-
+											Requerimientos adicionales-
 										</Text>
 										<Text
 											style={
@@ -657,7 +665,7 @@ const providerServices = ({ navigation }) => {
 									</View>
 									<View
 										style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Includes- </Text>
+										<Text style={styles.leftLabel}>Incluye- </Text>
 										<Text
 											style={
 												(styles.rightLabel,
@@ -668,7 +676,7 @@ const providerServices = ({ navigation }) => {
 									</View>
 									<View
 										style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Description- </Text>
+										<Text style={styles.leftLabel}>Descripción- </Text>
 										<Text
 											style={
 												(styles.rightLabel,
@@ -679,7 +687,7 @@ const providerServices = ({ navigation }) => {
 									</View>
 									<View
 										style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Image -</Text>
+										<Text style={styles.leftLabel}>Imagen -</Text>
 										<Image
 											style={{
 												flexGrow: 1,
@@ -694,7 +702,7 @@ const providerServices = ({ navigation }) => {
 									</View>
 									<View
 										style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Ratings</Text>
+										<Text style={styles.leftLabel}>Calificaciones</Text>
 										<Text style={styles.rightLabel}>{item.rating}</Text>
 									</View>
 									{item.additional_charges == true ? (
@@ -707,7 +715,7 @@ const providerServices = ({ navigation }) => {
 												textAlign: 'right',
 												alignSelf: 'flex-end',
 											}}>
-											Additional Charges may be Applied
+											*Se pueden aplicar cargos adicionales
 										</Text>
 									) : null}
 								</Card.Content>
@@ -728,7 +736,7 @@ const providerServices = ({ navigation }) => {
 										fontSize: 20,
 										fontWeight: '700',
 									}}>
-									No Services Added!
+									No se agregaron servicios!
 								</Text>
 							</View>
 						}

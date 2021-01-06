@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -24,9 +24,7 @@ import { Dimensions } from 'react-native';
 const imageheight = Dimensions.get('screen').height;
 const imagewidth = Dimensions.get('screen').width;
 
-
 const SignInScreen = ({ navigation }) => {
-
 	const [data, setData] = useState({
 		username: '',
 		password: '',
@@ -114,10 +112,10 @@ const SignInScreen = ({ navigation }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				setIsLoading(false);
 				JSON.stringify(responseJson.username);
 				// console.log(responseJson);
 				if (responseJson.username == '') {
+					setIsLoading(false);
 					alert('Wrong Input');
 				} else {
 					setData({
@@ -135,12 +133,15 @@ const SignInScreen = ({ navigation }) => {
 			.catch((error) => console.error(error))
 			.finally(() => {});
 	};
-	if (a.Role == 'Customer' && a.UserName != null) {
-		navigation.navigate('Home');
-	}
-	if (a.Role == 'Provider' && a.UserName != null) {
-		navigation.navigate('providerHome');
-	}
+	useEffect(() => {
+		setIsLoading(false);
+		if (a.Role != null && a.Role == 'Customer' && a.UserName != null) {
+			navigation.navigate('Home');
+		}
+		if (a.Role != null && a.Role == 'Provider' && a.UserName != null) {
+			navigation.navigate('providerHome');
+		}
+	}, [a.Role]);
 
 	return (
 		<View style={styles.container}>
@@ -148,7 +149,11 @@ const SignInScreen = ({ navigation }) => {
 			<Animatable.View style={styles.header} animation='fadeIn'>
 				<Animatable.Image
 					source={require('../assets/icon.png')}
-					style={{width:imagewidth/2,height:imageheight/6,alignSelf:'center'}}
+					style={{
+						width: imagewidth / 2,
+						height: imageheight / 6,
+						alignSelf: 'center',
+					}}
 					resizeMode='contain'
 				/>
 			</Animatable.View>
@@ -168,12 +173,12 @@ const SignInScreen = ({ navigation }) => {
 							color: colors.text,
 						},
 					]}>
-					Username
+					Nombre de usuario
 				</Text>
 				<View style={styles.action}>
 					<FontAwesome name='user-o' color={colors.text} size={20} />
 					<TextInput
-						placeholder='Your Username'
+						placeholder='Su nombre de usuario'
 						placeholderTextColor='#666666'
 						style={[
 							styles.textInput,
@@ -207,12 +212,12 @@ const SignInScreen = ({ navigation }) => {
 							marginTop: 35,
 						},
 					]}>
-					Password
+					Contraseña
 				</Text>
 				<View style={styles.action}>
 					<Feather name='lock' color={colors.text} size={20} />
 					<TextInput
-						placeholder='Your Password'
+						placeholder='Tu contraseña'
 						placeholderTextColor='#666666'
 						secureTextEntry={data.secureTextEntry ? true : false}
 						style={[
@@ -267,7 +272,7 @@ const SignInScreen = ({ navigation }) => {
 									color: '#fff',
 								},
 							]}>
-							Sign In
+							Iniciar sesión
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -289,7 +294,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	footer: {
-		flex:0.6,
+		flex: 0.6,
 		backgroundColor: '#fff',
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,

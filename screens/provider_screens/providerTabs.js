@@ -64,7 +64,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				name='providerBookings'
 				component={providerBookings}
 				options={{
-					tabBarLabel: 'Bookings',
+					tabBarLabel: 'Reservaciones',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='md-calendar' color={color} size={26} />
@@ -75,7 +75,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				name='Business Hours'
 				component={providerSlot}
 				options={{
-					tabBarLabel: 'Business Hours',
+					tabBarLabel: 'Horas de trabajo',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='md-clock' color={color} size={26} />
@@ -86,7 +86,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				name='Profile'
 				component={ProfileScreen}
 				options={{
-					tabBarLabel: 'Profile',
+					tabBarLabel: 'Perfil',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-person' color={color} size={26} />
@@ -96,71 +96,3 @@ const providerStackScreen = ({ navigation, route }) => {
 		</Tab.Navigator>
 	);
 };
-
-// const providerStackScreen = ({ navigation, route }) => {
-// 	return (
-// 		<Tab.Navigator activeColor='#fff'>
-// 			<Tab.Screen
-// 				name='Home'
-// 				component={providerHome}
-// 				options={{
-// 					tabBarLabel: 'Home',
-// 					tabBarColor: '#1a237e',
-// 					tabBarIcon: ({ color }) => (
-// 						<Icon name='ios-home' color={color} size={26} />
-// 					),
-// 				}}
-// 			/>
-// 			 <Tab.Screen
-// 				name='providerBookings'
-// 				component={providerBookings}
-// 				options={{
-// 					tabBarLabel: 'Bookings',
-// 					tabBarColor: '#1a237e',
-// 					tabBarIcon: ({ color }) => (
-// 						<Image source={require('../../assets/calendar.png')}
-// 						style={{
-// 							width:26,
-// 							height:26,
-// 						}}/>
-// 					),
-// 				}}
-// 			/>
-//             {/*
-// 			<Tab.Screen
-// 				name='Notifications'
-// 				// component={DetailsStackScreen}
-// 				options={{
-// 					tabBarLabel: 'Updates',
-// 					tabBarColor: '#1a237e',
-// 					tabBarIcon: ({ color }) => (
-// 						<Icon name='ios-notifications' color={color} size={26} />
-// 					),
-// 				}}
-// 			/>
-// 			<Tab.Screen
-// 				name='Profile'
-// 				// component={ProfileScreen}
-// 				options={{
-// 					tabBarLabel: 'Profile',
-// 					tabBarColor: '#1a237e',
-// 					tabBarIcon: ({ color }) => (
-// 						<Icon name='ios-person' color={color} size={26} />
-// 					),
-// 				}}
-// 			/> */}
-// 		</Tab.Navigator>
-// 	);
-// };
-
-// const DetailsStackScreen = ({ navigation }) => (
-// 	<DetailsStack.Navigator>
-// 		<DetailsStack.Screen
-// 			name='Details'
-// 			component={DetailsScreen}
-// 			options={{
-// 				headerShown:false,
-// 			}}
-// 		/>
-// 	</DetailsStack.Navigator>
-// );

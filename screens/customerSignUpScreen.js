@@ -105,7 +105,7 @@ const customerSignUpScreen = ({ navigation }) => {
 						setRegionValue(itemValue);
 						properties.setFieldValue('region', itemValue);
 					}}>
-					<Picker.Item label='Select Region' value='' />
+					<Picker.Item label='Seleccionar región' value='' />
 					{regionpicker()}
 				</Picker>
 				<Picker
@@ -120,7 +120,7 @@ const customerSignUpScreen = ({ navigation }) => {
 						setCityValue(itemValue);
 						properties.setFieldValue('city', itemValue);
 					}}>
-					<Picker.Item label='Select your City' value='' />
+					<Picker.Item label='Seleccionar ciudad' value='' />
 					{citypicker()}
 				</Picker>
 			</View>
@@ -197,7 +197,7 @@ const customerSignUpScreen = ({ navigation }) => {
 		first_name: Yup.string().required(' First Name is Required'),
 		last_name: Yup.string().required('Last Name is Required'),
 		region: Yup.string().required('Please Select Your Location'),
-		city: Yup.string().required('Please Select Your City'),
+		city: Yup.string().required('Please Seleccionar ciudad'),
 		contact: Yup.string().min(5, 'Invalid!').required('Contact is Required'),
 		username: Yup.string().required('Username is Required'),
 		email: Yup.string().email('Invalid email').required('Required'),

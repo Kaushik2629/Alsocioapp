@@ -7,7 +7,7 @@
     "icon": "./assets/AppIcon.png",
     "splash": {
       "image": "./assets/splashImage.jpg",
-      "resizeMode":"contain",
+      "resizeMode": "contain",
       "backgroundColor": "#fff"
     },
     "updates": {

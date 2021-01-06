@@ -55,14 +55,7 @@ const MainTabScreen = ({ navigation }) => {
 					headerTitleStyle: {
 						fontWeight: 'bold',
 					},
-					title: 'My Cart',
-					headerRight: () => (
-						<Icon.Button
-							name='ios-menu'
-							size={25}
-							backgroundColor='#1a237e'
-							onPress={() => navigation.openDrawer()}></Icon.Button>
-					),
+					title: 'Mi carrito',
 				}}
 			/>
 			<HomeStack.Screen
@@ -76,42 +69,14 @@ const MainTabScreen = ({ navigation }) => {
 				name='showDetails'
 				component={showDetails}
 				options={{
-					headerStyle: {
-						backgroundColor: '#1a237e',
-					},
-					headerTintColor: '#fff',
-					headerTitleStyle: {
-						fontWeight: 'bold',
-					},
-					title: 'Service Details',
-					headerRight: () => (
-						<Icon.Button
-							name='ios-menu'
-							size={25}
-							backgroundColor='#1a237e'
-							onPress={() => navigation.openDrawer()}></Icon.Button>
-					),
+					headerShown: false,
 				}}
 			/>
 			<HomeStack.Screen
 				name='showBookings'
 				component={showBookings}
 				options={{
-					headerStyle: {
-						backgroundColor: '#1a237e',
-					},
-					headerTintColor: '#fff',
-					headerTitleStyle: {
-						fontWeight: 'bold',
-					},
-					title: 'Bookings',
-					headerRight: () => (
-						<Icon.Button
-							name='ios-menu'
-							size={25}
-							backgroundColor='#1a237e'
-							onPress={() => navigation.openDrawer()}></Icon.Button>
-					),
+					headerShown: false,
 				}}
 			/>
 
@@ -167,7 +132,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				name='Explore'
 				component={ExploreStackScreen}
 				options={{
-					tabBarLabel: 'Bookings',
+					tabBarLabel: 'Reservaciones',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='md-calendar' color={color} size={26} />
@@ -178,7 +143,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				name='Notifications'
 				component={DetailsStackScreen}
 				options={{
-					tabBarLabel: 'Updates',
+					tabBarLabel: 'Notificaciones',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-notifications' color={color} size={26} />
@@ -189,7 +154,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				name='Profile'
 				component={ProfileScreen}
 				options={{
-					tabBarLabel: 'Profile',
+					tabBarLabel: 'Perfil',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-person' color={color} size={26} />

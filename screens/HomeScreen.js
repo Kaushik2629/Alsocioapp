@@ -115,7 +115,7 @@ const HomeScreen = ({ route, navigation }) => {
 						setCityValue();
 						properties.setFieldValue('region', itemValue);
 					}}>
-					<Picker.Item label='Select Region' value='' />
+					<Picker.Item label='Seleccionar región' value='' />
 					{regionpicker()}
 				</Picker>
 				<Picker
@@ -130,7 +130,7 @@ const HomeScreen = ({ route, navigation }) => {
 						setCityValue(itemValue);
 						properties.setFieldValue('city', itemValue);
 					}}>
-					<Picker.Item label='Select your City' value='' />
+					<Picker.Item label='Seleccionar ciudad' value='' />
 					{citypicker()}
 				</Picker>
 			</View>
@@ -140,63 +140,36 @@ const HomeScreen = ({ route, navigation }) => {
 	const TopLeftNavScreen = () => {
 		return regionValue == '' || cityValue == '' ? (
 			<View
-				style={{
-					alignItems: 'center',
-					justifyContent: 'center',
-					marginBottom: 15,
-				}}>
-				<View
-					style={{
-						flexDirection: 'row',
-						alignItems: 'center',
-						borderRadius: 10,
-						borderWidth: 0.2,
-						backgroundColor: '#fff',
-						paddingHorizontal: 10,
-						borderColor: '#1a237e',
-					}}>
-					<TouchableOpacity onPress={() => setShowPickerModal(true)}>
-						<Text style={{ width: 140 }}>Select Your Location</Text>
-					</TouchableOpacity>
-					<IconButton
-						icon='map-marker'
-						size={20}
-						color={Colors.blue900}
-						onPress={() => {
-							setShowPickerModal(true);
-						}}
-					/>
-				</View>
+				style={styles.TopLeftContainer}
+				onTouchStart={() => setShowPickerModal(true)}>
+				<TouchableOpacity onPress={() => setShowPickerModal(true)}>
+					<Text>Selecciona tu Ubicación</Text>
+				</TouchableOpacity>
+				<IconButton
+					icon='map-marker'
+					size={20}
+					color={Colors.blue900}
+					onPress={() => {
+						setShowPickerModal(true);
+					}}
+				/>
 			</View>
 		) : (
 			<View
-				style={{
-					alignItems: 'center',
-					justifyContent: 'center',
-					marginBottom: 15,
-				}}>
-				<View
-					style={{
-						flexDirection: 'row',
-						alignItems: 'center',
-						borderRadius: 10,
-						borderWidth: 0.2,
-						borderColor: '#1a237e',
-						backgroundColor: '#fff',
-						paddingHorizontal: 10,
-					}}>
-					<TouchableOpacity onPress={() => setShowPickerModal(true)}>
-						<Text style={{ width: 140 }}>{cityValue}</Text>
-					</TouchableOpacity>
-					<IconButton
-						icon='map-marker'
-						size={20}
-						color={Colors.blue900}
-						onPress={() => {
-							setShowPickerModal(true);
-						}}
-					/>
-				</View>
+				style={styles.TopLeftContainer}
+				onTouchStart={() => setShowPickerModal(true)}>
+				<TouchableOpacity onPress={() => setShowPickerModal(true)}>
+					<Text>{cityValue}</Text>
+				</TouchableOpacity>
+				<IconButton
+					icon='map-marker'
+					// style={{alignSelf:'flex-end'}}
+					size={20}
+					color={Colors.blue900}
+					onPress={() => {
+						setShowPickerModal(true);
+					}}
+				/>
 			</View>
 		);
 	};
@@ -208,8 +181,9 @@ const HomeScreen = ({ route, navigation }) => {
 				style={{
 					backgroundColor: '#ab000d',
 					position: 'absolute',
-					top: 0,
-					right: 0,
+					top: 5,
+					right: 10,
+					zIndex: 1000,
 				}}>
 				<Text style={{ color: '#fff' }}>{a.itemCount}</Text>
 			</Badge>
@@ -218,24 +192,12 @@ const HomeScreen = ({ route, navigation }) => {
 
 	const checkUser = () => {
 		return a.UserName != null ? (
-			<View
-				style={{
-					flexGrow: 1,
-					flexDirection: 'row',
-					width: 150,
-					alignItems: 'center',
-					justifyContent: 'center',
-					borderRadius: 10,
-					borderWidth: 0.2,
-					borderColor: '#1a237e',
-					height: 40,
-					marginBottom: 15,
-				}}>
+			<View style={styles.showUserName}>
 				<Text
 					style={{
 						fontSize: 12,
 						color: '#1a237e',
-						textAlign: 'center',
+						// textAlign: 'center',
 					}}>
 					Hi,{a.UserName}
 				</Text>
@@ -271,8 +233,8 @@ const HomeScreen = ({ route, navigation }) => {
 				return (
 					<Image
 						style={{
-							width: 45,
-							height: 45,
+							width: 50,
+							height: 50,
 						}}
 						source={{
 							uri: mainCategoryImages[name],
@@ -292,13 +254,31 @@ const HomeScreen = ({ route, navigation }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				console.log(responseJson);
+				// console.log(responseJson);
 				setFeaturedServicesArray(responseJson.featured_services);
 			})
 			.catch((error) => console.error(error));
 	};
 	useEffect(() => {
 		getFeaturedServices();
+	}, []);
+
+	const [featuredReviewsArray, setFeaturedReviewsArray] = useState([]);
+
+	const getFeaturedReviews = () => {
+		fetch('https://alsocio.com/app/get-featured-reviews/', {
+			method: 'GET',
+			// body: usercategory,
+		})
+			.then((response) => response.json())
+			.then((responseJson) => {
+				console.log(responseJson);
+				setFeaturedReviewsArray(responseJson.featured_reviews);
+			})
+			.catch((error) => console.error(error));
+	};
+	useEffect(() => {
+		getFeaturedReviews();
 	}, []);
 
 	const showcategory = (category) => {
@@ -308,6 +288,43 @@ const HomeScreen = ({ route, navigation }) => {
 			city: cityValue,
 		});
 	};
+
+	const showStars=(ratingCount)=>{
+		let stars = [];
+		for (let i = 1; i <= 5; i++) {
+			stars.push(
+				<View >
+					{i <= ratingCount ? (
+						<Icon
+							name='md-star'
+							color='#fbc02d'
+							size={26}
+							style={{ margin: 0 }}
+						/>
+					) : (
+						<Icon
+							name='md-star'
+							color='grey'
+							size={26}
+							color='#bdbdbd'
+							style={{ margin: 0 }}
+						/>
+					)}
+				</View>
+			);
+		}
+
+		return (
+			<View
+				style={{
+					flexDirection: 'row',
+					alignSelf: 'center',
+					padding:15
+				}}>
+				{stars}
+			</View>
+		);
+	}
 
 	return (
 		<React.Fragment>
@@ -381,82 +398,57 @@ const HomeScreen = ({ route, navigation }) => {
 				</Modal>
 
 				<StatusBar backgroundColor='#1a237e' barStyle='light-content' />
-				<Header
-					// statusBarProps={{ barStyle: 'light-content' }}
-					barStyle='light-content' // or directly
-					containerStyle={{
-						backgroundColor: '#fff',
-					}}
-					leftComponent={TopLeftNavScreen()}
-					leftContainerStyle={{ marginTop: 12 }}
-					rightComponent={checkUser()}
-					rightContainerStyle={{ marginTop: 12 }}
-				/>
-				<Header
-					// statusBarProps={{ barStyle: 'light-content' }}
-					barStyle='light-content' // or directly
-					containerStyle={{
+
+				<View style={styles.upperHeaderContainer}>
+					{TopLeftNavScreen()}
+					{checkUser()}
+				</View>
+
+				<View
+					style={{
+						flexDirection: 'row',
+						flexBasis: 70,
 						backgroundColor: '#c5cae9',
-						height: 80,
-						width: imagewidth,
-					}}
-					leftComponent={
-						<View
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}>
+					<View
+						style={{
+							flexBasis: 70,
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}>
+						<Icon.Button
+							name='ios-menu'
+							style={{ alignSelf: 'center' }}
+							size={25}
+							color='#000'
+							backgroundColor='#c5cae9'
+							onPress={() => navigation.openDrawer()}></Icon.Button>
+					</View>
+					<View style={{ flexGrow: 1 }}>
+						<Image
+							source={require('../assets/homeScreenImage.png')}
 							style={{
-								flexGrow: 1,
-								flexDirection: 'row',
-								marginBottom: 50,
-								// marginTop: 10,
-								// paddingVertical: 10,
-								alignItems: 'center',
-							}}>
-							<Icon.Button
-								name='ios-menu'
-								style={{ paddingVertical: 15 }}
-								size={25}
-								color='#000'
-								backgroundColor='#c5cae9'
-								onPress={() => navigation.openDrawer()}></Icon.Button>
-							<Image
-								source={require('../assets/homeScreenImage.png')}
-								style={{
-									width: 80,
-									height: 60,
-									//borderRadius: 40 / 2,
-								}}
-								resizeMode='cover'
-							/>
-						</View>
-					}
-					rightComponent={
-						<View
-							style={{
-								// marginTop: 10,
-								flexGrow: 1,
-								flexDirection: 'row',
-								alignItems: 'center',
-								transform: [{ translateY: -20 }],
-							}}>
-							<IconButton
-								icon='cart'
-								size={30}
-								style={{ position: 'relative' }}
-								color={Colors.black}
-								backgroundColor='#1a237e'
-								onPress={() => navigation.navigate('showCartitems')}
-							/>
-							{fetchCartCount()}
-						</View>
-					}
-				/>
+								width: 70,
+								height: 40,
+							}}
+						/>
+					</View>
+					<View style={{ flexBasis: 70, alignItems: 'center' }}>
+						<IconButton
+							icon='cart'
+							size={30}
+							color={Colors.black}
+							backgroundColor='#c5cae9'
+							onPress={() => navigation.navigate('showCartitems')}
+						/>
+						{fetchCartCount()}
+					</View>
+				</View>
 				{isLoading ? (
-					// <View
-					// 	style={{
-					// 		padding: 20,
-					// 	}}>
 					<MaterialIndicator color='#1a237e' />
 				) : (
-					// </View>
 					<ScrollView style={styles.scrollView}>
 						<View
 							style={{
@@ -483,24 +475,25 @@ const HomeScreen = ({ route, navigation }) => {
 								alignItems: 'center',
 								borderWidth: 0.1,
 								margin: 2,
-								marginBottom: 15,
+								marginTop: 15,
 							}}>
 							<Text
 								style={{
 									fontSize: 18,
-									paddingVertical: 25,
+									marginTop: 20,
 									fontWeight: '900',
 								}}>
-								Featured Services
+								Servicios destacados
 							</Text>
 
 							<Swiper
-								style={{ height: imageheight / 2.5 }}
+								style={{
+									height: imageheight / 2.5,
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
 								showsButtons={false}>
 								{featuredServicesArray.map((item) => {
-									{
-										/* <View> */
-									}
 									return (
 										<Card
 											style={{
@@ -520,24 +513,21 @@ const HomeScreen = ({ route, navigation }) => {
 												})
 											}>
 											<Card.Cover
+												style={{ marginBottom: 10 }}
 												source={{
 													uri: 'https://alsocio.com/media/' + item.image,
 												}}
 											/>
-											<Card.Content>
-												<Text
-													style={{
-														textAlign: 'center',
-														alignSelf: 'center',
-														padding: 20,
-													}}>
-													{item.service}
-												</Text>
+											<Card.Content
+												style={{
+													alignItems: 'center',
+													justifyContent: 'center',
+												}}>
+												<Text>{item.service}</Text>
 											</Card.Content>
 										</Card>
 									);
 								})}
-								{/* </View> */}
 							</Swiper>
 						</View>
 
@@ -552,84 +542,31 @@ const HomeScreen = ({ route, navigation }) => {
 							<Text
 								style={{
 									fontSize: 18,
-									paddingVertical: 20,
+									marginTop: 20,
 									fontWeight: '900',
 								}}>
-								Customer Reviews
+								Reseñas destacadas
 							</Text>
 							<Swiper style={{ height: imageheight / 4 }} showsButtons={false}>
+							{featuredReviewsArray.map((item) => {
+									return (
 								<Card style={styles.slide1}>
-									<Card.Content>
-										<Text style={styles.text}>ShaneSmith</Text>
+									<Card.Content
+										style={{ alignItems: 'center', justifyContent: 'center' }}>
+										<Text style={styles.text}>{item.customer_username}</Text>
 										<Text
 											style={{
 												textAlign: 'center',
-												padding: 20,
+												marginTop: 15,
 												fontSize: 18,
 											}}>
-											Nice!
+											{item.review}
 										</Text>
-										<View
-											style={{
-												flexDirection: 'row',
-												alignSelf: 'center',
-											}}>
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-										</View>
+										{showStars(item.rating)}
 									</Card.Content>
 								</Card>
-								<Card style={styles.slide1}>
-									<Card.Content>
-										<Text style={styles.text}>ShaneSmith</Text>
-										<Text
-											style={{
-												textAlign: 'center',
-												padding: 20,
-												fontSize: 18,
-											}}>
-											Nice!
-										</Text>
-										<View
-											style={{
-												flexDirection: 'row',
-												alignSelf: 'center',
-											}}>
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-										</View>
-									</Card.Content>
-								</Card>
-								<Card style={styles.slide1}>
-									<Card.Content>
-										<Text style={styles.text}>ShaneSmith</Text>
-										<Text
-											style={{
-												textAlign: 'center',
-												padding: 20,
-												fontSize: 18,
-											}}>
-											Nice!
-										</Text>
-										<View
-											style={{
-												flexDirection: 'row',
-												alignSelf: 'center',
-											}}>
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-											<FontAwesome name='star' color='#fbc02d' size={20} />
-										</View>
-									</Card.Content>
-								</Card>
+							);
+						})}
 							</Swiper>
 						</View>
 					</ScrollView>
@@ -691,8 +628,6 @@ const styles = StyleSheet.create({
 	},
 
 	slide1: {
-		justifyContent: 'center',
-		alignItems: 'center',
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.5,
@@ -700,8 +635,6 @@ const styles = StyleSheet.create({
 		elevation: 15,
 		margin: 10,
 		borderRadius: 10,
-		borderWidth: 0.5,
-		borderColor: '#000',
 	},
 	slide2: {
 		justifyContent: 'center',
@@ -718,39 +651,38 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: 'bold',
 	},
+	upperHeaderContainer: {
+		paddingHorizontal: 10,
+		flexDirection: 'row',
+		flexBasis: 70,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	TopLeftContainer: {
+		flexGrow: 1,
+		flexDirection: 'row',
+		borderRadius: 10,
+		borderWidth: 0.2,
+		backgroundColor: '#fff',
+		// justifyContent: 'flex-end',
+		alignItems: 'center',
+		borderColor: '#1a237e',
+		paddingHorizontal: 10,
+		justifyContent: 'space-between',
+		marginRight: 10,
+	},
+	showUserName: {
+		flexGrow: 1,
+		borderRadius: 10,
+		borderWidth: 0.2,
+		backgroundColor: '#fff',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderColor: '#1a237e',
+		paddingVertical: 13,
+		paddingHorizontal: 10,
+		// height: 40,
+		// marginBottom: 15,
+	},
 });
-
-// const useStyles = makeStyles((theme) => ({
-// 	formControl: {
-// 		margin: theme.spacing(0),
-// 		minWidth: 200,
-// 	},
-// 	root: {
-// 		// padding: theme.spacing(2),
-// 		// flexGrow: 1,
-// 	},
-// 	paper: {
-// 		verticalAlign: 'top',
-// 		padding: theme.spacing(3, 2),
-// 		// margin: 5,
-// 		maxWidth: 500,
-// 		marginBottom: 15,
-// 	},
-// 	image: {
-// 		width: 128,
-// 		height: 128,
-// 	},
-// 	img: {
-// 		margin: 'auto',
-// 		display: 'block',
-// 		maxWidth: '100%',
-// 		maxHeight: '100%',
-// 	},
-// 	root1: {
-// 		color: green[400],
-// 		'&$checked': {
-// 			color: green[600],
-// 		},
-// 	},
-// 	checked: {},
-// }));

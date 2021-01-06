@@ -88,7 +88,7 @@ const providerQuotes = ({ navigation }) => {
                   fontSize: 15,
                   margin: 10,
                 }}
-                placeholder="Enter your Reply"
+                placeholder="Ingrese su respuesta"
                 onChangeText={props.handleChange("reply")}
                 value={props.values.reply}
               />
@@ -103,13 +103,13 @@ const providerQuotes = ({ navigation }) => {
                   margin: 10,
                   marginBottom: 20,
                 }}
-                placeholder="Enter Cost"
+                placeholder="Ingrese el costo"
                 onChangeText={props.handleChange("cost")}
                 value={props.values.cost}
                 keyboardType={"numeric"}
               />
               <Button
-                title="Submit"
+                title="Enviar"
                 color="#1a237e"
                 style={{
                   borderRadius: 20,
@@ -130,7 +130,7 @@ const providerQuotes = ({ navigation }) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
-          title="Quotes"
+          title="Citas"
           subtitleStyle={{ marginBottom: 5 }}
         />
       </Appbar.Header>
@@ -238,28 +238,28 @@ const providerQuotes = ({ navigation }) => {
 										</Text>
 									</View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Customer Name -</Text>
+                  <Text style={styles.leftLabel}>Nombre del cliente -</Text>
                   <Text style={styles.rightLabel}>{item.customer_name}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Contact -</Text>
+                  <Text style={styles.leftLabel}>Contacto -</Text>
                   <Text style={styles.rightLabel}>{item.contact}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Description -</Text>
+                  <Text style={styles.leftLabel}>Descripción -</Text>
                   <Text style={styles.rightLabel}>{item.description}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Request -</Text>
+                  <Text style={styles.leftLabel}>Solicitud -</Text>
                   <Text style={styles.rightLabel}>{item.request}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Reply -</Text>
+                  <Text style={styles.leftLabel}>Respuesta -</Text>
                   <Text style={styles.rightLabel}>{item.reply}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Image -</Text>
-                  {item.image !== null ? (
+                  <Text style={styles.leftLabel}>Imagen -</Text>
+                  {item.img != '' ? (
                     <Image
                       style={{
                         flexGrow: 1,
@@ -272,15 +272,15 @@ const providerQuotes = ({ navigation }) => {
                       }}
                     />
                   ) : (
-                    <Text style={styles.rightLabel}>No Image Available</Text>
+                   null
                   )}
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Cost -</Text>
+                  <Text style={styles.leftLabel}>Costo -</Text>
                   <Text style={styles.rightLabel}>{item.cost}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
-                  <Text style={styles.leftLabel}>Service Charges -</Text>
+                  <Text style={styles.leftLabel}>Cargos por servicio -</Text>
                   <Text style={styles.rightLabel}>{item.service_charges}</Text>
                 </View>
 
@@ -305,7 +305,7 @@ const providerQuotes = ({ navigation }) => {
                       flexGrow: 1,
                     }}
                   >
-                    Reply
+                    Respuesta
                   </Text>
                 </TouchableOpacity>
               </Card.Content>
@@ -327,7 +327,7 @@ const providerQuotes = ({ navigation }) => {
                   fontWeight: "700",
                 }}
               >
-                No Quotes
+                Sin comillas
               </Text>
             </View>
           }
@@ -340,7 +340,7 @@ const providerQuotes = ({ navigation }) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
-          title="Profile"
+          title="Citas"
           subtitleStyle={{ marginBottom: 5 }}
         />
         <Appbar.Action icon="menu" onPress={() => navigation.openDrawer()} />
