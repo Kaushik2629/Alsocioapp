@@ -90,12 +90,11 @@ const providerTeamMembers = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
 					title='Los miembros de su equipo'
-					subtitleStyle={{ marginBottom: 5 }}
 				/>
 			</Appbar.Header>
 

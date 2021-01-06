@@ -116,7 +116,7 @@ const SignInScreen = ({ navigation }) => {
 				// console.log(responseJson);
 				if (responseJson.username == '') {
 					setIsLoading(false);
-					alert('Wrong Input');
+					alert('nombre de usuario o contraseña incorrecta');
 				} else {
 					setData({
 						...data,

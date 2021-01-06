@@ -602,7 +602,7 @@ const showCartitems = ({ route, navigation }, props) => {
 	} else {
 		return (
 			<View style={styles.container}>
-				<Text style={{ fontSize: 25 }}>No Items Added</Text>
+				<Text style={{ fontSize: 25 }}>No se han añadido elementos</Text>
 			</View>
 		);
 	}

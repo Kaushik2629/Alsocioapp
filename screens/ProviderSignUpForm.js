@@ -142,7 +142,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 				}}
 				onPress={() => setShowPickerModal(true)}>
 				<Text style={{ fontSize: 12, padding: 15 }}>
-					Select Your Region and City!
+				¡Seleccione su región y ciudad!
 				</Text>
 			</TouchableOpacity>
 		) : (
@@ -195,23 +195,23 @@ const ProviderSignUpForm = ({ navigation }) => {
 	};
 
 	const ProviderSignUpSchema = Yup.object().shape({
-		company_name: Yup.string().required(' Company Name is Required'),
-		first_name: Yup.string().required(' First Name is Required'),
-		last_name: Yup.string().required('Last Name is Required'),
-		region: Yup.string().required('Please Select Your Location'),
+		company_name: Yup.string().required(' El nombre de la empresa es obligatorio'),
+		first_name: Yup.string().required(' Se requiere el primer nombre'),
+		last_name: Yup.string().required('Se requiere apellido'),
+		region: Yup.string().required('Seleccione su ubicación'),
 		city: Yup.string().required('Please Seleccionar ciudad'),
-		contact: Yup.string().min(5, 'Invalid!').required('Contact is Required'),
-		username: Yup.string().required('Username is Required'),
-		email: Yup.string().email('Invalid email').required('Required'),
+		contact: Yup.string().min(5, '¡Inválido!').required('Se requiere contacto'),
+		username: Yup.string().required('Se requiere nombre de usuario'),
+		email: Yup.string().email('Email inválido').required('Necesario'),
 		password: Yup.string()
-			.required('No password provided.')
-			.min(8, 'Password is too short - should be 8 chars minimum.'),
+			.required('No se proporcionó contraseña.')
+			.min(8, 'La contraseña es demasiado corta: debe tener un mínimo de 8 caracteres.'),
 		confirm_password: Yup.string()
-			.required('Required.')
-			.test('passwords-match', 'Passwords do not match!', function (value) {
+			.required('Necesario.')
+			.test('Las contraseñas coinciden', '¡Las contraseñas no coinciden!', function (value) {
 				return this.parent.password === value;
 			}),
-		otp: Yup.string().required('No OTP provided.').min(4, 'Invalid Otp'),
+		otp: Yup.string().required('No se proporciona OTP.').min(4, 'Otp inválido'),
 	});
 
 	const registerProvider = (parameters) => {
@@ -248,27 +248,24 @@ const ProviderSignUpForm = ({ navigation }) => {
 			{isLoading ? (
 				<Animatable.View
 					style={{
-						position: 'absolute',
+						flex:0.2,
+						alignSelf:'center',
 						backgroundColor: '#fff',
-						shadowColor: '#000',
 						width: imagewidth - 50,
 						alignItems: 'center',
 						justifyContent: 'center',
-						borderRadius: 15,
+						borderTopRadius: 15,
 						shadowOffset: {
 							width: 2,
 							height: 2,
 						},
-						alignItems: 'center',
+						shadowColor: '#000',
 						shadowOpacity: 0.25,
 						shadowRadius: 3.84,
 						elevation: 5,
-						zIndex: 999,
 					}}>
-					<UIActivityIndicator color='#1a237e' style={{ padding: 10 }} />
-					<Text style={{ textAlign: 'center', padding: 20 }}>
-						Processing...
-					</Text>
+					<UIActivityIndicator color='#1a237e' />
+					<Text style={{ textAlign: 'center' }}>Processing...</Text>
 				</Animatable.View>
 			) : null}
 			<Formik
@@ -286,7 +283,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 					confirm_password: '',
 					terms_conditions: false,
 					email_updates: false,
-					social_distancing: false
+					social_distancing: false,
 				}}
 				onSubmit={(values) => {
 					registerProvider(values);
@@ -336,7 +333,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 								</TouchableOpacity>
 								{showPicker(props)}
 								<Button
-									title='Submit'
+									title='Enviar'
 									color='#1a237e'
 									style={{
 										borderRadius: 20,
@@ -352,7 +349,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 									<View style={{ flexDirection: 'column' }}>
 										<TextInput
 											mode='outlined'
-											placeholder='Enter Email-Id'
+											placeholder='Ingrese el correo electrónico'
 											onBlur={() => props.setFieldTouched('email')}
 											onChangeText={props.handleChange('email')}
 											value={props.values.email}
@@ -369,7 +366,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 										)}
 										<TextInput
 											mode='outlined'
-											placeholder='Enter UserName'
+											placeholder='Introduzca su nombre de usuario'
 											onBlur={() => props.setFieldTouched('username')}
 											onChangeText={props.handleChange('username')}
 											value={props.values.username}
@@ -391,7 +388,9 @@ const ProviderSignUpForm = ({ navigation }) => {
 									activeOpacity={0.7}
 									onPress={() => {
 										if (props.touched.email && props.errors.email) {
-											alert('Please enter a valid email!');
+											alert(
+												'¡Por favor introduzca una dirección de correo electrónico válida!'
+											);
 											return;
 										}
 										sendOtp(props);
@@ -405,13 +404,13 @@ const ProviderSignUpForm = ({ navigation }) => {
 											color: '#fff',
 											flexGrow: 1,
 										}}>
-										Send Otp
+										Enviar OTP
 									</Text>
 								</TouchableOpacity>
 								{/* <View style={{ flex: 1, padding: 20, justifyContent: 'center' }}> */}
 								<TextInput
 									mode={'outlined'}
-									placeholder='Enter OTP'
+									placeholder='Ingrese OTP'
 									keyboardType={'numeric'}
 									onBlur={() => props.setFieldTouched('otp')}
 									onChangeText={props.handleChange('otp')}
@@ -430,7 +429,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 											setShowSignUpBox(true);
 											return;
 										} else {
-											alert('Please enter a valid OTP');
+											alert('Ingrese una OTP válida');
 										}
 									}}>
 									<Text
@@ -442,7 +441,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 											color: '#fff',
 											flexGrow: 1,
 										}}>
-										Verify Otp
+										Verificar Otp
 									</Text>
 								</TouchableOpacity>
 							</ScrollView>
@@ -453,7 +452,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 										<TextInput
 											mode='outlined'
 											style={styles.textInput}
-											placeholder='First Name'
+											placeholder='Primer nombre'
 											onBlur={() => props.setFieldTouched('first_name')}
 											onChangeText={props.handleChange('first_name')}
 											value={props.values.first_name}
@@ -461,7 +460,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 										<TextInput
 											mode='outlined'
 											style={styles.textInput}
-											placeholder='Last Name'
+											placeholder='Apellido'
 											onBlur={() => props.setFieldTouched('last_name')}
 											onChangeText={props.handleChange('last_name')}
 											value={props.values.last_name}
@@ -494,7 +493,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 									<View style={{ justifyContent: 'center', padding: 10 }}>
 										<TextInput
 											mode={'outlined'}
-											placeholder='Enter Contact'
+											placeholder='Ingrese Contacto'
 											keyboardType={'numeric'}
 											onBlur={() => props.setFieldTouched('contact')}
 											onChangeText={props.handleChange('contact')}
@@ -507,7 +506,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 										)}
 										<TextInput
 											mode={'outlined'}
-											placeholder='Enter Company Name'
+											placeholder='Ingrese el nombre de la empresa'
 											onBlur={() => props.setFieldTouched('company_name')}
 											onChangeText={props.handleChange('company_name')}
 											value={props.values.company_name}
@@ -522,7 +521,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 										{regionDivision()}
 										<TextInput
 											mode={'outlined'}
-											placeholder='Enter Password'
+											placeholder='Introducir la contraseña'
 											onBlur={() => props.setFieldTouched('password')}
 											onChangeText={props.handleChange('password')}
 											value={props.values.password}
@@ -535,7 +534,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 										)}
 										<TextInput
 											mode={'outlined'}
-											placeholder='Confirm your Password'
+											placeholder='Confirmar la contraseña'
 											onBlur={() => props.setFieldTouched('confirm_password')}
 											onChangeText={props.handleChange('confirm_password')}
 											value={props.values.confirm_password}
@@ -566,7 +565,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 												}}
 											/>
 											<Text style={styles.label}>
-												Accept Terms and Conditions
+												Aceptar terminos y condiciones
 											</Text>
 										</View>
 										<View style={styles.checkbox}>
@@ -586,7 +585,8 @@ const ProviderSignUpForm = ({ navigation }) => {
 												}}
 											/>
 											<Text style={styles.label}>
-												I would like to get updates and promotions by Email
+												Me gustaría recibir actualizaciones y promociones por
+												correo electrónico
 											</Text>
 										</View>
 										<View style={styles.checkbox}>
@@ -606,7 +606,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 												}}
 											/>
 											<Text style={styles.label}>
-												Maintain Social Distancing
+												Mantener el distanciamiento social
 											</Text>
 										</View>
 									</View>
@@ -626,7 +626,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 													color: '#fff',
 													flexGrow: 1,
 												}}>
-												Sign Up
+												Regístrate
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -647,8 +647,6 @@ export default ProviderSignUpForm;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 80,
-		marginBottom: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -690,6 +688,8 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	checkbox: {
+		marginVertical: 5,
+		marginHorizontal: 10,
 		alignSelf: 'center',
 		flexDirection: 'row',
 	},

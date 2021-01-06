@@ -32,7 +32,7 @@ const continueWith = ({ navigation }) => {
 					},
 				]}
 				animation='fadeInUpBig'>
-				<Text style={styles.text}>Join as!</Text>
+				<Text style={styles.text}>Unirse como!</Text>
 				<View style={styles.button}>
 					<TouchableOpacity
 						onPress={() => {
@@ -47,7 +47,7 @@ const continueWith = ({ navigation }) => {
 									color: '#fff',
 								},
 							]}>
-							Customer
+							Cliente
 						</Text>
 						<MaterialIcons
 							name='navigate-next'
@@ -68,7 +68,7 @@ const continueWith = ({ navigation }) => {
 									color: '#fff',
 								},
 							]}>
-							Provider
+							Proveedora
 						</Text>
 						<MaterialIcons
 							name='navigate-next'

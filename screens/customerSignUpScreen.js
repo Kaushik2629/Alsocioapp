@@ -194,22 +194,22 @@ const customerSignUpScreen = ({ navigation }) => {
 			});
 	};
 	const SignUpSchema = Yup.object().shape({
-		first_name: Yup.string().required(' First Name is Required'),
-		last_name: Yup.string().required('Last Name is Required'),
-		region: Yup.string().required('Please Select Your Location'),
-		city: Yup.string().required('Please Seleccionar ciudad'),
-		contact: Yup.string().min(5, 'Invalid!').required('Contact is Required'),
-		username: Yup.string().required('Username is Required'),
-		email: Yup.string().email('Invalid email').required('Required'),
+		first_name: Yup.string().required('Se requiere el primer nombre'),
+		last_name: Yup.string().required('Se requiere apellido'),
+		region: Yup.string().required('Seleccione su ubicación'),
+		city: Yup.string().required('Seleccione su ubicación'),
+		contact: Yup.string().min(5, '¡Inválido!').required('Se requiere contacto'),
+		username: Yup.string().required('Se requiere nombre de usuario'),
+		email: Yup.string().email('Email inválido').required('Necesario'),
 		password: Yup.string()
-			.required('No password provided.')
-			.min(8, 'Password is too short - should be 8 chars minimum.'),
+			.required('No se proporcionó contraseña')
+			.min(8, 'La contraseña es demasiado corta: debe tener un mínimo de 8 caracteres.'),
 		confirm_password: Yup.string()
-			.required('Required.')
-			.test('passwords-match', 'Passwords do not match!', function (value) {
+			.required('Necesario.')
+			.test('Las contraseñas coinciden', '¡Las contraseñas no coinciden!', function (value) {
 				return this.parent.password === value;
 			}),
-		otp: Yup.string().required('No OTP provided.').min(4, 'Invalid Otp'),
+		otp: Yup.string().required('No se proporciona OTP.').min(4, 'Otp inválido'),
 	});
 
 	const registerUser = (parameters) => {
@@ -245,25 +245,24 @@ const customerSignUpScreen = ({ navigation }) => {
 			{isLoading ? (
 				<Animatable.View
 					style={{
-						position: 'absolute',
+						flex:0.2,
+						alignSelf:'center',
 						backgroundColor: '#fff',
-						shadowColor: '#000',
 						width: imagewidth - 50,
 						alignItems: 'center',
 						justifyContent: 'center',
-						borderRadius: 15,
+						borderTopRadius: 15,
 						shadowOffset: {
 							width: 2,
 							height: 2,
 						},
-						alignItems: 'center',
+						shadowColor: '#000',
 						shadowOpacity: 0.25,
 						shadowRadius: 3.84,
 						elevation: 5,
-						zIndex: 999,
 					}}>
-					<UIActivityIndicator color='#1a237e' style={{ padding: 10 }} />
-					<Text style={{ textAlign: 'center', padding: 20 }}>
+					<UIActivityIndicator color='#1a237e'/>
+					<Text style={{ textAlign: 'center'}}>
 						Processing...
 					</Text>
 				</Animatable.View>
@@ -347,7 +346,7 @@ const customerSignUpScreen = ({ navigation }) => {
 									<View style={{ flexDirection: 'column' }}>
 										<TextInput
 											mode='outlined'
-											placeholder='Enter Email-Id'
+											placeholder='Ingrese el correo electrónico'
 											onBlur={() => props.setFieldTouched('email')}
 											onChangeText={props.handleChange('email')}
 											value={props.values.email}
@@ -364,7 +363,7 @@ const customerSignUpScreen = ({ navigation }) => {
 										)}
 										<TextInput
 											mode='outlined'
-											placeholder='Enter UserName'
+											placeholder='Introduzca su nombre de usuario'
 											onBlur={() => props.setFieldTouched('username')}
 											onChangeText={props.handleChange('username')}
 											value={props.values.username}
@@ -386,7 +385,9 @@ const customerSignUpScreen = ({ navigation }) => {
 									activeOpacity={0.7}
 									onPress={() => {
 										if (props.touched.email && props.errors.email) {
-											alert('Please enter a valid email!');
+											alert(
+												'¡Por favor introduzca una dirección de correo electrónico válida!'
+											);
 											return;
 										}
 										sendOtp(props);
@@ -400,13 +401,13 @@ const customerSignUpScreen = ({ navigation }) => {
 											color: '#fff',
 											flexGrow: 1,
 										}}>
-										Send Otp
+										Enviar OTP
 									</Text>
 								</TouchableOpacity>
 								{/* <View style={{ flex: 1, padding: 20, justifyContent: 'center' }}> */}
 								<TextInput
 									mode={'outlined'}
-									placeholder='Enter OTP'
+									placeholder='Ingrese OTP'
 									keyboardType={'numeric'}
 									onBlur={() => props.setFieldTouched('otp')}
 									onChangeText={props.handleChange('otp')}
@@ -421,12 +422,11 @@ const customerSignUpScreen = ({ navigation }) => {
 									style={styles.otp}
 									activeOpacity={0.7}
 									onPress={() => {
-										if (props.values.otp==OTP) {
-											alert('Successfull');
-											setShowSignUpBox(true)
+										if (props.values.otp == OTP) {
+											setShowSignUpBox(true);
 											return;
-										}else{
-											alert('Please enter a valid OTP')
+										} else {
+											alert('Ingrese una OTP válida');
 										}
 									}}>
 									<Text
@@ -438,7 +438,7 @@ const customerSignUpScreen = ({ navigation }) => {
 											color: '#fff',
 											flexGrow: 1,
 										}}>
-										Verify Otp
+										Verificar Otp
 									</Text>
 								</TouchableOpacity>
 							</ScrollView>
@@ -449,7 +449,7 @@ const customerSignUpScreen = ({ navigation }) => {
 										<TextInput
 											mode='outlined'
 											style={styles.textInput}
-											placeholder='First Name'
+											placeholder='Primer nombre'
 											onBlur={() => props.setFieldTouched('first_name')}
 											onChangeText={props.handleChange('first_name')}
 											value={props.values.first_name}
@@ -457,7 +457,7 @@ const customerSignUpScreen = ({ navigation }) => {
 										<TextInput
 											mode='outlined'
 											style={styles.textInput}
-											placeholder='Last Name'
+											placeholder='Apellido'
 											onBlur={() => props.setFieldTouched('last_name')}
 											onChangeText={props.handleChange('last_name')}
 											value={props.values.last_name}
@@ -490,7 +490,7 @@ const customerSignUpScreen = ({ navigation }) => {
 									<View style={{ justifyContent: 'center', padding: 10 }}>
 										<TextInput
 											mode={'outlined'}
-											placeholder='Enter Contact'
+											placeholder='Ingrese Contacto'
 											keyboardType={'numeric'}
 											onBlur={() => props.setFieldTouched('contact')}
 											onChangeText={props.handleChange('contact')}
@@ -504,7 +504,7 @@ const customerSignUpScreen = ({ navigation }) => {
 										{regionDivision()}
 										<TextInput
 											mode={'outlined'}
-											placeholder='Enter Password'
+											placeholder='Introducir la contraseña'
 											onBlur={() => props.setFieldTouched('password')}
 											onChangeText={props.handleChange('password')}
 											value={props.values.password}
@@ -517,7 +517,7 @@ const customerSignUpScreen = ({ navigation }) => {
 										)}
 										<TextInput
 											mode={'outlined'}
-											placeholder='Confirm your Password'
+											placeholder='Confirmar la contraseña'
 											onBlur={() => props.setFieldTouched('confirm_password')}
 											onChangeText={props.handleChange('confirm_password')}
 											value={props.values.confirm_password}
@@ -548,7 +548,7 @@ const customerSignUpScreen = ({ navigation }) => {
 												}}
 											/>
 											<Text style={styles.label}>
-												Accept Terms and Conditions
+												Aceptar terminos y condiciones
 											</Text>
 										</View>
 										<View style={styles.checkbox}>
@@ -568,7 +568,8 @@ const customerSignUpScreen = ({ navigation }) => {
 												}}
 											/>
 											<Text style={styles.label}>
-												I would like to get updates and promotions by Email
+												Me gustaría recibir actualizaciones y promociones por
+												correo electrónico
 											</Text>
 										</View>
 									</View>
@@ -588,7 +589,7 @@ const customerSignUpScreen = ({ navigation }) => {
 													color: '#fff',
 													flexGrow: 1,
 												}}>
-												Sign Up
+												Regístrate
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -609,8 +610,6 @@ export default customerSignUpScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop:80,
-		marginBottom:10,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -652,6 +651,8 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	checkbox: {
+		marginVertical: 5,
+		marginHorizontal: 10,
 		alignSelf: 'center',
 		flexDirection: 'row',
 	},

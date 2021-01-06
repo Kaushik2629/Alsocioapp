@@ -314,7 +314,7 @@ const showDetails = ({ route, navigation }) => {
 						textAlign: 'center',
 						marginTop: 10,
 					}}>
-					Add
+					Añadir
 				</Text>
 			</TouchableOpacity>
 		);
@@ -880,7 +880,7 @@ const showDetails = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -1102,7 +1102,7 @@ const showDetails = ({ route, navigation }) => {
 							extraData={cartCount}
 							ListEmptyComponent={
 								<View style={{ padding: 5, textAlign: 'center' }}>
-									<Text>No services available</Text>
+									<Text>No hay servicios disponibles</Text>
 								</View>
 							}
 						/>
@@ -1127,7 +1127,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
-											Day
+											Día
 										</Text>
 									</Col>
 									<Col>
@@ -1138,7 +1138,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
-											Start
+											comienzo
 										</Text>
 									</Col>
 									<Col>
@@ -1149,7 +1149,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
-											End
+											Fin
 										</Text>
 									</Col>
 								</Row>
@@ -1216,7 +1216,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
-											City
+											Ciudad
 										</Text>
 									</Col>
 									<Col>
@@ -1227,7 +1227,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
-											Region
+											Región
 										</Text>
 									</Col>
 								</Row>

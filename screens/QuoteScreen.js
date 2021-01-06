@@ -64,12 +64,11 @@ const QuoteScreen = ({ navigation }) => {
 
 	return a.UserName != null ? (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
 					title='Quotes'
-					subtitleStyle={{ marginBottom: 5 }}
 				/>
 			</Appbar.Header>
 
@@ -163,12 +162,11 @@ const QuoteScreen = ({ navigation }) => {
 		</View>
 	) : (
 		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
 					title='Profile'
-					subtitleStyle={{ marginBottom: 5 }}
 				/>
 				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>

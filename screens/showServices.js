@@ -122,7 +122,7 @@ const showServices = ({ navigation, route }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content titleStyle={{ padding: 10 }} title={list} />
 			</Appbar.Header>
@@ -267,7 +267,7 @@ const showServices = ({ navigation, route }) => {
 									fontSize: 20,
 									fontWeight: '700',
 								}}>
-								No services available
+								No hay servicios disponibles
 							</Text>
 						</View>
 					}

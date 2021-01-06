@@ -344,7 +344,7 @@ const showBookings = ({ route, navigation }, props) => {
 
 	return (
 		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content titleStyle={{ padding: 10 }} title='Detalles de pago' />
 			</Appbar.Header>

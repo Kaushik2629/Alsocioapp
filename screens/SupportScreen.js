@@ -116,10 +116,9 @@ const SupportScreen = ({ route, navigation }) => {
 			style={{
 				flex: 1,
 			}}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content titleStyle={{ padding: 20 }} title={category} />
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
+				<Appbar.Content  titleStyle={{ padding: 10 }} title={category} />
 			</Appbar.Header>
 			<ScrollView>
 				{list()}
