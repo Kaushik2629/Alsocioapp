@@ -413,7 +413,7 @@ const HomeScreen = ({ route, navigation }) => {
 
         <StatusBar backgroundColor="#1a237e" barStyle="light-content" />
         <Appbar.Header
-          style={{ backgroundColor: "#1a237e", height: 0 }}
+          style={{ backgroundColor: "#1a237e", height: 0,marginTop:0 }}
         ></Appbar.Header>
         <View style={styles.upperHeaderContainer}>
           {TopLeftNavScreen()}
@@ -627,7 +627,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   icontext: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "300",
     padding: 5,
     textAlign: "center",
