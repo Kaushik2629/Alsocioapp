@@ -62,7 +62,7 @@ const ExploreScreen = ({ navigation }) => {
 	const [confirm, setConfirm] = useState(false);
 
 	const deleteBooking = (bookingId, username) => {
-		setIsLoading(true)
+		setIsLoading(true);
 		if (confirm) {
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
@@ -74,7 +74,7 @@ const ExploreScreen = ({ navigation }) => {
 				.then((response) => response.json())
 				.then((responseJson) => {
 					setDetails(responseJson.bookings);
-					setIsLoading(false)
+					setIsLoading(false);
 				})
 				.catch((error) => console.error(error));
 		}
@@ -192,10 +192,9 @@ const ExploreScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Your Bookings'
+					title='Reservaciones'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 
 			{/* To Delete Bookings */}
@@ -249,7 +248,7 @@ const ExploreScreen = ({ navigation }) => {
 								fontWeight: 'bold',
 								margin: 15,
 							}}>
-							Do You want to cancel this booking?
+							¿Quieres cancelar esta reserva?
 						</Text>
 						<TouchableOpacity
 							style={{
@@ -270,7 +269,7 @@ const ExploreScreen = ({ navigation }) => {
 									margin: 15,
 									color: '#fff',
 								}}>
-								Yes
+								si
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -408,7 +407,7 @@ const ExploreScreen = ({ navigation }) => {
 						}}
 						onPress={() => {
 							setShowEditModal(!showEditModal);
-							setIsLoading(true)
+							setIsLoading(true);
 							let bookingdetails = new FormData();
 							bookingdetails.append('booking_id', bookingId);
 							bookingdetails.append('username', a.UserName);
@@ -421,9 +420,9 @@ const ExploreScreen = ({ navigation }) => {
 								.then((response) => response.json())
 								.then((responseJson) => {
 									setDetails(responseJson.bookings);
-									setIsLoading(false)
+									setIsLoading(false);
 								})
-								.catch((error) => console.error(error));							
+								.catch((error) => console.error(error));
 						}}>
 						<Text
 							style={{
@@ -434,7 +433,7 @@ const ExploreScreen = ({ navigation }) => {
 								color: '#fff',
 								flexGrow: 1,
 							}}>
-							Save
+							Salvar
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -450,7 +449,7 @@ const ExploreScreen = ({ navigation }) => {
 				}}>
 				<View
 					style={{
-						flexGrow:0.2,
+						flexGrow: 0.2,
 						// alignSelf:'center',
 						backgroundColor: '#fff',
 						shadowColor: '#000',
@@ -510,13 +509,15 @@ const ExploreScreen = ({ navigation }) => {
 							backgroundColor: '#1a237e',
 						}}
 						onPress={() => {
-							if (review != '' && ratingCount != 0 || review==null) {
+							if (ratingCount != 0) {
 								setIsLoading(true);
 								let ratingDetails = new FormData();
 								ratingDetails.append('username', a.UserName);
 								ratingDetails.append('booking_id', bookingId);
 								ratingDetails.append('rating', ratingCount);
-								ratingDetails.append('review', review);
+								if (review != null) {
+									ratingDetails.append('review', review);
+								}
 								fetch('https://alsocio.com/app/update-rating-review/', {
 									method: 'POST',
 									body: ratingDetails,
@@ -592,47 +593,53 @@ const ExploreScreen = ({ navigation }) => {
 									</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>By -</Text>
+									<Text style={styles.leftLabel}>Por -</Text>
 									<Text style={styles.rightLabel}>{item.company_name}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Cost -</Text>
+									<Text style={styles.leftLabel}>Costo -</Text>
 									<Text style={styles.rightLabel}>{item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Quantity -</Text>
+									<Text style={styles.leftLabel}>Cantidad -</Text>
 									<Text style={styles.rightLabel}>{item.quantity}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Service Date -</Text>
+									<Text style={styles.leftLabel}>Fecha de servicio -</Text>
 									<Text style={styles.rightLabel}>{item.service_date}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Service Time -</Text>
+									<Text style={styles.leftLabel}>Tiempo de servicio -</Text>
 									<Text style={styles.rightLabel}>{item.service_time}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Status -</Text>
+									<Text style={styles.leftLabel}>Estado -</Text>
 									<Text style={styles.rightLabel}>{item.status}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Team Member</Text>
+									<Text style={styles.leftLabel}>Miembro del equipo</Text>
 									<Text style={styles.rightLabel}>{item.team_member}</Text>
 								</View>
-								{item.status == 'Rejected'?(
-									<View
-									style={{ flexGrow: 1, padding: 10 }}>
-									<Text style={{textAlign:"center",fontSize:20,fontWeight:"700"}}>Cancelled</Text>
-								</View>
-								):(null)}
+								{item.status == 'Rejected' ? (
+									<View style={{ flexGrow: 1, padding: 10 }}>
+										<Text
+											style={{
+												textAlign: 'center',
+												fontSize: 20,
+												fontWeight: '700',
+											}}>
+											Cancelado
+										</Text>
+									</View>
+								) : null}
 								{item.rating != null
 									? showStars(item.rating, item.booking_id)
 									: null}
 								{item.status == 'Completed' && item.rating == null
 									? showStars(item.rating, item.booking_id)
 									: null}
-								{item.status != 'Completed' && item.status!='Rejected' ? (
+								{item.status != 'Completed' && item.status != 'Rejected' ? (
 									<View
 										style={{
 											flexGrow: 1,
@@ -661,7 +668,7 @@ const ExploreScreen = ({ navigation }) => {
 													alignSelf: 'center',
 													textAlign: 'center',
 												}}>
-												Edit
+												Editar
 											</Text>
 										</TouchableOpacity>
 										<TouchableOpacity
@@ -686,7 +693,7 @@ const ExploreScreen = ({ navigation }) => {
 													textAlign: 'center',
 													fontSize: 13,
 												}}>
-												Cancel Booking
+												Cancelar reserva
 											</Text>
 										</TouchableOpacity>
 										<TouchableOpacity
@@ -734,7 +741,7 @@ const ExploreScreen = ({ navigation }) => {
 									fontSize: 20,
 									fontWeight: '700',
 								}}>
-								No Bookings!
+								Sin reservas
 							</Text>
 						</View>
 					}
@@ -747,10 +754,9 @@ const ExploreScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Your Bookings'
+					title='Reservaciones'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 			<View>
 				<TouchableOpacity
@@ -770,7 +776,7 @@ const ExploreScreen = ({ navigation }) => {
 							color: '#fff',
 							flexGrow: 1,
 						}}>
-						Login to view your Bookings
+						Inicie sesión para ver sus reservas
 					</Text>
 				</TouchableOpacity>
 			</View>

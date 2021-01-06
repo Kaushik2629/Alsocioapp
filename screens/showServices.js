@@ -176,7 +176,7 @@ const showServices = ({ navigation, route }) => {
 												fontWeight: 'bold',
 												marginBottom: 8,
 											}}>
-											Service By:
+											Servicio por:
 											<Text style={{ fontWeight: '400' }}>
 												{item.company_name}
 											</Text>
@@ -211,7 +211,7 @@ const showServices = ({ navigation, route }) => {
 													textAlign: 'center',
 													padding: 20,
 												}}>
-												Details
+												Detalles
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -229,9 +229,9 @@ const showServices = ({ navigation, route }) => {
 												style={{
 													fontSize: 15,
 													fontWeight: '400',
-													alignSelf:'center'
+													alignSelf: 'center',
 												}}>
-												This service follows COVID-19 norms
+												Este servicio sigue las normas COVID-19
 											</Text>
 										</View>
 									) : null}
@@ -245,7 +245,7 @@ const showServices = ({ navigation, route }) => {
 												textAlign: 'right',
 												alignSelf: 'flex-start',
 											}}>
-											*Additional Charges may be Applied
+											*Se pueden aplicar cargos adicionales
 										</Text>
 									) : null}
 								</View>

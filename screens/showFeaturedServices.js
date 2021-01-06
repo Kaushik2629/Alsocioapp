@@ -177,7 +177,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 												fontWeight: 'bold',
 												marginBottom: 8,
 											}}>
-											Service By:
+											Servicio por:
 											<Text style={{ fontWeight: '400' }}>
 												{item.company_name}
 											</Text>

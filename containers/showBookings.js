@@ -13,7 +13,7 @@ import {
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { RadioButton } from 'react-native-paper';
+import { Appbar, RadioButton } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 import { Card } from 'react-native-paper';
 import { Field, Formik } from 'formik';
@@ -118,57 +118,61 @@ const showBookings = ({ route, navigation }, props) => {
 		return (
 			<Animatable.View
 				style={{
-					flexGrow: 1,
+					marginTop:10,
+					flexDirection: 'row',
 					backgroundColor: '#fff',
-					width: imagewidth,
+					borderWidth: 0.5,
+					shadowColor: '#000',
+					shadowOffset: { width: 0, height: 1 },
+					shadowOpacity: 0.8,
+					shadowRadius: 2,
+					elevation: 15,
+					alignItems: 'center',
+					justifyContent: 'center',
+					paddingVertical: 15,
 				}}
-				animation='fadeIn'>
-				<View style={{ flexDirection: 'row', padding: 15 }}>
-					<View style={{ flexGrow: 1 }}>
-						<TouchableOpacity
+				animation='fadeInUpBig'>
+				{/* <View style={{ flexDirection: 'row', padding: 15 }}> */}
+				<View style={{ flexGrow: 1, alignItems: 'center' }}>
+					<TouchableOpacity
+						style={{
+							// alignSelf: 'flex-end',
+							backgroundColor: '#1a237e',
+							width: 180,
+							borderRadius: 5,
+						}}
+						onPress={() => navigation.navigate('showCartitems')}>
+						<Text
 							style={{
-								backgroundColor: '#1a237e',
-								width: 150,
-								height: 35,
-								marginBottom: 5,
-								borderRadius: 5,
-								marginLeft: 10,
-								alignSelf: 'flex-start',
-							}}
-							onPress={() => navigation.navigate('showCartitems')}>
-							<Text
-								style={{
-									color: '#fff',
-									textAlign: 'center',
-									marginTop: 10,
-								}}>
-								Previous
-							</Text>
-						</TouchableOpacity>
-					</View>
-
-					<View style={{ flexGrow: 1 }}>
-						<TouchableOpacity
-							style={{
-								backgroundColor: '#1a237e',
-								width: 150,
-								height: 35,
-								marginBottom: 5,
-								borderRadius: 5,
-								alignSelf: 'flex-end',
-							}}
-							onPress={() => properties.handleSubmit()}>
-							<Text
-								style={{
-									color: '#fff',
-									textAlign: 'center',
-									marginTop: 10,
-								}}>
-								Checkout!
-							</Text>
-						</TouchableOpacity>
-					</View>
+								color: '#fff',
+								textAlign: 'center',
+								paddingVertical: 15,
+							}}>
+							Previo
+						</Text>
+					</TouchableOpacity>
 				</View>
+
+				<View style={{ flexGrow: 1, alignItems: 'center' }}>
+					<TouchableOpacity
+						style={{
+							// alignSelf: 'flex-end',
+							backgroundColor: '#1a237e',
+							width: 180,
+							borderRadius: 5,
+						}}
+						onPress={() => properties.handleSubmit()}>
+						<Text
+							style={{
+								color: '#fff',
+								textAlign: 'center',
+								paddingVertical: 15,
+							}}>
+							Revisa
+						</Text>
+					</TouchableOpacity>
+				</View>
+				{/* </View> */}
 			</Animatable.View>
 		);
 	};
@@ -196,7 +200,6 @@ const showBookings = ({ route, navigation }, props) => {
 					region_array.map((city) => {
 						showRegion_array = Object.keys(city);
 						setRegionArray(showRegion_array);
-
 						showCity_array = Object.values(city);
 						setCityArray(showCity_array);
 						// setSelectedCity(showCity_array);
@@ -213,11 +216,6 @@ const showBookings = ({ route, navigation }, props) => {
 	}, []);
 
 	//For Radio Buttons
-	const [selectedValue, setSelectedValue] = React.useState('a');
-
-	const handleRadioChange = (event) => {
-		setSelectedValue(event.target.value);
-	};
 
 	const [showPickerModal, setShowPickerModal] = useState(false);
 
@@ -264,7 +262,7 @@ const showBookings = ({ route, navigation }, props) => {
 						setCityValue();
 						properties.setFieldValue('region', itemValue);
 					}}>
-					<Picker.Item label='Select Region' value='' />
+					<Picker.Item label='Seleccionar región' value='' />
 					{regionpicker()}
 				</Picker>
 				<Picker
@@ -279,7 +277,7 @@ const showBookings = ({ route, navigation }, props) => {
 						setCityValue(itemValue);
 						properties.setFieldValue('city', itemValue);
 					}}>
-					<Picker.Item label='Select your City' value='' />
+					<Picker.Item label='Seleccionar ciudad' value='' />
 					{citypicker()}
 				</Picker>
 			</View>
@@ -290,7 +288,7 @@ const showBookings = ({ route, navigation }, props) => {
 
 	const DetailsSchema = Yup.object().shape({
 		address: Yup.string().min(10, 'Too Short!').required('Address is Required'),
-		region: Yup.string().required('Please Select Your Location'),
+		city: Yup.string().required('Please Select Your Location'),
 	});
 
 	const [confirmModal, setConfirmModal] = useState(false);
@@ -345,396 +343,418 @@ const showBookings = ({ route, navigation }, props) => {
 	};
 
 	return (
-		<Formik
-			initialValues={{
-				address: '',
-				region: '',
-				city: '',
-				paymentMethod: 'COD',
-			}}
-			onSubmit={(values) => {
-				if (values.paymentMethod == 'COD') {
-					fetchPayment(values);
-				}
-				if (values.paymentMethod == 'Card') {
-					navigation.navigate('paymentsScreen', {
-						cartItems: route.params.cartDetails,
-						cost: route.params.cost,
-						city: values.city,
-						region: values.region,
-						address: values.address,
-						paymentMethod: values.paymentMethod,
-					});
-				}
-			}}
-			validationSchema={DetailsSchema}>
-			{(props) => (
-				<View style={styles.container}>
-					{isLoading ? (
-						<Animatable.View
-							style={{
-								position: 'absolute',
-								backgroundColor: '#fff',
-								shadowColor: '#000',
-								width: imagewidth - 50,
-								alignItems: 'center',
-								justifyContent: 'center',
-								borderRadius: 15,
-								shadowOffset: {
-									width: 2,
-									height: 2,
-								},
-								shadowOpacity: 0.25,
-								shadowRadius: 3.84,
-								elevation: 5,
-								zIndex: 999,
-							}}>
-							<UIActivityIndicator color='#1a237e' style={{ padding: 10 }} />
-							<Text style={{ textAlign: 'center', padding: 20 }}>
-								Order is Processing!!
-							</Text>
-						</Animatable.View>
-					) : null}
+		<View style={{ flex: 1 }}>
+			<Appbar.Header style={{ backgroundColor: '#1a237e' }}>
+				<Appbar.BackAction onPress={() => navigation.goBack()} />
+				<Appbar.Content titleStyle={{ padding: 10 }} title='Detalles de pago' />
+			</Appbar.Header>
 
-					<Modal animationType='fade' visible={confirmModal} transparent={true}>
-						<View
-							style={{
-								backgroundColor: '#fff',
-								shadowColor: '#000',
-								marginHorizontal: 20,
-								borderRadius: 15,
-								shadowOffset: {
-									width: 2,
-									height: 2,
-								},
-								padding: 10,
-								shadowOpacity: 0.25,
-								shadowRadius: 3.84,
-								elevation: 5,
-							}}>
-							<Text style={{ fontSize: 20, fontWeight: 'bold', padding: 15 }}>
-								Your Order has been Confirmed!
-							</Text>
-							<Button
-								title='Go Back To Home Page'
-								color='#1a237e'
+			<Formik
+				initialValues={{
+					address: '',
+					region: '',
+					city: '',
+					paymentMethod: 'COD',
+				}}
+				onSubmit={(values) => {
+					if (values.paymentMethod == 'COD') {
+						fetchPayment(values);
+					}
+					if (values.paymentMethod == 'Card') {
+						navigation.navigate('paymentsScreen', {
+							cartItems: route.params.cartDetails,
+							cost: route.params.cost,
+							city: values.city,
+							region: values.region,
+							address: values.address,
+							paymentMethod: values.paymentMethod,
+						});
+					}
+				}}
+				validationSchema={DetailsSchema}>
+				{(props) => (
+					<View style={styles.container}>
+						{isLoading ? (
+							<Animatable.View
 								style={{
-									borderRadius: 20,
-									fontSize: 15,
-								}}
-								onPress={() => {
-									changeCount(0),
-										setConfirmModal(!confirmModal),
-										navigation.navigate('Home');
-								}}
-							/>
-						</View>
-					</Modal>
-					<ScrollView>
-						<TextInput
-							multiline
-							minHeight={70}
-							style={{
-								borderWidth: 1,
-								borderColor: '#ddd',
-								borderRadius: 8,
-								padding: 10,
-								fontSize: 15,
-								margin: 10,
-							}}
-							placeholder='Enter your Address'
-							onBlur={() => props.setFieldTouched('address')}
-							onChangeText={props.handleChange('address')}
-							value={props.values.address}
-						/>
-						{props.touched.address && props.errors.address && (
-							<Text style={{ fontSize: 10, padding: 10, color: 'red' }}>
-								{props.errors.address}
-							</Text>
-						)}
-
-						<TouchableOpacity onPress={() => setShowPickerModal(true)}>
-							<Text style={{ fontSize: 12, marginLeft: 10, marginTop: 10 }}>
-								Select Your Region and City!
-							</Text>
-						</TouchableOpacity>
-
-						<Card
-							style={{
-								borderWidth: 1,
-								borderColor: '#ddd',
-								borderRadius: 8,
-								padding: 10,
-								fontSize: 15,
-								margin: 10,
-							}}>
-							<TouchableOpacity onPress={() => setShowPickerModal(true)}>
-								<Text>{props.values.city}</Text>
-							</TouchableOpacity>
-						</Card>
+									position: 'absolute',
+									alignSelf:'center',
+									backgroundColor: '#fff',
+									shadowColor: '#000',
+									width: imagewidth - 50,
+									alignItems: 'center',
+									justifyContent: 'center',
+									borderRadius: 15,
+									shadowOffset: {
+										width: 2,
+										height: 2,
+									},
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+									zIndex: 999,
+								}}>
+								<UIActivityIndicator color='#1a237e' style={{ padding: 10 }} />
+								<Text style={{ textAlign: 'center', padding: 20 }}>
+								Se está procesando el pedido...
+								</Text>
+							</Animatable.View>
+						) : null}
 
 						<Modal
 							animationType='fade'
-							visible={showPickerModal}
-							transparent={true}
-							onRequestClose={() => {
-								setShowPickerModal(!showPickerModal);
-							}}>
+							visible={confirmModal}
+							transparent={true}>
 							<View
 								style={{
-									marginTop: 60,
+									backgroundColor: '#fff',
+									shadowColor: '#000',
+									marginHorizontal: 20,
+									borderRadius: 15,
+									shadowOffset: {
+										width: 2,
+										height: 2,
+									},
+									padding: 10,
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+								}}>
+								<Text style={{ fontSize: 20, fontWeight: 'bold', padding: 15 }}>
+									Su pedido ha sido confirmado
+								</Text>
+								<Button
+									title='Volver a la página principal'
+									color='#1a237e'
+									style={{
+										borderRadius: 20,
+										fontSize: 15,
+									}}
+									onPress={() => {
+										changeCount(0),
+											setConfirmModal(!confirmModal),
+											navigation.navigate('Home');
+									}}
+								/>
+							</View>
+						</Modal>
+						<ScrollView>
+							<TextInput
+								multiline
+								minHeight={70}
+								style={{
+									borderWidth: 1,
+									borderColor: '#ddd',
+									borderRadius: 8,
+									padding: 10,
+									fontSize: 15,
+									margin: 10,
+								}}
+								placeholder='Ingrese su direccion'
+								onBlur={() => props.setFieldTouched('address')}
+								onChangeText={props.handleChange('address')}
+								value={props.values.address}
+							/>
+							{props.touched.address && props.errors.address && (
+								<Text style={{ fontSize: 10, padding: 10, color: 'red' }}>
+									{props.errors.address}
+								</Text>
+							)}
+
+							{/* <TouchableOpacity
+							onPress={() => setShowPickerModal(true)}></TouchableOpacity> */}
+
+							<Card
+								style={{
+									borderWidth: 1,
+									borderColor: '#ddd',
+									borderRadius: 8,
+									padding: 10,
+									fontSize: 15,
+									margin: 10,
+								}}>
+								<TouchableOpacity onPress={() => setShowPickerModal(true)}>
+									{props.values.city == '' && props.values.region == '' ? (
+										<Text style={{ fontSize: 12, textAlign: 'center' }}>
+											Seleccione su región y Cirty
+										</Text>
+									) : (
+										<Text>
+											{props.values.region},{props.values.city}
+										</Text>
+									)}
+								</TouchableOpacity>
+							</Card>
+							{props.touched.city && props.errors.city && (
+								<Text style={{ fontSize: 10, padding: 10, color: 'red' }}>
+									{props.errors.city}
+								</Text>
+							)}
+
+							<Modal
+								animationType='fade'
+								visible={showPickerModal}
+								transparent={true}
+								onRequestClose={() => {
+									setShowPickerModal(!showPickerModal);
 								}}>
 								<View
 									style={{
-										backgroundColor: '#fff',
-										shadowColor: '#000',
-										marginTop: 50,
-										marginHorizontal: 20,
-										borderRadius: 15,
-										shadowOffset: {
-											width: 2,
-											height: 2,
-										},
-										padding: 10,
-										shadowOpacity: 0.25,
-										shadowRadius: 3.84,
-										elevation: 5,
+										marginTop: 60,
 									}}>
-									<TouchableOpacity
+									<View
 										style={{
-											flexGrow: 1,
-											elevation: 3,
-											alignSelf: 'flex-end',
+											backgroundColor: '#fff',
+											shadowColor: '#000',
+											marginTop: 50,
+											marginHorizontal: 20,
+											borderRadius: 15,
+											shadowOffset: {
+												width: 2,
+												height: 2,
+											},
+											padding: 10,
+											shadowOpacity: 0.25,
+											shadowRadius: 3.84,
+											elevation: 5,
 										}}>
-										<Icon.Button
-											name='ios-close'
-											size={25}
-											backgroundColor='#fff'
-											color='#000'
-											style={{ padding: 15, textAlign: 'right' }}
-											onPress={() => {
-												setShowPickerModal(!showPickerModal);
-											}}></Icon.Button>
-									</TouchableOpacity>
-									{showPicker(props)}
-									<Button
-										title='Submit'
-										color='#1a237e'
-										style={{
-											borderRadius: 20,
-											fontSize: 15,
-										}}
-										onPress={() => setShowPickerModal(!showPickerModal)}
-									/>
-								</View>
-							</View>
-						</Modal>
-
-						<FlatList
-							data={details}
-							style={styles.flatlist}
-							renderItem={({ item }) => {
-								return (
-									<Card
-										style={{
-											borderRadius: 5,
-											borderWidth: 0.2,
-											padding: 13,
-										}}>
-										<View
+										<TouchableOpacity
 											style={{
-												alignItems: 'flex-start',
-												justifyContent: 'flex-start',
+												flexGrow: 1,
+												elevation: 3,
+												alignSelf: 'flex-end',
+											}}>
+											<Icon.Button
+												name='ios-close'
+												size={25}
+												backgroundColor='#fff'
+												color='#000'
+												style={{ padding: 15, textAlign: 'right' }}
+												onPress={() => {
+													setShowPickerModal(!showPickerModal);
+												}}></Icon.Button>
+										</TouchableOpacity>
+										{showPicker(props)}
+										<Button
+											title='Enviar'
+											color='#1a237e'
+											style={{
+												borderRadius: 20,
+												fontSize: 15,
+											}}
+											onPress={() => setShowPickerModal(!showPickerModal)}
+										/>
+									</View>
+								</View>
+							</Modal>
+
+							<FlatList
+								data={details}
+								style={styles.flatlist}
+								renderItem={({ item }) => {
+									return (
+										<Card
+											style={{
+												borderRadius: 5,
+												borderWidth: 0.2,
+												padding: 13,
 											}}>
 											<View
 												style={{
-													flexDirection: 'row',
-													shadowColor: '#000',
-													shadowOffset: { width: 0, height: 1 },
-													shadowOpacity: 0.5,
-													shadowRadius: 1,
-													elevation: 1,
-													borderRadius: 1,
-													padding: 15,
+													alignItems: 'flex-start',
+													justifyContent: 'flex-start',
 												}}>
-												{/* <Card.Content style={{flex: 1,flexDirection: 'row',}}> */}
 												<View
 													style={{
-														flexGrow: 1,
-														padding: 10,
-														textAlign: 'center',
+														flexDirection: 'row',
+														shadowColor: '#000',
+														shadowOffset: { width: 0, height: 1 },
+														shadowOpacity: 0.5,
+														shadowRadius: 1,
+														elevation: 1,
+														borderRadius: 1,
+														padding: 15,
 													}}>
-													<Image
-														style={{ width: 70, height: 70 }}
-														source={{
-															uri: 'https:alsocio.com/media/' + item.img,
-														}}
-													/>
-												</View>
-												<View style={{ flexGrow: 3, padding: 25 }}>
-													<Text style={{ fontSize: 15 }}>
-														{item.main_category}
-													</Text>
-													<Text style={{ fontSize: 10, fontWeight: 'bold' }}>
-														Service By :{' '}
-														<Text style={{ fontWeight: '400' }}>
-															{item.company_name}
+													{/* <Card.Content style={{flex: 1,flexDirection: 'row',}}> */}
+													<View
+														style={{
+															flexGrow: 1,
+															padding: 10,
+															textAlign: 'center',
+														}}>
+														<Image
+															style={{ width: 70, height: 70 }}
+															source={{
+																uri: 'https:alsocio.com/media/' + item.img,
+															}}
+														/>
+													</View>
+													<View style={{ flexGrow: 3, padding: 25 }}>
+														<Text style={{ fontSize: 15 }}>
+															{item.main_category}
 														</Text>
-													</Text>
+														<Text style={{ fontSize: 10, fontWeight: 'bold' }}>
+															Servicio por :
+															<Text style={{ fontWeight: '400' }}>
+																{item.company_name}
+															</Text>
+														</Text>
+													</View>
+													<View
+														style={{
+															flexGrow: 2,
+															padding: 10,
+															textAlign: 'right',
+														}}>
+														{addtocart(item.id)}
+														<Text>${item.service_cost}</Text>
+													</View>
 												</View>
-												<View
-													style={{
-														flexGrow: 2,
-														padding: 10,
-														textAlign: 'right',
-													}}>
-													{addtocart(item.id)}
-													<Text>${item.service_cost}</Text>
-												</View>
+												{/* </Card.Content> */}
 											</View>
-											{/* </Card.Content> */}
-										</View>
-									</Card>
-								);
-							}}
-						/>
-						{showRecieptArray()}
-						<Card
-							style={{
-								borderRadius: 5,
-								borderWidth: 0.2,
-								padding: 20,
-								marginHorizontal: 9,
-							}}>
-							<View style={{ flexDirection: 'row' }}>
-								<View style={{ flexGrow: 2, padding: (0, 10) }}>
-									<Text
+										</Card>
+									);
+								}}
+							/>
+							{showRecieptArray()}
+							<Card
+								style={{
+									borderRadius: 5,
+									borderWidth: 0.2,
+									padding: 20,
+									marginHorizontal: 9,
+								}}>
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 2, padding: (0, 10) }}>
+										<Text
+											style={{
+												marginLeft: 40,
+											}}>
+											Total parcial
+										</Text>
+									</View>
+									<View
 										style={{
-											marginLeft: 40,
+											marginRight: 18,
+											padding: (0, 10),
 										}}>
-										Subtotal
-									</Text>
+										<Text>${subCost}</Text>
+									</View>
 								</View>
-								<View
-									style={{
-										marginRight: 18,
-										padding: (0, 10),
-									}}>
-									<Text>${subCost}</Text>
-								</View>
-							</View>
 
-							<View style={{ flexDirection: 'row' }}>
-								<View style={{ flexGrow: 2, padding: (0, 10) }}>
-									<Text
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 2, padding: (0, 10) }}>
+										<Text
+											style={{
+												marginLeft: 40,
+											}}>
+											Cargo por servicio
+										</Text>
+									</View>
+									<View
 										style={{
-											marginLeft: 40,
+											marginRight: 18,
+											padding: (0, 10),
 										}}>
-										Service Charge
-									</Text>
+										<Text>${charge}</Text>
+									</View>
 								</View>
-								<View
-									style={{
-										marginRight: 18,
-										padding: (0, 10),
-									}}>
-									<Text>${charge}</Text>
-								</View>
-							</View>
 
-							<View style={{ flexDirection: 'row' }}>
-								<View style={{ flexGrow: 2, padding: (0, 10) }}>
-									<Text
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 2, padding: (0, 10) }}>
+										<Text
+											style={{
+												marginLeft: 40,
+											}}>
+											ITBMS
+										</Text>
+									</View>
+									<View
 										style={{
-											marginLeft: 40,
+											marginRight: 18,
+											padding: (0, 10),
 										}}>
-										ITBMS
-									</Text>
+										<Text>${itbms}</Text>
+									</View>
 								</View>
-								<View
-									style={{
-										marginRight: 18,
-										padding: (0, 10),
-									}}>
-									<Text>${itbms}</Text>
-								</View>
-							</View>
-						</Card>
-						<Card
-							style={{
-								borderRadius: 5,
-								borderWidth: 0.2,
-								padding: 20,
-								marginHorizontal: 9,
-							}}>
-							<View style={{ flexDirection: 'row' }}>
-								<View style={{ flexGrow: 2, padding: (0, 10) }}>
-									<Text
+							</Card>
+							<Card
+								style={{
+									borderRadius: 5,
+									borderWidth: 0.2,
+									padding: 20,
+									marginHorizontal: 9,
+								}}>
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 2, padding: (0, 10) }}>
+										<Text
+											style={{
+												alignSelf: 'center',
+												fontSize: 25,
+												fontWeight: 'bold',
+											}}>
+											Total
+										</Text>
+									</View>
+									<View
 										style={{
-											alignSelf: 'center',
-											fontSize: 25,
-											fontWeight: 'bold',
+											flexGrow: 1,
+											padding: (0, 10),
 										}}>
-										Total
-									</Text>
+										<Text
+											style={{
+												alignSelf: 'center',
+												fontSize: 25,
+												fontWeight: '400',
+											}}>
+											${total}
+										</Text>
+									</View>
 								</View>
 								<View
 									style={{
 										flexGrow: 1,
-										padding: (0, 10),
+										flexDirection: 'row',
+										alignItems: 'center',
+										margin: (10, 'auto'),
 									}}>
-									<Text
-										style={{
-											alignSelf: 'center',
-											fontSize: 25,
-											fontWeight: '400',
-										}}>
-										${total}
-									</Text>
+									<RadioButton
+										color='#1a237e'
+										value='COD'
+										status={payments === 'COD' ? 'checked' : 'unchecked'}
+										onPress={() => {
+											setPaymentMethod('COD'),
+												props.setFieldValue('paymentMethod', 'COD');
+										}}
+									/>
+									<Text style={{ fontSize: 17 }}>COD</Text>
+									<RadioButton
+										color='#1a237e'
+										value='Card'
+										status={payments === 'Card' ? 'checked' : 'unchecked'}
+										onPress={() => {
+											setPaymentMethod('Card'),
+												props.setFieldValue('paymentMethod', 'Card');
+										}}
+									/>
+									<Text style={{ fontSize: 17 }}>Card</Text>
+									<Image
+										style={{ width: 50, height: 30, marginLeft: 15 }}
+										source={require('../assets/mastercard-image.png')}
+									/>
+									<Image
+										style={{ width: 75, height: 30, marginLeft: 2 }}
+										source={require('../assets/visa-image.png')}
+									/>
 								</View>
-							</View>
-							<View
-								style={{
-									flexGrow: 1,
-									flexDirection: 'row',
-									alignItems: 'center',
-									margin: (10, 'auto'),
-								}}>
-								<RadioButton
-									color='#1a237e'
-									value='COD'
-									status={payments === 'COD' ? 'checked' : 'unchecked'}
-									onPress={() => {
-										setPaymentMethod('COD'),
-											props.setFieldValue('paymentMethod', 'COD');
-									}}
-								/>
-								<Text style={{ fontSize: 17 }}>COD</Text>
-								<RadioButton
-									color='#1a237e'
-									value='Card'
-									status={payments === 'Card' ? 'checked' : 'unchecked'}
-									onPress={() => {
-										setPaymentMethod('Card'),
-											props.setFieldValue('paymentMethod', 'Card');
-									}}
-								/>
-								<Text style={{ fontSize: 17 }}>Card</Text>
-								<Image
-									style={{ width: 50, height: 30, marginLeft: 15 }}
-									source={require('../assets/mastercard-image.png')}
-								/>
-								<Image
-									style={{ width: 75, height: 30, marginLeft: 2 }}
-									source={require('../assets/visa-image.png')}
-								/>
-							</View>
-						</Card>
-					</ScrollView>
-					{showPopUp(props)}
-				</View>
-			)}
-		</Formik>
+							</Card>
+						</ScrollView>
+						{showPopUp(props)}
+					</View>
+					
+				)}
+			</Formik>
+		</View>
 	);
 };
 export default showBookings;
@@ -743,7 +763,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		display: 'flex',
-		alignItems: 'center',
+		// alignItems: 'center',
 		justifyContent: 'center',
 	},
 	flatlist: {

@@ -114,11 +114,11 @@ const ProfileScreen = ({ navigation }) => {
 
 	const showPicker = (properties) => {
 		return (
-			<View style={{ flexDirection: 'row', marginBottom: 15 }}>
+			<View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
 				<Picker
 					style={{
-						flexGrow: 1,
-						width: 130,
+						marginVertical: 10,
+						width: imagewidth / 1.5,
 						borderRadius: 10,
 						backgroundColor: '#e0e0e0',
 					}}
@@ -128,23 +128,22 @@ const ProfileScreen = ({ navigation }) => {
 						setCityValue();
 						properties.setFieldValue('region', itemValue);
 					}}>
-					<Picker.Item label='Select Region' value='' />
+					<Picker.Item label='Seleccionar región' value='' />
 					{regionpicker()}
 				</Picker>
 				<Picker
 					style={{
-						flexGrow: 1,
-						width: 60,
+						marginVertical: 10,
+						width: imagewidth / 1.5,
 						borderRadius: 10,
 						backgroundColor: '#e0e0e0',
-						marginLeft: 10,
 					}}
 					selectedValue={cityValue}
 					onValueChange={(itemValue) => {
 						setCityValue(itemValue);
 						properties.setFieldValue('city', itemValue);
 					}}>
-					<Picker.Item label='Select your City' value='' />
+					<Picker.Item label='Seleccionar ciudad' value='' />
 					{citypicker()}
 				</Picker>
 			</View>
@@ -220,6 +219,8 @@ const ProfileScreen = ({ navigation }) => {
 									contact: `${details.contact}`,
 								}}
 								onSubmit={(values) => {
+									setCustomerEditModal(!customerEditModal);
+									setIsLoading(true)
 									let userdetails = new FormData();
 									userdetails.append('username', a.UserName);
 									userdetails.append('first_name', values.first_name);
@@ -234,7 +235,7 @@ const ProfileScreen = ({ navigation }) => {
 										.then((response) => response.json())
 										.then((responseJson) => {
 											setDetails(responseJson);
-											setCustomerEditModal(!customerEditModal);
+											setIsLoading(false)
 										})
 										.catch((error) => console.error(error));
 								}}>
@@ -247,7 +248,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												First Name
+												Primer nombre
 											</Text>
 											<Text
 												style={{
@@ -255,7 +256,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Last Name
+												Apellido
 											</Text>
 										</View>
 										<View style={{ flexDirection: 'row' }}>
@@ -283,7 +284,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Contact No-
+												Número de contacto-
 											</Text>
 											<Text
 												style={{
@@ -291,7 +292,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Email ID
+												Identificación de correo
 											</Text>
 										</View>
 										<View style={{ flexDirection: 'row' }}>
@@ -318,7 +319,7 @@ const ProfileScreen = ({ navigation }) => {
 											style={{
 												alignSelf: 'center',
 											}}>
-											Your Region
+											Tu ciudad
 										</Text>
 										<TouchableOpacity
 											onPress={() => setShowPickerModal(true)}
@@ -343,7 +344,7 @@ const ProfileScreen = ({ navigation }) => {
 													color: '#fff',
 													flexGrow: 1,
 												}}>
-												Edit Profile
+												Editar perfil
 											</Text>
 										</TouchableOpacity>
 
@@ -392,7 +393,7 @@ const ProfileScreen = ({ navigation }) => {
 													</TouchableOpacity>
 													{showPicker(props)}
 													<Button
-														title='Submit'
+														title='Enviar'
 														color='#1a237e'
 														style={{
 															borderRadius: 20,
@@ -434,7 +435,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Email
+										Correo electrónico
 									</Text>
 									<Text
 										style={{
@@ -452,7 +453,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Contact
+										Contacto
 									</Text>
 									<Text
 										style={{
@@ -470,7 +471,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										City
+										Ciudad
 									</Text>
 									<Text
 										style={{
@@ -488,7 +489,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Region
+										Región
 									</Text>
 									<Text
 										style={{
@@ -520,7 +521,7 @@ const ProfileScreen = ({ navigation }) => {
 								color: '#fff',
 								flexGrow: 1,
 							}}>
-							Click here to edit your Profile
+							Haga clic aquí para editar su perfil
 						</Text>
 					</TouchableOpacity>
 					{/* </View> */}
@@ -594,6 +595,8 @@ const ProfileScreen = ({ navigation }) => {
 									companyName: `${details.company_name}`,
 								}}
 								onSubmit={(values) => {
+									setProviderEditModal(!providerEditModal);
+									setIsLoading(true)
 									let userdetails = new FormData();
 									userdetails.append('username', a.UserName);
 									userdetails.append('first_name', values.first_name);
@@ -609,7 +612,7 @@ const ProfileScreen = ({ navigation }) => {
 										.then((response) => response.json())
 										.then((responseJson) => {
 											setDetails(responseJson);
-											setProviderEditModal(!providerEditModal);
+											setIsLoading(false)
 										})
 										.catch((error) => console.error(error));
 								}}>
@@ -622,7 +625,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												First Name
+												Primer nombre
 											</Text>
 											<Text
 												style={{
@@ -630,7 +633,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Last Name
+												Apellido
 											</Text>
 										</View>
 										<View style={{ flexDirection: 'row' }}>
@@ -658,7 +661,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Contact no-
+												Número de contacto-
 											</Text>
 											<Text
 												style={{
@@ -666,7 +669,7 @@ const ProfileScreen = ({ navigation }) => {
 													paddingHorizontal: 20,
 													alignSelf: 'center',
 												}}>
-												Email
+												Identificación de correo
 											</Text>
 										</View>
 										<View style={{ flexDirection: 'row' }}>
@@ -689,7 +692,7 @@ const ProfileScreen = ({ navigation }) => {
 												keyboardType={'email-address'}
 											/>
 										</View>
-										<Text style={{ alignSelf: 'center' }}>Company Name</Text>
+										<Text style={{ alignSelf: 'center' }}>Nombre de empresa</Text>
 										<TextInput
 											placeholderTextColor={'#000'}
 											placeholder={details.company_name}
@@ -709,7 +712,7 @@ const ProfileScreen = ({ navigation }) => {
 											onChangeText={props.handleChange('companyName')}
 											value={props.values.companyName}
 										/>
-										<Text style={{ alignSelf: 'center' }}>Your Region</Text>
+										<Text style={{ alignSelf: 'center' }}>Tu ciudad</Text>
 										<TouchableOpacity
 											onPress={() => setShowPickerModal(true)}
 											style={styles.regionOptions}>
@@ -733,7 +736,7 @@ const ProfileScreen = ({ navigation }) => {
 													color: '#fff',
 													flexGrow: 1,
 												}}>
-												Edit Profile
+												Editar perfil
 											</Text>
 										</TouchableOpacity>
 
@@ -824,7 +827,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Email
+										Correo electrónico
 									</Text>
 									<Text
 										style={{
@@ -842,7 +845,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Contact
+										Contacto
 									</Text>
 									<Text
 										style={{
@@ -860,7 +863,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										City
+										Ciudad
 									</Text>
 									<Text
 										style={{
@@ -878,7 +881,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Region
+										Región
 									</Text>
 									<Text
 										style={{
@@ -896,7 +899,7 @@ const ProfileScreen = ({ navigation }) => {
 											alignSelf: 'flex-start',
 											textAlign: 'left',
 										}}>
-										Company Name
+										nombre de empresa
 									</Text>
 									<Text
 										style={{
@@ -927,7 +930,7 @@ const ProfileScreen = ({ navigation }) => {
 								color: '#fff',
 								flexGrow: 1,
 							}}>
-							Click here to edit your Profile
+							Haga clic aquí para editar su perfil
 						</Text>
 					</TouchableOpacity>
 				</ScrollView>
@@ -941,10 +944,10 @@ const ProfileScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Profile'
+					title='Perfil'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
+				{/* <Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} /> */}
 			</Appbar.Header>
 			{showUserProfile(a.Role)}
 		</View>
@@ -954,10 +957,10 @@ const ProfileScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Profile'
-					subtitleStyle={{ marginBottom: 5 }}
+					title='Perf.il'
+					// subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
+				{/* <Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} /> */}
 			</Appbar.Header>
 			<View>
 				<TouchableOpacity
@@ -977,7 +980,7 @@ const ProfileScreen = ({ navigation }) => {
 							color: '#fff',
 							flexGrow: 1,
 						}}>
-						Login to view your Profile
+						Inicie sesión para ver su perfil`
 					</Text>
 				</TouchableOpacity>
 			</View>

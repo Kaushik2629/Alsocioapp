@@ -20,8 +20,6 @@ const itemsPerPage = 5;
 const providerBranches = ({ navigation }) => {
 	const a = useContext(AuthContext);
 
-	const [name, setName] = useState();
-
 	const [isLoading, setIsLoading] = useState(true);
 
 	const [details, setDetails] = useState([]);
@@ -126,7 +124,7 @@ const providerBranches = ({ navigation }) => {
 						setCityValue();
 						properties.setFieldValue('region', itemValue);
 					}}>
-					<Picker.Item label='Select Region' value='' />
+					<Picker.Item label='Seleccionar región' value='' />
 					{regionpicker()}
 				</Picker>
 				{properties.touched.region && properties.errors.region && (
@@ -151,7 +149,7 @@ const providerBranches = ({ navigation }) => {
 						setCityValue(itemValue);
 						properties.setFieldValue('city', itemValue);
 					}}>
-					<Picker.Item label='Select your City' value='' />
+					<Picker.Item label='Seleccionar ciudad' value='' />
 					{citypicker()}
 				</Picker>
 				{properties.touched.city && properties.errors.city && (
@@ -169,8 +167,8 @@ const providerBranches = ({ navigation }) => {
 	};
 
 	const BranchSchema = Yup.object().shape({
-		region: Yup.string().required('Region is Required'),
-		city: Yup.string().required('City is Required'),
+		region: Yup.string().required('La región es obligatoria'),
+		city: Yup.string().required('Se requiere la ciudad'),
 	});
 
 	return (
@@ -179,10 +177,9 @@ const providerBranches = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Your Branches'
+					title='Tus Ramas'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 
 			{isLoading ? (
@@ -223,7 +220,7 @@ const providerBranches = ({ navigation }) => {
 									.then((response) => response.json())
 									.then((responseJson) => {
 										setDetails(responseJson.branches);
-										alert('Team Member Added Successfully');
+										alert('Rama agregada con éxito');
 										setIsLoading(false);
 									});
 							}}
@@ -289,7 +286,7 @@ const providerBranches = ({ navigation }) => {
 													margin: 15,
 													color: '#fff',
 												}}>
-												Submit
+												Enviar
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -330,7 +327,7 @@ const providerBranches = ({ navigation }) => {
 												alignSelf: 'flex-start',
 												textAlign: 'left',
 											}}>
-											City -
+											Ciudad -
 										</Text>
 										<Text
 											style={{
@@ -345,7 +342,7 @@ const providerBranches = ({ navigation }) => {
 										</Text>
 									</View>
 									<View style={{ flexDirection: 'row', padding: 10 }}>
-										<Text style={styles.leftLabel}>Region - </Text>
+										<Text style={styles.leftLabel}>Región - </Text>
 										<Text style={styles.rightLabel}>{item.region}</Text>
 									</View>
 								</Card.Content>

@@ -210,7 +210,8 @@ const App = () => {
 
 	const [notificationBody, setNotificationBody] = useState([]);
 	const fetchNotifications = () => {
-		if (loginState.userName != null) {
+		// alert('id')
+		// if (loginState.userName != null) {
 			let customer_name = new FormData();
 			customer_name.append('username', loginState.userName);
 			fetch('https://alsocio.com/app/get-notifications/', {
@@ -220,23 +221,25 @@ const App = () => {
 				.then((response) => response.json())
 				.then((responseJson) => {
 					console.log(responseJson);
-					if (responseJson.notifications != []) {
+					if (responseJson.notifications.length != 0) {
+						console.log('called in function')
 						setNotificationBody(responseJson.notifications);
 					}
 				})
 				.catch((error) => console.error(error));
-		}
+		// }
 	};
 	useEffect(() => {
-		var t = setInterval(() => {
+		var t = setInterval(() => {			
 			if (loginState.userName != null) {
 				fetchNotifications();
+				// console.log(loginState.userName)
 			}
 		}, 8000);
 		return () => {
 			clearTimeout(t);
 		};
-	}, [loginState]);
+	},[]);
 
 	//to send expo notification
 	const [expoPushToken, setExpoPushToken] = useState('');
@@ -310,7 +313,7 @@ const App = () => {
 				sendPushNotification(expoPushToken, item.notification);
 			});
 		}
-	}, [notificationBody]);
+	}, [notificationBody.length]);
 
 	async function sendPushNotification(expoPushToken, notifiedMessage) {
 		const message = {

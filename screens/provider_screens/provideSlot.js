@@ -136,7 +136,7 @@ const providerSlot = ({ navigation }) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
-          title="Your Business Hours"
+          title="Tu horario comercial"
           subtitleStyle={{ marginBottom: 5 }}
         />
       </Appbar.Header>
@@ -220,7 +220,7 @@ const providerSlot = ({ navigation }) => {
                       margin: 8,
                     }}
                   >
-                    <Text style={{ fontSize: 11 }}>Start-Time</Text>
+                    <Text style={{ fontSize: 11 }}>Hora de inicio</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -259,7 +259,7 @@ const providerSlot = ({ navigation }) => {
                       margin: 8,
                     }}
                   >
-                    <Text style={{ fontSize: 12 }}>End-Time</Text>
+                    <Text style={{ fontSize: 12 }}>Hora de finalización</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -296,7 +296,7 @@ const providerSlot = ({ navigation }) => {
                     setIsHoliday(false);
                 }}
               />
-              <Text style={{ fontSize: 15 }}>24-hour</Text>
+              <Text style={{ fontSize: 15 }}>24 horas</Text>
             </View>
             <View
               style={{
@@ -315,7 +315,7 @@ const providerSlot = ({ navigation }) => {
                     setIsHoliday(true);
                 }}
               />
-              <Text style={{ fontSize: 15, marginTop: 5 }}>Keep a Holiday</Text>
+              <Text style={{ fontSize: 15, marginTop: 5 }}>Mantenga unas vacaciones</Text>
             </View>
 
             <TouchableOpacity
@@ -330,9 +330,11 @@ const providerSlot = ({ navigation }) => {
                   (startTime != "" && endTime == "") ||
                   (startTime == "" && endTime != "")
                 ) {
-                  alert("Please select both of the slots! ");
+                  alert("¡Selecciona ambas ranuras! ");
                   return;
                 }
+                setIsLoading(true);
+                setShowEditModal(!showEditModal);
                 let slotdetails = new FormData();
                 slotdetails.append("day", Day);
                 slotdetails.append("username", a.UserName);
@@ -344,10 +346,10 @@ const providerSlot = ({ navigation }) => {
                 })
                   .then((response) => response.json())
                   .then((responseJson) => {
+                    setIsLoading(false)
                     setDetails(responseJson), setStartTime(""), setEndTime("");
                   })
-                  .catch((error) => console.error(error));
-                setShowEditModal(!showEditModal);
+                  .catch((error) => console.error(error));               
               }}
             >
               <Text
@@ -360,7 +362,7 @@ const providerSlot = ({ navigation }) => {
                   flexGrow: 1,
                 }}
               >
-                Save
+                Salvar
               </Text>
             </TouchableOpacity>
           </View>
@@ -421,13 +423,13 @@ const providerSlot = ({ navigation }) => {
               <View style={{ flexGrow: 1, padding: 10 }}>
                 {item.start != "" ? (
                   <View style={{ flexDirection: "row", padding: 10 }}>
-                    <Text style={styles.leftLabel}>Start -</Text>
+                    <Text style={styles.leftLabel}>Comienzo -</Text>
                     <Text style={styles.rightLabel}>{item.start}</Text>
                   </View>
                 ) : null}
                 {item.end != "" ? (
                   <View style={{ flexDirection: "row", padding: 10 }}>
-                    <Text style={styles.leftLabel}>End -</Text>
+                    <Text style={styles.leftLabel}>Fin -</Text>
                     <Text style={styles.rightLabel}>{item.end}</Text>
                   </View>
                 ) : null}
@@ -453,7 +455,7 @@ const providerSlot = ({ navigation }) => {
                       flexGrow: 1,
                     }}
                   >
-                    Edit Details
+                   Editar detalles
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -476,7 +478,7 @@ const providerSlot = ({ navigation }) => {
                 fontWeight: "700",
               }}
             >
-              No Business Hours Available
+              No hay horario comercial disponible
             </Text>
           </View>
         }

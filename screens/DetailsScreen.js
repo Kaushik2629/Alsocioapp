@@ -19,8 +19,8 @@ const imageheight = Dimensions.get('screen').height;
 const DetailsScreen = ({ navigation }) => {
 	const a = useContext(AuthContext);
 	const [details, setDetails] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  // const {notifyUser} = useContext(AuthContext);
+	const [isLoading, setIsLoading] = useState(true);
+	// const {notifyUser} = useContext(AuthContext);
 
 	const fetchUsername = () => {
 		let customer_name = new FormData();
@@ -31,10 +31,10 @@ const DetailsScreen = ({ navigation }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-        console.log(responseJson);
-        // notifyUser(responseJson.notifications)
+				console.log(responseJson);
+				// notifyUser(responseJson.notifications)
 				setIsLoading(false);
-        setDetails(responseJson.notifications);
+				setDetails(responseJson.notifications);
 			})
 			.catch((error) => console.error(error));
 	};
@@ -287,10 +287,9 @@ const DetailsScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Notifications'
+					title='Notificaciones'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
 			</Appbar.Header>
 
 			{isLoading ? (
@@ -348,7 +347,7 @@ const DetailsScreen = ({ navigation }) => {
 									fontSize: 20,
 									fontWeight: '700',
 								}}>
-								No Notifications
+								No Notificaciones
 							</Text>
 						</View>
 					}

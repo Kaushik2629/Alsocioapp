@@ -80,6 +80,7 @@ const providerBookings = ({ navigation }) => {
 
 	const deleteBooking = (bookingId, username) => {
 		if (confirm) {
+			setIsLoading(true)
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
@@ -89,6 +90,7 @@ const providerBookings = ({ navigation }) => {
 			})
 				.then((response) => response.json())
 				.then((responseJson) => {
+					setIsLoading(false)
 					setDetails(responseJson.bookings);
 				})
 				.catch((error) => console.error(error));
@@ -141,7 +143,7 @@ const providerBookings = ({ navigation }) => {
 								alignSelf: 'center',
 								textAlign: 'center',
 							}}>
-							Accept
+							Aceptar
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -164,7 +166,7 @@ const providerBookings = ({ navigation }) => {
 								alignSelf: 'center',
 								textAlign: 'center',
 							}}>
-							Cancel Booking
+							Cancelar reserva
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -218,7 +220,7 @@ const providerBookings = ({ navigation }) => {
 								alignSelf: 'center',
 								textAlign: 'center',
 							}}>
-							Completed
+							Terminado
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -241,7 +243,7 @@ const providerBookings = ({ navigation }) => {
 								alignSelf: 'center',
 								textAlign: 'center',
 							}}>
-							Edit
+							Editar
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -281,7 +283,7 @@ const providerBookings = ({ navigation }) => {
 						fontWeight: '900',
 						textAlign: 'center',
 					}}>
-					Completed!
+					Terminado!
 				</Text>
 			);
 		}
@@ -294,6 +296,8 @@ const providerBookings = ({ navigation }) => {
 
 	const completeBooking = (bookingId, username) => {
 		if (askAgain) {
+			setCompletedModal(!completedModal);
+			setIsLoading(true)
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
@@ -303,8 +307,8 @@ const providerBookings = ({ navigation }) => {
 			})
 				.then((response) => response.json())
 				.then((responseJson) => {
-					setDetails(responseJson.bookings);
-					setCompletedModal(!completedModal);
+					setIsLoading(false)
+					setDetails(responseJson.bookings);					
 				})
 				.catch((error) => console.error(error));
 		}
@@ -316,7 +320,7 @@ const providerBookings = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Your Bookings'
+					title='Tus Reservas'
 					subtitleStyle={{ marginBottom: 5 }}
 				/>
 				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
@@ -364,6 +368,8 @@ const providerBookings = ({ navigation }) => {
 					<Formik
 						initialValues={{ additionalcost: '' }}
 						onSubmit={(values) => {
+							setIsLoading(true)
+							setChargesModal(!chargesModal);
 							let quoteDetails = new FormData();
 							quoteDetails.append('username', a.UserName);
 							quoteDetails.append('booking_id', bookingId);
@@ -374,8 +380,8 @@ const providerBookings = ({ navigation }) => {
 							})
 								.then((response) => response.json())
 								.then((responseJson) => {
-									setDetails(responseJson.bookings);
-									setChargesModal(!chargesModal);
+									setIsLoading(false)
+									setDetails(responseJson.bookings);									
 								})
 								.catch((error) => console.error(error));
 						}}>
@@ -398,7 +404,7 @@ const providerBookings = ({ navigation }) => {
 									keyboardType={'numeric'}
 								/>
 								<Button
-									title='Submit'
+									title='Enviar'
 									color='#1a237e'
 									style={{
 										borderRadius: 20,
@@ -462,7 +468,7 @@ const providerBookings = ({ navigation }) => {
 								fontWeight: 'bold',
 								margin: 15,
 							}}>
-							Have you completed this booking?
+							¿Ha completado esta reserva?
 						</Text>
 						<TouchableOpacity
 							style={{
@@ -482,7 +488,7 @@ const providerBookings = ({ navigation }) => {
 									margin: 15,
 									color: '#fff',
 								}}>
-								Yes
+								Si
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -579,6 +585,8 @@ const providerBookings = ({ navigation }) => {
 						onPress={() => {
 							// alert(bookingId)
 							// alert(teamMemberValue)
+							setIsLoading(true)
+							setShowEditModal(!showEditModal);
 							let bookingdetails = new FormData();
 							bookingdetails.append('booking_id', bookingId);
 							bookingdetails.append('username', a.UserName);
@@ -589,11 +597,12 @@ const providerBookings = ({ navigation }) => {
 							})
 								.then((response) => response.json())
 								.then((responseJson) => {
+									setIsLoading(false)
 									setDetails(responseJson.bookings);
 									setTeamMemberValue('');
 								})
 								.catch((error) => console.error(error));
-							setShowEditModal(!showEditModal);
+							
 						}}>
 						<Text
 							style={{
@@ -604,7 +613,7 @@ const providerBookings = ({ navigation }) => {
 								color: '#fff',
 								flexGrow: 1,
 							}}>
-							Accept and Assign Team Member
+							Aceptar y asignar un miembro del equipo
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -660,7 +669,7 @@ const providerBookings = ({ navigation }) => {
 								fontWeight: 'bold',
 								margin: 15,
 							}}>
-							Do You want to cancel this booking?
+							¿Quieres cancelar esta reserva?
 						</Text>
 						<TouchableOpacity
 							style={{
@@ -682,7 +691,7 @@ const providerBookings = ({ navigation }) => {
 									margin: 15,
 									color: '#fff',
 								}}>
-								Yes
+								Si
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -758,19 +767,19 @@ const providerBookings = ({ navigation }) => {
 									</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Service -</Text>
+									<Text style={styles.leftLabel}>Servicio -</Text>
 									<Text style={styles.rightLabel}>{item.service}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Quantity -</Text>
+									<Text style={styles.leftLabel}>Cantidad -</Text>
 									<Text style={styles.rightLabel}>{item.quantity}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Cost -</Text>
+									<Text style={styles.leftLabel}>Costo -</Text>
 									<Text style={styles.rightLabel}>${item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Additional Charges -</Text>
+									<Text style={styles.leftLabel}>Cargos adicionales -</Text>
 									<Text style={styles.rightLabel}>
 										{item.additional_charges}
 									</Text>
@@ -780,32 +789,32 @@ const providerBookings = ({ navigation }) => {
 									<Text style={styles.rightLabel}>{item.service_date}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Service Time -</Text>
+									<Text style={styles.leftLabel}>Tiempo de servicio -</Text>
 									<Text style={styles.rightLabel}>{item.service_time}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Address</Text>
+									<Text style={styles.leftLabel}>Habla a</Text>
 									<Text style={styles.rightLabel}>{item.address}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>City</Text>
+									<Text style={styles.leftLabel}>Ciudad</Text>
 									<Text style={styles.rightLabel}>{item.city}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Region</Text>
+									<Text style={styles.leftLabel}>Región</Text>
 									<Text style={styles.rightLabel}>{item.region}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Team Member</Text>
+									<Text style={styles.leftLabel}>Miembro del equipo</Text>
 									<Text style={styles.rightLabel}>{item.team_member}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Booking Accepted</Text>
+									<Text style={styles.leftLabel}>Reserva aceptada</Text>
 									<Text style={styles.rightLabel}>{item.booking_accepted}</Text>
 								</View>
 								{showButtons(
@@ -831,7 +840,7 @@ const providerBookings = ({ navigation }) => {
 									fontSize: 20,
 									fontWeight: '700',
 								}}>
-								No Bookings
+								Sin reservas
 							</Text>
 						</View>
 					}
