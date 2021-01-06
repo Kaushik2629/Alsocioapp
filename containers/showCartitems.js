@@ -34,7 +34,7 @@ const showCartitems = ({ route, navigation }, props) => {
 	let a = [];
 	const fetchCount = async () => {
 		let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		if (check != null) {
+		if (check.length != 0 && check!=null) {
 			a = [...check];
 			setCartcount(a);
 			return;
@@ -67,7 +67,6 @@ const showCartitems = ({ route, navigation }, props) => {
 				})
 					.then((response) => response.json())
 					.then((responseJson) => {
-						// console.log(responseJson)
 						setIsLoading(false);
 						showList = [...showList, ...responseJson.service];
 						setDetails(showList);
