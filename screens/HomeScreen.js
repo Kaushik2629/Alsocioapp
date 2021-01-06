@@ -337,7 +337,6 @@ const HomeScreen = ({ route, navigation }) => {
   return (
     <React.Fragment>
       <View style={styles.container}>
-	  
         <Modal
           animationType="fade"
           visible={showPickerModal}
@@ -412,9 +411,10 @@ const HomeScreen = ({ route, navigation }) => {
           </Formik>
         </Modal>
 
-        <StatusBar backgroundColor='#1a237e' barStyle='light-content' />
-
-		<Appbar.Header style={{ backgroundColor: "#1a237e",height:0 }}></Appbar.Header>
+        <StatusBar backgroundColor="#1a237e" barStyle="light-content" />
+        <Appbar.Header
+          style={{ backgroundColor: "#1a237e", height: 0 }}
+        ></Appbar.Header>
         <View style={styles.upperHeaderContainer}>
           {TopLeftNavScreen()}
           {checkUser()}
