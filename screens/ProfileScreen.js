@@ -290,7 +290,7 @@ const ProfileScreen = ({ navigation }) => {
 											<Text
 												style={{
 													flexGrow: 1,
-													paddingHorizontal: 20,
+													paddingHorizontal: 10,
 													alignSelf: 'center',
 												}}>
 												Identificación de correo
@@ -668,7 +668,7 @@ const ProfileScreen = ({ navigation }) => {
 											<Text
 												style={{
 													flexGrow: 1,
-													paddingHorizontal: 20,
+													paddingHorizontal: 10,
 													alignSelf: 'center',
 												}}>
 												Identificación de correo

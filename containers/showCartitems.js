@@ -34,14 +34,16 @@ const showCartitems = ({ route, navigation }, props) => {
 	let a = [];
 	const fetchCount = async () => {
 		let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		if (check.length != 0 && check!=null) {
+		if (check == null) {
+			setIsLoading(false);
+			setDetails([]);
+		} else if (check.length != 0) {
 			a = [...check];
 			setCartcount(a);
 			return;
-		}
-		else{
-			setIsLoading(false)
-			setDetails([])
+		} else {
+			setIsLoading(false);
+			setDetails([]);
 		}
 	};
 	// fetchCount();
@@ -55,7 +57,7 @@ const showCartitems = ({ route, navigation }, props) => {
 		// alert('ijijj')
 		let showList = [];
 		// let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		if (cartCount.length!=0) {
+		if (cartCount.length != 0) {
 			// console.log(check)
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
@@ -208,15 +210,21 @@ const showCartitems = ({ route, navigation }, props) => {
 
 	const showDiscount = (cost, discount) => {
 		return discount == null || discount == 0 ? (
-			<Text
+			<View
 				style={{
-					fontSize: 15,
-					fontWeight: '500',
 					marginLeft: 20,
 					marginTop: 10,
+					flexDirection:'row'
 				}}>
-				El costo es -${cost}
-			</Text>
+				<Text
+					style={{
+						fontSize: 15,
+						fontWeight: 'bold',
+					}}>
+					El costo es -
+				</Text>
+				<Text style={{ fontSize: 15 }}>${cost}</Text>
+			</View>
 		) : (
 			<View style={{ flexDirection: 'row' }}>
 				<Text>El costo es -</Text>
@@ -340,7 +348,8 @@ const showCartitems = ({ route, navigation }, props) => {
 							<View style={{ flexGrow: 1 }}>
 								<Text>{handleSentence()}</Text>
 							</View>
-							<View style={{ flexGrow: 1 }}>
+							<View style={{ flexGrow: 1, flexDirection: 'row' }}>
+								<Text style={{ fontWeight: 'bold' }}>Total :</Text>
 								<Text>${showTotalCostPopup()}</Text>
 							</View>
 						</View>
@@ -491,7 +500,7 @@ const showCartitems = ({ route, navigation }, props) => {
 							<Card
 								style={{
 									flex: 1,
-									padding: 10.0,
+									paddingVertical: 10,
 									shadowColor: '#000',
 									shadowOffset: { width: 0, height: 1 },
 									shadowOpacity: 0.5,
@@ -501,13 +510,11 @@ const showCartitems = ({ route, navigation }, props) => {
 									borderRadius: 10,
 								}}>
 								{showDiscount(item.service_cost, item.discount)}
-
 								<Image
 									style={{
-										width: imagewidth - 50,
-										height: imageheight/3,
-										marginHorizontal: 20,
-										marginVertical: 10,
+										width: imagewidth - 40,
+										height: imageheight / 3,
+										margin: 10,
 									}}
 									source={{
 										uri: 'https:alsocio.com/media/' + item.img,
@@ -611,10 +618,8 @@ export default showCartitems;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginBottom: 10,
 	},
 	footer: {
 		bottom: 0,

@@ -649,6 +649,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		backgroundColor:'#1a237e'
 	},
 	textInput: {
 		width: imagewidth / 2.5,

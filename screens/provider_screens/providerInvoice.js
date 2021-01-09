@@ -45,13 +45,14 @@ const providerInvoice = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#1a237e',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content
-					titleStyle={{ padding: 10 }}
-					title='Facturas'
-				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
+				<Appbar.Content titleStyle={{ padding: 10 }} title='Facturas' />
 			</Appbar.Header>
 			<FlatList
 				data={details}
@@ -76,44 +77,42 @@ const providerInvoice = ({ navigation }) => {
 									flexGrow: 1,
 									padding: 15,
 									borderBottomWidth: 0.45,
-									flexDirection:'row'
+									flexDirection: 'row',
 								}}>
 								<Text
 									style={{
-										flexGrow: 1,
-										fontSize: 18,
-										fontWeight: '900',
+										fontSize: 15,
+										fontWeight: 'bold',
 										alignSelf: 'flex-start',
 										textAlign: 'left',
 									}}>
-									Customer Email - 
+									Correo electrónico del cliente -
 								</Text>
 								<Text
 									style={{
+										width: 100,
 										fontSize: 13,
 										fontWeight: '900',
 										alignSelf: 'flex-end',
 										textAlign: 'right',
-										marginBottom:3,
-										marginLeft:5
 									}}>
 									{item.customer_email}
 								</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>No.of Services - </Text>
+								<Text style={styles.leftLabel}>No de servicios - </Text>
 								<Text style={styles.rightLabel}>{item.services}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Sub Total - </Text>
+								<Text style={styles.leftLabel}>Total parcial - </Text>
 								<Text style={styles.rightLabel}>{item.sub_total}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Provider Charges -</Text>
+								<Text style={styles.leftLabel}>Cargos del proveedor -</Text>
 								<Text style={styles.rightLabel}>{item.provider_charges}</Text>
 							</View>
-                            <View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Service Charges -</Text>
+							<View style={{ flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Cargos por servicio -</Text>
 								<Text style={styles.rightLabel}>{item.service_charges}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
@@ -121,27 +120,29 @@ const providerInvoice = ({ navigation }) => {
 								<Text style={styles.rightLabel}>{item.itbms}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Total Cost -</Text>
+								<Text style={styles.leftLabel}>Coste total -</Text>
 								<Text style={styles.rightLabel}>{item.cost}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Address -</Text>
-								<Text style={styles.rightLabel}>{item.address}</Text>
+								<Text style={styles.leftLabel}>Habla a -</Text>
+								<Text style={[styles.rightLabel, { width: 200 }]}>
+									{item.address}
+								</Text>
 							</View>
 							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>City -</Text>
+								<Text style={styles.leftLabel}>Ciudad -</Text>
 								<Text style={styles.rightLabel}>{item.city}</Text>
 							</View>
-                            <View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Region -</Text>
+							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Región -</Text>
 								<Text style={styles.rightLabel}>{item.region}</Text>
 							</View>
 							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Status -</Text>
+								<Text style={styles.leftLabel}>Estado -</Text>
 								<Text style={styles.rightLabel}>{item.status}</Text>
 							</View>
-                            <View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Payment Status -</Text>
+							<View style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
+								<Text style={styles.leftLabel}>Estado de pago -</Text>
 								<Text style={styles.rightLabel}>{item.payment_status}</Text>
 							</View>
 						</Card.Content>
@@ -149,7 +150,7 @@ const providerInvoice = ({ navigation }) => {
 				)}
 			/>
 		</View>
-	)
+	);
 };
 
 export default providerInvoice;

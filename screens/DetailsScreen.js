@@ -23,6 +23,11 @@ const DetailsScreen = ({ navigation }) => {
 	// const {notifyUser} = useContext(AuthContext);
 
 	const fetchUsername = () => {
+		if(a.UserName==null){
+			setIsLoading(false);
+			setDetails([]);
+			return;
+		}
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
 		fetch('https://alsocio.com/app/get-notifications/', {

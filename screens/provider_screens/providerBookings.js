@@ -80,7 +80,7 @@ const providerBookings = ({ navigation }) => {
 
 	const deleteBooking = (bookingId, username) => {
 		if (confirm) {
-			setIsLoading(true)
+			setIsLoading(true);
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
@@ -90,7 +90,7 @@ const providerBookings = ({ navigation }) => {
 			})
 				.then((response) => response.json())
 				.then((responseJson) => {
-					setIsLoading(false)
+					setIsLoading(false);
 					setDetails(responseJson.bookings);
 				})
 				.catch((error) => console.error(error));
@@ -297,7 +297,7 @@ const providerBookings = ({ navigation }) => {
 	const completeBooking = (bookingId, username) => {
 		if (askAgain) {
 			setCompletedModal(!completedModal);
-			setIsLoading(true)
+			setIsLoading(true);
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
@@ -307,8 +307,8 @@ const providerBookings = ({ navigation }) => {
 			})
 				.then((response) => response.json())
 				.then((responseJson) => {
-					setIsLoading(false)
-					setDetails(responseJson.bookings);					
+					setIsLoading(false);
+					setDetails(responseJson.bookings);
 				})
 				.catch((error) => console.error(error));
 		}
@@ -316,13 +316,14 @@ const providerBookings = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#1a237e',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content
-					titleStyle={{ padding: 10 }}
-					title='Tus Reservas'
-				/>
-				<Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} />
+				<Appbar.Content titleStyle={{ padding: 10 }} title='Tus Reservas' />
 			</Appbar.Header>
 
 			<Modal
@@ -367,7 +368,7 @@ const providerBookings = ({ navigation }) => {
 					<Formik
 						initialValues={{ additionalcost: '' }}
 						onSubmit={(values) => {
-							setIsLoading(true)
+							setIsLoading(true);
 							setChargesModal(!chargesModal);
 							let quoteDetails = new FormData();
 							quoteDetails.append('username', a.UserName);
@@ -379,8 +380,8 @@ const providerBookings = ({ navigation }) => {
 							})
 								.then((response) => response.json())
 								.then((responseJson) => {
-									setIsLoading(false)
-									setDetails(responseJson.bookings);									
+									setIsLoading(false);
+									setDetails(responseJson.bookings);
 								})
 								.catch((error) => console.error(error));
 						}}>
@@ -584,7 +585,7 @@ const providerBookings = ({ navigation }) => {
 						onPress={() => {
 							// alert(bookingId)
 							// alert(teamMemberValue)
-							setIsLoading(true)
+							setIsLoading(true);
 							setShowEditModal(!showEditModal);
 							let bookingdetails = new FormData();
 							bookingdetails.append('booking_id', bookingId);
@@ -596,12 +597,11 @@ const providerBookings = ({ navigation }) => {
 							})
 								.then((response) => response.json())
 								.then((responseJson) => {
-									setIsLoading(false)
+									setIsLoading(false);
 									setDetails(responseJson.bookings);
 									setTeamMemberValue('');
 								})
 								.catch((error) => console.error(error));
-							
 						}}>
 						<Text
 							style={{
@@ -794,7 +794,9 @@ const providerBookings = ({ navigation }) => {
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Habla a</Text>
-									<Text style={styles.rightLabel}>{item.address}</Text>
+									<Text style={[styles.rightLabel, { width: 200 }]}>
+										{item.address}
+									</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>

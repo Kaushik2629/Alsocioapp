@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Share } from 'react-native';
 import {
 	useTheme,
 	Avatar,
@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AuthContext } from '../components/context';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Platform } from 'react-native';
 
 export function DrawerContent(props) {
 	const paperTheme = useTheme();
@@ -45,13 +46,59 @@ export function DrawerContent(props) {
 		) : (
 			<View style={{ marginLeft: 15 }}>
 				<Title style={styles.title}>{a.UserName}</Title>
-				{a.Role=='Customer'?(
+				{a.Role == 'Customer' ? (
 					<Caption style={styles.caption}>Cliente</Caption>
-				):(
+				) : (
 					<Caption style={styles.caption}>Proveedor</Caption>
 				)}
 			</View>
 		);
+	};
+
+	const shareApp = async () => {
+		if (Platform.OS == 'android') {
+			try {
+				const result = await Share.share({
+					title: 'Alsocio|You are in Good Hands',
+					message:
+						'Click on this link to download the app' +
+						'\n' +
+						'https://play.google.com/store/apps/details?id=com.Alsocio.AlsocioApp&hl=en_US&gl=US',
+				});
+				if (result.action === Share.sharedAction) {
+					if (result.activityType) {
+						// shared with activity type of result.activityType
+					} else {
+						// shared
+					}
+				} else if (result.action === Share.dismissedAction) {
+					// dismissed
+				}
+			} catch (error) {
+				alert(error.message);
+			}
+		} else {
+			try {
+				const result = await Share.share({
+					message:
+						'AlSocio|You are in Good Hands' +
+						'Click on this link to download the app ',
+					url:
+						'https://play.google.com/store/apps/details?id=com.Alsocio.AlsocioApp&hl=en_US&gl=US',
+				});
+				if (result.action === Share.sharedAction) {
+					if (result.activityType) {
+						// shared with activity type of result.activityType
+					} else {
+						// shared
+					}
+				} else if (result.action === Share.dismissedAction) {
+					// dismissed
+				}
+			} catch (error) {
+				alert(error.message);
+			}
+		}
 	};
 
 	const refreshPage = async () => {
@@ -71,19 +118,12 @@ export function DrawerContent(props) {
 			<DrawerContentScrollView {...props}>
 				<View style={styles.drawerContent}>
 					<View style={styles.userInfoSection}>
-						<View style={{ flexDirection: 'row' }}>
-							{/* <Avatar.Image 
-                                source={{
-                                    uri: 'https://api.adorable.io/avatars/50/abott@adorable.png'
-                                }}
-                                size={50}
-                            /> */}
-							{showName()}
-						</View>
+						<View style={{ flexDirection: 'row' }}>{showName()}</View>
 					</View>
 
 					<Drawer.Section style={styles.drawerSection}>
 						<DrawerItem
+							style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 							icon={({ color, size }) => (
 								<Icon name='home-outline' color={color} size={size} />
 							)}
@@ -100,6 +140,7 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
+							style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 							icon={({ color, size }) => (
 								<Icon name='account-outline' color={color} size={size} />
 							)}
@@ -109,17 +150,30 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
+							style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 							icon={({ color, size }) => (
 								<Icon name='bookmark-outline' color={color} size={size} />
 							)}
 							label='Reservas'
 							onPress={() => {
-								props.navigation.navigate('Explore');
+								{
+									if (a.Role == 'Customer') {
+										props.navigation.navigate('Explore');
+									}
+									if (a.Role == 'Provider') {
+										props.navigation.navigate('providerBookings');
+									}
+								}
 							}}
 						/>
 						<DrawerItem
+							style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 							icon={({ color, size }) => (
-								<Icon name='account-card-details-outline' color={color} size={size} />
+								<Icon
+									name='account-card-details-outline'
+									color={color}
+									size={size}
+								/>
 							)}
 							label='Factura'
 							onPress={() => {
@@ -134,6 +188,7 @@ export function DrawerContent(props) {
 							}}
 						/>
 						<DrawerItem
+							style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 							icon={({ color, size }) => (
 								<Icon name='account-check-outline' color={color} size={size} />
 							)}
@@ -152,6 +207,7 @@ export function DrawerContent(props) {
 						{a.UserName == null ? (
 							<View>
 								<DrawerItem
+									style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 									icon={({ color, size }) => (
 										<FontAwesome name='user-o' color={color} size={size} />
 									)}
@@ -159,6 +215,7 @@ export function DrawerContent(props) {
 									onPress={() => props.navigation.navigate('SignInScreen')}
 								/>
 								<DrawerItem
+									style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 									icon={({ color, size }) => (
 										<FontAwesome name='plus' color={color} size={size} />
 									)}
@@ -169,6 +226,7 @@ export function DrawerContent(props) {
 						) : null}
 						{a.Role == 'Provider' ? (
 							<DrawerItem
+								style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
 								icon={({ color, size }) => (
 									<Icon name='currency-usd' color={color} size={size} />
 								)}
@@ -178,6 +236,16 @@ export function DrawerContent(props) {
 								}}
 							/>
 						) : null}
+						<DrawerItem
+							style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
+							icon={({ color, size }) => (
+								<Icon name='share-variant' color={color} size={size} />
+							)}
+							label='Comparte AlSocio'
+							onPress={() => {
+								shareApp();
+							}}
+						/>
 					</Drawer.Section>
 				</View>
 			</DrawerContentScrollView>

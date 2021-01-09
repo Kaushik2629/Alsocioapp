@@ -53,7 +53,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				name='providerHome'
 				component={providerHome}
 				options={{
-					tabBarLabel: 'Home',
+					tabBarLabel: 'Casa',
 					tabBarColor: '#1a237e',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-home' color={color} size={26} />
