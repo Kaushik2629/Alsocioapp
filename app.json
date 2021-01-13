@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.Alsocio.AlsocioApp",
-      "buildNumber": "1.1.1"
+      "buildNumber": "1.1.2"
     },
     "web": {
       "favicon": "./assets/icon.png"
