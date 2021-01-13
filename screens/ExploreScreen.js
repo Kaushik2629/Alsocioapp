@@ -485,7 +485,7 @@ const ExploreScreen = ({ navigation }) => {
 						</Text>
 
 						<TextInput
-							placeholder='Enter Your Review(Optional)'
+							placeholder='Ingrese su reseña (opcional)'
 							multiline={true}
 							numberOfLines={4}
 							style={{
@@ -509,6 +509,7 @@ const ExploreScreen = ({ navigation }) => {
 						}}
 						onPress={() => {
 							if (ratingCount != 0) {
+								setShowReviewModal(false)
 								setIsLoading(true);
 								let ratingDetails = new FormData();
 								ratingDetails.append('username', a.UserName);
@@ -525,12 +526,11 @@ const ExploreScreen = ({ navigation }) => {
 									.then((responseJson) => {
 										console.log(responseJson);
 										setDetails(responseJson.bookings);
-										setShowReviewModal(!showReviewModal);
 										setIsLoading(false);
 									})
 									.catch((error) => console.error(error));
 							} else {
-								setShowReviewModal(!showReviewModal);
+								setShowReviewModal(false);
 							}
 						}}>
 						<Text
@@ -541,7 +541,7 @@ const ExploreScreen = ({ navigation }) => {
 								margin: 15,
 								color: '#fff',
 							}}>
-							Submit
+							Enviar
 						</Text>
 					</TouchableOpacity>
 				</View>

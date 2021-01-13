@@ -17,8 +17,12 @@ import { MaterialIndicator } from 'react-native-indicators';
 import { Appbar, Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../components/context';
+import * as Yup from 'yup';
+import * as Animatable from 'react-native-animatable';
+
 
 const imagewidth = Dimensions.get('screen').width;
+const imageheight = Dimensions.get('screen').height;
 
 const ProfileScreen = ({ navigation }) => {
 	const a = useContext(AuthContext);
@@ -114,7 +118,8 @@ const ProfileScreen = ({ navigation }) => {
 
 	const showPicker = (properties) => {
 		return (
-			<View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<View
+				style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
 				<Picker
 					style={{
 						marginVertical: 10,
@@ -152,6 +157,222 @@ const ProfileScreen = ({ navigation }) => {
 
 	const [customerEditModal, setCustomerEditModal] = useState(false);
 	const [providerEditModal, setProviderEditModal] = useState(false);
+	const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+
+	const ChangePasswordSchema = Yup.object().shape({
+		username: Yup.string().required('Se requiere nombre de usuario'),
+		email: Yup.string().email('Email inválido').required('Necesario'),
+		password: Yup.string()
+			.required('No se proporcionó contraseña')
+			.min(
+				8,
+				'La contraseña es demasiado corta: debe tener un mínimo de 8 caracteres.'
+			),
+		confirm_password: Yup.string()
+			.required('Necesario.')
+			.test(
+				'Las contraseñas coinciden',
+				'¡Las contraseñas no coinciden!',
+				function (value) {
+					return this.parent.password === value;
+				}
+			),
+	});
+	const [showMsg, setShowMsg] = useState(false);
+	const changePassword = (parameters) => {
+		console.log(parameters.email);
+		console.log(parameters.confirm_password);
+		setIsLoading(true);
+		let userDetails = new FormData();
+		userDetails.append('email', parameters.email);
+		userDetails.append('password', parameters.confirm_password);
+		userDetails.append('username', parameters.username);
+		fetch('https://alsocio.com/app/update-password/', {
+			method: 'POST',
+			body: userDetails,
+		})
+			.then((response) => response.json())
+			.then((responseJson) => {
+				console.log(responseJson);
+				setIsLoading(false);
+				setShowMsg(true);
+				// if (responseJson.password_change == 'successful') {
+				// 	navigation.navigate('SignInScreen');
+				// }
+			});
+	};
+
+	const changePasswordModal = () => {
+		return a.UserName != null ? (
+			<Modal
+				animationType='fade'
+				transparent={false}
+				visible={showChangePasswordModal}
+				onRequestClose={() => {
+					setShowChangePasswordModal(!showChangePasswordModal);
+				}}>
+				<View
+					style={{
+						backgroundColor: '#fff',
+						alignItems:'center',
+						justifyContent: 'center',
+						shadowColor: '#000',
+						borderRadius: 15,
+						shadowOffset: {
+							width: 5,
+							height: 5,
+						},
+						padding: 10,
+						shadowOpacity: 1,
+						shadowRadius: 5,
+						elevation: 15,
+					}}>
+					<TouchableOpacity
+						style={{
+							flexGrow: 1,
+							elevation: 3,
+							alignSelf: 'flex-end',
+						}}>
+						<Icon.Button
+							name='ios-close'
+							size={25}
+							backgroundColor='#fff'
+							color='#000'
+							style={{ padding: 15, textAlign: 'right' }}
+							onPress={() => {
+								setShowChangePasswordModal(!showChangePasswordModal);
+							}}></Icon.Button>
+					</TouchableOpacity>
+					<Formik
+						initialValues={{
+							username: a.UserName,
+							email: details.email,
+							password: '',
+							confirm_password: '',
+						}}
+						onSubmit={(values) => {
+							changePassword(values);
+						}}
+						enableReinitialize={true}
+						validationSchema={ChangePasswordSchema}>
+						{(props) => (
+							<Card
+								style={{
+									width: imagewidth - 20,
+									shadowColor: '#000',
+									shadowOffset: { width: 0, height: 1 },
+									shadowOpacity: 0.8,
+									shadowRadius: 10,
+									elevation: 15,
+									borderRadius: 10,
+								}}>
+								{showMsg ? (
+									<Animatable.View
+										style={{
+											position: 'absolute',
+											backgroundColor: '#fff',
+											shadowColor: '#000',
+											width: imagewidth - 15,
+											height: 250,
+											borderRadius: 15,
+											shadowOffset: {
+												width: 2,
+												height: 2,
+											},
+											shadowOpacity: 0.25,
+											shadowRadius: 3.84,
+											elevation: 5,
+											zIndex: 999,
+											elevation: 10,
+											// alignItems:'center',
+											justifyContent: 'center',
+										}}>
+										<View style={{ marginTop: 25, paddingHorizontal: 15 }}>
+											<Text style={{ textAlign: 'center' }}>
+											Contraseña cambiada con éxito
+											</Text>
+											<TouchableOpacity
+												style={styles.otp}
+												activeOpacity={0.7}
+												onPress={() => {
+													setShowChangePasswordModal(false);
+													setShowMsg(false)
+												}}>
+												<Text
+													style={{
+														alignSelf: 'center',
+														fontSize: 13,
+														fontWeight: '800',
+														margin: 15,
+														color: '#fff',
+													}}>
+													Bueno
+												</Text>
+											</TouchableOpacity>
+										</View>
+									</Animatable.View>
+								) : null}
+								<View>
+									<View style={{ margin: 15 }}>
+										<TextInput
+											mode={'outlined'}
+											placeholder='Introduzca nueva contraseña'
+											onBlur={() => props.setFieldTouched('password')}
+											onChangeText={props.handleChange('password')}
+											value={props.values.password}
+											secureTextEntry={true}
+										/>
+										{props.touched.password && props.errors.password && (
+											<Text style={{ fontSize: 10, color: 'red' }}>
+												{props.errors.password}
+											</Text>
+										)}
+									</View>
+									<View style={{ margin: 15 }}>
+										<TextInput
+											mode={'outlined'}
+											placeholder='Confirmar nueva contraseña'
+											onBlur={() => props.setFieldTouched('confirm_password')}
+											onChangeText={props.handleChange('confirm_password')}
+											value={props.values.confirm_password}
+											secureTextEntry={true}
+										/>
+
+										{props.touched.confirm_password &&
+											props.errors.confirm_password && (
+												<Text style={{ fontSize: 10, color: 'red' }}>
+													{props.errors.confirm_password}
+												</Text>
+											)}
+									</View>
+									<View style={{ justifyContent: 'center', padding: 5 }}>
+										<TouchableOpacity
+											style={styles.otp}
+											activeOpacity={0.7}
+											onPress={() => {
+												props.handleSubmit();
+											}}>
+											<Text
+												style={{
+													alignSelf: 'center',
+													fontSize: 13,
+													fontWeight: '800',
+													margin: 15,
+													color: '#fff',
+													flexGrow: 1,
+												}}>
+												Cambia la contraseña
+											</Text>
+										</TouchableOpacity>
+									</View>
+								</View>
+							</Card>
+						)}
+					</Formik>
+				</View>
+			</Modal>
+		) : null;
+	};
 
 	const showUserProfile = (UserType) => {
 		if (UserType == 'Customer') {
@@ -170,6 +391,7 @@ const ProfileScreen = ({ navigation }) => {
 			}
 			return (
 				<View>
+					{changePasswordModal()}
 					<Modal
 						animationType='fade'
 						visible={customerEditModal}
@@ -179,7 +401,7 @@ const ProfileScreen = ({ navigation }) => {
 						}}>
 						<View
 							style={{
-								marginTop:50,
+								marginTop: 50,
 								backgroundColor: '#fff',
 								shadowColor: '#000',
 								marginHorizontal: 20,
@@ -221,7 +443,7 @@ const ProfileScreen = ({ navigation }) => {
 								}}
 								onSubmit={(values) => {
 									setCustomerEditModal(!customerEditModal);
-									setIsLoading(true)
+									setIsLoading(true);
 									let userdetails = new FormData();
 									userdetails.append('username', a.UserName);
 									userdetails.append('first_name', values.first_name);
@@ -236,7 +458,7 @@ const ProfileScreen = ({ navigation }) => {
 										.then((response) => response.json())
 										.then((responseJson) => {
 											setDetails(responseJson);
-											setIsLoading(false)
+											setIsLoading(false);
 										})
 										.catch((error) => console.error(error));
 								}}>
@@ -504,7 +726,11 @@ const ProfileScreen = ({ navigation }) => {
 							</Card.Content>
 						</Card>
 					</View>
-
+					<TouchableOpacity onPress={() => setShowChangePasswordModal(true)}>
+						<Text style={{ color: '#1a237e', marginTop: 15,textAlign:'center' }}>
+						Cambia la contraseña?
+						</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
 						style={{
 							borderRadius: 20,
@@ -545,6 +771,7 @@ const ProfileScreen = ({ navigation }) => {
 			}
 			return (
 				<ScrollView>
+					{changePasswordModal()}
 					<Modal
 						animationType='fade'
 						visible={providerEditModal}
@@ -554,7 +781,7 @@ const ProfileScreen = ({ navigation }) => {
 						}}>
 						<View
 							style={{
-								marginTop:50,
+								marginTop: 50,
 								backgroundColor: '#fff',
 								shadowColor: '#000',
 								marginHorizontal: 20,
@@ -598,7 +825,7 @@ const ProfileScreen = ({ navigation }) => {
 								}}
 								onSubmit={(values) => {
 									setProviderEditModal(!providerEditModal);
-									setIsLoading(true)
+									setIsLoading(true);
 									let userdetails = new FormData();
 									userdetails.append('username', a.UserName);
 									userdetails.append('first_name', values.first_name);
@@ -614,7 +841,7 @@ const ProfileScreen = ({ navigation }) => {
 										.then((response) => response.json())
 										.then((responseJson) => {
 											setDetails(responseJson);
-											setIsLoading(false)
+											setIsLoading(false);
 										})
 										.catch((error) => console.error(error));
 								}}>
@@ -694,7 +921,9 @@ const ProfileScreen = ({ navigation }) => {
 												keyboardType={'email-address'}
 											/>
 										</View>
-										<Text style={{ alignSelf: 'center' }}>Nombre de empresa</Text>
+										<Text style={{ alignSelf: 'center' }}>
+											Nombre de empresa
+										</Text>
 										<TextInput
 											placeholderTextColor={'#000'}
 											placeholder={details.company_name}
@@ -915,6 +1144,11 @@ const ProfileScreen = ({ navigation }) => {
 							</Card.Content>
 						</Card>
 					</View>
+					<TouchableOpacity onPress={() => setShowChangePasswordModal(true)}>
+						<Text style={{ color: '#1a237e', marginTop: 15,textAlign:'center' }}>
+						Cambia la contraseña?
+						</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
 						style={{
 							borderRadius: 20,
@@ -942,19 +1176,26 @@ const ProfileScreen = ({ navigation }) => {
 
 	return a.UserName != null ? (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#1a237e',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content
-					titleStyle={{ padding: 10 }}
-					title='Perfil'
-				/>
+				<Appbar.Content titleStyle={{ padding: 10 }} title='Perfil' />
 				{/* <Appbar.Action icon='menu' onPress={() => navigation.openDrawer()} /> */}
 			</Appbar.Header>
 			{showUserProfile(a.Role)}
 		</View>
 	) : (
 		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#1a237e',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -1034,5 +1275,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: '#e0e0e0',
 		marginTop: 10,
+	},
+	otp: {
+		borderRadius: 5,
+		margin: 15,
+		backgroundColor: '#1a237e',
 	},
 });

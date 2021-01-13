@@ -167,6 +167,14 @@ const providerTeamMembers = ({ navigation }) => {
 										teamMemberDetails.append('last_name', values.last_name);
 										teamMemberDetails.append('email', values.email);
 										teamMemberDetails.append('contact', values.contact);
+										if(values.uri==''||values.uri==null){
+											teamMemberDetails.append('image', {
+												uri: values.uri,
+												name: '',
+												type,
+											});
+											return;
+										}
 										teamMemberDetails.append('image', {
 											uri: values.uri,
 											name: filename,

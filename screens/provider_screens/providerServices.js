@@ -819,7 +819,7 @@ const styles = StyleSheet.create({
 	textArea: {
 		width: imagewidth / 4,
 		textAlign: 'left',
-		height: 50,
+		height: 60,
 		borderWidth: 0.5,
 		fontSize: 10,
 		fontWeight: '800',

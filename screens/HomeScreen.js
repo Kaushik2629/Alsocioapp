@@ -413,7 +413,7 @@ const HomeScreen = ({ route, navigation }) => {
 					style={{
 						flexDirection: 'row',
 						flexBasis: 70,
-						backgroundColor: '#c5cae9',
+						backgroundColor: 'rgba(233, 236, 239, 1.0)',
 						alignItems: 'center',
 						justifyContent: 'center',
 					}}>
@@ -428,7 +428,7 @@ const HomeScreen = ({ route, navigation }) => {
 							style={{ alignSelf: 'center' }}
 							size={25}
 							color='#000'
-							backgroundColor='#c5cae9'
+							backgroundColor='rgba(233, 236, 239, 1.0)'
 							onPress={() => navigation.openDrawer()}></Icon.Button>
 					</View>
 					<View style={{ flexGrow: 1 }}>
@@ -474,114 +474,119 @@ const HomeScreen = ({ route, navigation }) => {
 								);
 							})}
 						</View>
-						<View
-							style={{
-								alignItems: 'center',
-								justifyContent: 'center',
-								marginVertical: 20,
-							}}>
-							<Text
+						{featuredServicesArray.length != 0 ? (
+							<View
 								style={{
-									fontSize: 18,
-                  marginVertical:15,
-									fontWeight: '900',
+									alignItems: 'center',
+									justifyContent: 'center',
+									marginVertical: 20,
 								}}>
-								Servicios destacados
-							</Text>
-							<Swiper
-								showsButtons={false}
-								paginationStyle={{ margin: 0 }}
-								height={270}
-								// style={{ flexGrow:0.5}}
-							>
-								{featuredServicesArray.map((item) => {
-									return (
-										<Card
-											style={{
-												shadowColor: '#000',
-												shadowOffset: { width: 0, height: 1 },
-												shadowOpacity: 0.5,
-												shadowRadius: 10,
-												elevation: 15,
-												marginHorizontal: 10,
-												borderRadius: 10,
-											}}
-											onPress={() =>
-												navigation.navigate('showFeaturedServices', {
-													featured_service: item.service,
-													region: regionValue,
-													city: cityValue,
-												})
-											}>
-											<Card.Cover
-												style={{ resizeMode: 'cover' }}
-												source={{
-													uri: 'https://alsocio.com/media/' + item.image,
+								<Text
+									style={{
+										fontSize: 18,
+										marginVertical: 15,
+										fontWeight: '900',
+									}}>
+									Servicios destacados
+								</Text>
+								<Swiper
+									showsButtons={false}
+									paginationStyle={{ margin: 0 }}
+									height={270}
+									// style={{ flexGrow:0.5}}
+								>
+									{featuredServicesArray.map((item) => {
+										return (
+											<Card
+												style={{
+													shadowColor: '#000',
+													shadowOffset: { width: 0, height: 1 },
+													shadowOpacity: 0.5,
+													shadowRadius: 10,
+													elevation: 15,
+													marginHorizontal: 10,
+													borderRadius: 10,
 												}}
-											/>
-											<Card.Content
-												style={{
-                          marginTop:10,
-													alignItems: 'center',
-													justifyContent: 'center',
-												}}>
-												<Text>{item.service}</Text>
-											</Card.Content>
-										</Card>
-									);
-								})}
-							</Swiper>
-						</View>
-						<View
-						style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginVertical: 20,
-            }}>
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical:15,
-                fontWeight: '900',
-              }}>
-								Reseñas destacadas
-							</Text>
-							<Swiper showsButtons={false} height={200}>
-								{featuredReviewsArray.map((item) => {
-									return (
-										<Card
-											style={{
-												shadowColor: '#000',
-												shadowOffset: { width: 0, height: 1 },
-												shadowOpacity: 0.5,
-												shadowRadius: 10,
-												elevation: 15,
-												marginHorizontal: 10,
-												borderRadius: 10,
-											}}>
-											<Card.Content
-												style={{
-													alignItems: 'center',
-													justifyContent: 'center',
-												}}>
-												<Text style={styles.text}>
-													{item.customer_username}
-												</Text>
-												<Text
+												onPress={() =>
+													navigation.navigate('showFeaturedServices', {
+														featured_service: item.service,
+														region: regionValue,
+														city: cityValue,
+													})
+												}>
+												<Card.Cover
+													style={{ resizeMode: 'cover' }}
+													source={{
+														uri: 'https://alsocio.com/media/' + item.image,
+													}}
+												/>
+												<Card.Content
 													style={{
-														textAlign: 'center',
-														marginTop: 15,
-														fontSize: 18,
+														marginTop: 10,
+														alignItems: 'center',
+														justifyContent: 'center',
 													}}>
-													{item.review}
-												</Text>
-												{showStars(item.rating)}
-											</Card.Content>
-										</Card>
-									);
-								})}
-							</Swiper>
-						</View>
+													<Text>{item.service}</Text>
+												</Card.Content>
+											</Card>
+										);
+									})}
+								</Swiper>
+							</View>
+						) : null}
+
+						{featuredReviewsArray.length != 0 ? (
+							<View
+								style={{
+									alignItems: 'center',
+									justifyContent: 'center',
+									marginVertical: 20,
+								}}>
+								<Text
+									style={{
+										fontSize: 18,
+										marginVertical: 15,
+										fontWeight: '900',
+									}}>
+									Reseñas destacadas
+								</Text>
+								<Swiper showsButtons={false} height={200}>
+									{featuredReviewsArray.map((item) => {
+										return (
+											<Card
+												style={{
+													shadowColor: '#000',
+													shadowOffset: { width: 0, height: 1 },
+													shadowOpacity: 0.5,
+													shadowRadius: 10,
+													elevation: 15,
+													marginHorizontal: 10,
+													borderRadius: 10,
+												}}>
+												<Card.Content
+													style={{
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Text style={styles.text}>
+														{item.customer_username}
+													</Text>
+													<Text
+														style={{
+															textAlign: 'center',
+															marginTop: 15,
+															fontSize: 18,
+														}}>
+														{item.review}
+													</Text>
+													{showStars(item.rating)}
+												</Card.Content>
+											</Card>
+										);
+									})}
+								</Swiper>
+							</View>
+						) : null}
 					</ScrollView>
 				)}
 			</View>

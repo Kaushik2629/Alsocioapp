@@ -347,6 +347,24 @@ const providerBranches = ({ navigation }) => {
 								</Card.Content>
 							</Card>
 						)}
+						ListEmptyComponent={
+							<View
+								style={{
+									flex: 1,
+									backgroundColor: '#e0e0e0',
+									alignItems: 'center',
+									justifyContent: 'center',
+									padding: 20,
+								}}>
+								<Text
+									style={{
+										fontSize: 20,
+										fontWeight: '700',
+									}}>
+									No se proporcionan sucursales
+								</Text>
+							</View>
+						}
 					/>
 				</View>
 			)}

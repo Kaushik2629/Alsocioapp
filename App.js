@@ -190,11 +190,13 @@ const App = () => {
 				a = await AsyncStorage.getItem('userName');
 
 				let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-				x = [...check];
+				if (check != null || check.length != 0) {
+					x = [...check];
 
-				for (let index = 0; index < x.length; index++) {
-					const element = x[index][1];
-					s = s + element;
+					for (let index = 0; index < x.length; index++) {
+						const element = x[index][1];
+						s = s + element;
+					}
 				}
 			} catch (e) {
 				console.log(e);
@@ -213,25 +215,25 @@ const App = () => {
 	const fetchNotifications = () => {
 		// alert('id')
 		// if (loginState.userName != null) {
-			let customer_name = new FormData();
-			customer_name.append('username', loginState.userName);
-			fetch('https://alsocio.com/app/get-notifications/', {
-				method: 'POST',
-				body: customer_name,
+		let customer_name = new FormData();
+		customer_name.append('username', loginState.userName);
+		fetch('https://alsocio.com/app/get-notifications/', {
+			method: 'POST',
+			body: customer_name,
+		})
+			.then((response) => response.json())
+			.then((responseJson) => {
+				console.log(responseJson);
+				if (responseJson.notifications.length != 0) {
+					console.log('called in function');
+					setNotificationBody(responseJson.notifications);
+				}
 			})
-				.then((response) => response.json())
-				.then((responseJson) => {
-					console.log(responseJson);
-					if (responseJson.notifications.length != 0) {
-						console.log('called in function')
-						setNotificationBody(responseJson.notifications);
-					}
-				})
-				.catch((error) => console.error(error));
+			.catch((error) => console.error(error));
 		// }
 	};
 	useEffect(() => {
-		var t = setInterval(() => {			
+		var t = setInterval(() => {
 			if (loginState.userName != null) {
 				fetchNotifications();
 				// console.log(loginState.userName)
@@ -240,7 +242,7 @@ const App = () => {
 		return () => {
 			clearTimeout(t);
 		};
-	},[]);
+	}, []);
 
 	//to send expo notification
 	const [expoPushToken, setExpoPushToken] = useState('');
@@ -358,8 +360,14 @@ const App = () => {
 							<Drawer.Screen name='QuoteScreen' component={QuoteScreen} />
 							<Drawer.Screen name='showBookings' component={showBookings} />
 							<Drawer.Screen name='SignInScreen' component={SignInScreen} />
-							<Drawer.Screen name='showFeaturedServices' component={showFeaturedServices} />
-							<Drawer.Screen name='forgotPasswordScreen' component={forgotPasswordScreen} />
+							<Drawer.Screen
+								name='showFeaturedServices'
+								component={showFeaturedServices}
+							/>
+							<Drawer.Screen
+								name='forgotPasswordScreen'
+								component={forgotPasswordScreen}
+							/>
 							<Drawer.Screen
 								name='customerSignUpScreen'
 								component={customerSignUpScreen}

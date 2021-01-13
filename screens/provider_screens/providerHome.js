@@ -115,7 +115,7 @@ const providerHome = ({ route, navigation }) => {
         style={{
           flexDirection: "row",
           flexBasis: 70,
-          backgroundColor: "#c5cae9",
+          backgroundColor: 'rgba(233, 236, 239, 1.0)',
           alignItems: "center",
           justifyContent: "center",
         }}
@@ -132,7 +132,7 @@ const providerHome = ({ route, navigation }) => {
             style={{ alignSelf: "center" }}
             size={25}
             color="#000"
-            backgroundColor="#c5cae9"
+            backgroundColor='rgba(233, 236, 239, 1.0)'
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
         </View>
