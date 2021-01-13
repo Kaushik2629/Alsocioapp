@@ -214,7 +214,7 @@ const showCartitems = ({ route, navigation }, props) => {
 				style={{
 					marginLeft: 20,
 					marginTop: 10,
-					flexDirection:'row'
+					flexDirection: 'row',
 				}}>
 				<Text
 					style={{
@@ -226,14 +226,13 @@ const showCartitems = ({ route, navigation }, props) => {
 				<Text style={{ fontSize: 15 }}>${cost}</Text>
 			</View>
 		) : (
-			<View style={{ flexDirection: 'row' }}>
+			<View style={{ marginLeft: 20, marginTop: 10, flexDirection: 'row' }}>
 				<Text>El costo es -</Text>
 				<Text
 					style={{
+						marginLeft:10,
 						fontSize: 15,
-						fontWeight: '500',
-						marginLeft: 20,
-						marginTop: 10,
+						fontWeight: 'bold',
 						textDecorationLine: 'line-through',
 						textDecorationStyle: 'solid',
 					}}>
@@ -242,9 +241,8 @@ const showCartitems = ({ route, navigation }, props) => {
 				<Text
 					style={{
 						fontSize: 15,
-						fontWeight: '500',
+						fontWeight: 'bold',
 						marginLeft: 5,
-						marginTop: 10,
 					}}>
 					${discount}
 				</Text>
