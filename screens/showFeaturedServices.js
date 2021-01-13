@@ -212,7 +212,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 													textAlign: 'center',
 													padding: 20,
 												}}>
-												Details
+												Detalles
 											</Text>
 										</TouchableOpacity>
 									</View>
