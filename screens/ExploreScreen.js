@@ -51,7 +51,7 @@ const ExploreScreen = ({ navigation }) => {
 		if (a.UserName != null) {
 			fetchUsername();
 		}
-	}, [a.UserName]);
+	}, [a.itemCount]);
 
 	const [page, setPage] = React.useState(0);
 	const from = page * itemsPerPage;

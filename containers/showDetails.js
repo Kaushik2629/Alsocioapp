@@ -35,6 +35,7 @@ const showDetails = ({ route, navigation }) => {
 	let servicedetails = new FormData();
 	servicedetails.append('service_id', serviceId);
 	const { changeCount } = useContext(AuthContext);
+	const count = useContext(AuthContext);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const fetchDetails = () => {
@@ -61,9 +62,14 @@ const showDetails = ({ route, navigation }) => {
 	let a = [];
 	const fetchCount = async () => {
 		let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-		if (check != null) {
+		if (check == null) {
+			setCartcount([]);
+		} else if (check.length != 0) {
 			a = [...check];
 			setCartcount(a);
+			return;
+		} else {
+			setCartcount([]);
 		}
 	};
 	// fetchCount();
@@ -84,7 +90,7 @@ const showDetails = ({ route, navigation }) => {
 		};
 		showCartPopUp();
 		changeCount(s);
-	}, [cartCount]);
+	}, [cartCount.length]);
 
 	//For Decrement
 	const handleDecrement = (e, serviceIdDec) => {
@@ -217,7 +223,10 @@ const showDetails = ({ route, navigation }) => {
 
 	const addtocart = (serviceId) => {
 		// async function fetchData(serviceId) {
-		if (cartCount.length != 0) {
+		if (cartCount == [] || cartCount == null) {
+			return;
+		}
+		if (cartCount.length != 0 && cartCount!=[]) {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				// alert(element);
@@ -358,16 +367,6 @@ const showDetails = ({ route, navigation }) => {
 
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const [name, setName] = useState();
-
-	const fetchUserName = async () => {
-		const a = await AsyncStorage.getItem('userName');
-		setName(a);
-	};
-	useEffect(() => {
-		fetchUserName();
-	}, []);
-
 	const showForm = () => {
 		return (
 			<View style={{ flexGrow: 1, padding: 10 }}>
@@ -378,7 +377,7 @@ const showDetails = ({ route, navigation }) => {
 						quoteDetails.append('service_id', serviceId);
 						quoteDetails.append('description', values.description);
 						quoteDetails.append('request_quote', values.request);
-						quoteDetails.append('username', name);
+						quoteDetails.append('username', count.UserName);
 						quoteDetails.append('image', {
 							uri: values.uri,
 							name: filename,
@@ -490,7 +489,7 @@ const showDetails = ({ route, navigation }) => {
 		var month = new Date().getMonth() + 1; //Current Month
 		var year = new Date().getFullYear(); //Current Year
 		setCurrentDate(year + '/' + month + '/' + date1);
-	}, []);
+	}, [serviceId]);
 
 	//to change date and slot value
 	const [newDate, setnewDate] = useState(currentDate);
@@ -526,7 +525,10 @@ const showDetails = ({ route, navigation }) => {
 	const [slot, setSlot] = useState([]);
 
 	const arraySlot = (serviceIdChange) => {
-		if (cartCount.length != 0) {
+		if (cartCount == [] || cartCount == null) {
+			return;
+		}
+		if (cartCount.length != 0 && cartCount!=[]) {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				if (serviceIdChange == element[0]) {
@@ -557,7 +559,7 @@ const showDetails = ({ route, navigation }) => {
 	};
 	useEffect(() => {
 		arraySlot(serviceId);
-	}, [cartCount.length]);
+	}, [count.itemCount]);
 
 	const showDatePicker = (serviceId) => {
 		// await AsyncStorage.removeItem('dateTimeArray')
@@ -565,12 +567,6 @@ const showDetails = ({ route, navigation }) => {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				if (element[0] == serviceId) {
-					// let date = cartCount[index][2];
-					// if (date == '') {
-					// 	date = currentDate;
-					// }
-					// let time = cartCount[index][3];
-
 					return (
 						<View>
 							<Modal
@@ -880,7 +876,12 @@ const showDetails = ({ route, navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0}}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#1a237e',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -966,7 +967,7 @@ const showDetails = ({ route, navigation }) => {
 									<Image
 										style={{
 											width: imagewidth - 50,
-											height: imageheight/3,
+											height: imageheight / 3,
 											marginHorizontal: 20,
 										}}
 										source={{
@@ -1053,25 +1054,27 @@ const showDetails = ({ route, navigation }) => {
 											</Text>
 										) : null}
 										{/* </View> */}
-										<TouchableOpacity
-											style={{
-												backgroundColor: '#1a237e',
-												width: 100,
-												height: 40,
-												marginLeft: 20,
-												borderRadius: 5,
-												marginBottom: 8,
-											}}
-											onPress={() => setModalVisible(true)}>
-											<Text
+										{count.UserName != null ? (
+											<TouchableOpacity
 												style={{
-													color: '#fff',
-													textAlign: 'center',
-													marginTop: 10,
-												}}>
-												Citar
-											</Text>
-										</TouchableOpacity>
+													backgroundColor: '#1a237e',
+													width: 100,
+													height: 40,
+													marginLeft: 20,
+													borderRadius: 5,
+													marginBottom: 8,
+												}}
+												onPress={() => setModalVisible(true)}>
+												<Text
+													style={{
+														color: '#fff',
+														textAlign: 'center',
+														marginTop: 10,
+													}}>
+													Citar
+												</Text>
+											</TouchableOpacity>
+										) : null}
 										{showDatePicker(item.id)}
 									</View>
 									<View>

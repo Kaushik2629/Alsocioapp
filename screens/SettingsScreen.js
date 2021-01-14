@@ -38,7 +38,7 @@ const SettingsScreen = ({ navigation }) => {
 		if (a.UserName != null) {
 			fetchUsername();
 		}
-	}, []);
+	}, [a.itemCount]);
 
 
 	const showDateStamp = (DateString) => {
