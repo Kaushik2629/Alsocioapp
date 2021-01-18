@@ -19,7 +19,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Animatable from 'react-native-animatable';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Formik } from 'formik';
-import { Appbar, Card, TextInput } from 'react-native-paper';
+import { Appbar, Card, IconButton, TextInput } from 'react-native-paper';
 import DatePicker from 'react-native-datepicker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
@@ -226,7 +226,7 @@ const showDetails = ({ route, navigation }) => {
 		if (cartCount == [] || cartCount == null) {
 			return;
 		}
-		if (cartCount.length != 0 && cartCount!=[]) {
+		if (cartCount.length != 0 && cartCount != []) {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				// alert(element);
@@ -528,7 +528,7 @@ const showDetails = ({ route, navigation }) => {
 		if (cartCount == [] || cartCount == null) {
 			return;
 		}
-		if (cartCount.length != 0 && cartCount!=[]) {
+		if (cartCount.length != 0 && cartCount != []) {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				if (serviceIdChange == element[0]) {
@@ -739,26 +739,65 @@ const showDetails = ({ route, navigation }) => {
 							</Modal>
 							{slotValue != '' ? (
 								<View style={{ flexDirection: 'row', margin: 20 }}>
-									<Text
+									<View
 										style={{
 											flexGrow: 1,
-											alignSelf: 'center',
-											fontSize: 20,
-											fontWeight: '800',
+											flexDirection: 'row',
+											alignItems: 'center',
+											justifyContent: 'center',
 										}}>
-										Fecha :
-									</Text>
-									<Text style={{ margin: 15, fontSize: 20 }}>{newDate}</Text>
-									<Text
+										<Text
+											style={{
+												fontSize: 20,
+												fontWeight: '800',
+											}}>
+											Fecha :
+										</Text>
+										<Text style={{ margin: 15, fontSize: 20 }}>{newDate}</Text>
+									</View>
+									<View
 										style={{
 											flexGrow: 1,
-											alignSelf: 'center',
-											fontSize: 20,
-											fontWeight: '800',
+											flexDirection: 'row',
+											alignItems: 'center',
+											justifyContent: 'center',
 										}}>
-										Espacio :
-									</Text>
-									<Text style={{ margin: 15, fontSize: 20 }}>{slotValue}</Text>
+										<Text
+											style={{
+												fontSize: 20,
+												fontWeight: '800',
+											}}>
+											Espacio :
+										</Text>
+										<Text style={{ margin: 15, fontSize: 20 }}>
+											{slotValue}
+										</Text>
+									</View>
+									<View
+										style={{
+											position: 'absolute',
+											zIndex: 999,
+											width: 50,
+											height: 50,
+											alignItems: 'center',
+											justifyContent: 'center',
+											right: 50,
+											top: -30,
+										}}>
+										<IconButton
+											size={30}
+											icon='pencil'
+											color='#fff'
+											style={{
+												resizeMode: 'center',
+												backgroundColor: '#1a237e',
+												//backgroundColor:'black'
+											}}
+											onPress={() => {
+												setSlotPickerModal(!slotPickerModal);
+											}}
+										/>
+									</View>
 								</View>
 							) : null}
 						</View>

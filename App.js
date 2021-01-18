@@ -24,7 +24,6 @@ import * as Permissions from 'expo-permissions';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import showBookings from './containers/showBookings';
-import SplashScreen from './screens/SplashScreen';
 import SignInScreen from './screens/SignInScreen';
 import customerSignUpScreen from './screens/customerSignUpScreen';
 import providerTabs from './screens/provider_screens/providerTabs';
