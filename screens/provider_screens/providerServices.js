@@ -181,13 +181,13 @@ const providerServices = ({ navigation }) => {
 	};
 
 	const AddServiceSchema = Yup.object().shape({
-		main_category: Yup.string().required(' Main Category is Required'),
-		category: Yup.string().required('Category is Required'),
-		sub_category: Yup.string().required('Sub Category is Required'),
-		service: Yup.string().required('Service Name is Required'),
+		main_category: Yup.string().required('La categoría principal es obligatoria'),
+		category: Yup.string().required('La categoria es requerida'),
+		sub_category: Yup.string().required('Se requiere una subcategoría'),
+		service: Yup.string().required('El nombre del servicio es obligatorio'),
 		service_cost: Yup.string().required('Service El costo es Required'),
-		includes: Yup.string().required('Includes is Required'),
-		uri: Yup.string().required('Image is Required'),
+		includes: Yup.string().required('Incluye es obligatorio'),
+		uri: Yup.string().required('Se requiere imagen'),
 	});
 
 	const addService = (parameters) => {
@@ -212,7 +212,7 @@ const providerServices = ({ navigation }) => {
 		if (parameters.additional_charges == true) {
 			serviceDetails.append('additional_charges', 'Yes');
 		} else {
-			serviceDetails.append('additional_charges', 'Yes');
+			serviceDetails.append('additional_charges', 'No');
 		}
 		fetch('https://alsocio.com/app/add-provider-service/', {
 			method: 'POST',
@@ -224,7 +224,7 @@ const providerServices = ({ navigation }) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				setDetails(responseJson.services);
-				alert('Service Added Successfully');
+				alert('Servicio agregado exitosamente');
 				setIsLoading(false);
 			});
 	};

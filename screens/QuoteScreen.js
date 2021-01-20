@@ -68,7 +68,7 @@ const QuoteScreen = ({ navigation }) => {
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
-					title='Quotes'
+					title='Cotizaciones'
 				/>
 			</Appbar.Header>
 
@@ -154,7 +154,7 @@ const QuoteScreen = ({ navigation }) => {
 								fontSize: 20,
 								fontWeight: '700',
 							}}>
-							No Quotes
+							No tiene Cotizaciones
 						</Text>
 					</View>
 				}
@@ -188,7 +188,7 @@ const QuoteScreen = ({ navigation }) => {
 							color: '#fff',
 							flexGrow: 1,
 						}}>
-						Login to view your Bookings
+						Inicie sesión para ver sus reservas
 					</Text>
 				</TouchableOpacity>
 			</View>

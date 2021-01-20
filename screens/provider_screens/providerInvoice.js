@@ -29,6 +29,7 @@ const providerInvoice = ({ navigation }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
+				console.log(responseJson.invoices)
 				setDetails(responseJson.invoices);
 			})
 			.catch((error) => console.error(error));
@@ -81,7 +82,7 @@ const providerInvoice = ({ navigation }) => {
 								}}>
 								<Text
 									style={{
-										fontSize: 15,
+										fontSize: 13,
 										fontWeight: 'bold',
 										alignSelf: 'flex-start',
 										textAlign: 'left',
@@ -90,13 +91,14 @@ const providerInvoice = ({ navigation }) => {
 								</Text>
 								<Text
 									style={{
+										marginLeft:15,
 										width: 100,
-										fontSize: 13,
+										fontSize: 15,
 										fontWeight: '900',
 										alignSelf: 'flex-end',
 										textAlign: 'right',
 									}}>
-									{item.customer_email}
+									{item.name}
 								</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
@@ -104,7 +106,7 @@ const providerInvoice = ({ navigation }) => {
 								<Text style={styles.rightLabel}>{item.services}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Total parcial - </Text>
+								<Text style={styles.leftLabel}>Subtotal - </Text>
 								<Text style={styles.rightLabel}>{item.sub_total}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
@@ -120,11 +122,11 @@ const providerInvoice = ({ navigation }) => {
 								<Text style={styles.rightLabel}>{item.itbms}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Coste total -</Text>
+								<Text style={styles.leftLabel}>Total -</Text>
 								<Text style={styles.rightLabel}>{item.cost}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
-								<Text style={styles.leftLabel}>Habla a -</Text>
+								<Text style={styles.leftLabel}>Cliente -</Text>
 								<Text style={[styles.rightLabel, { width: 200 }]}>
 									{item.address}
 								</Text>

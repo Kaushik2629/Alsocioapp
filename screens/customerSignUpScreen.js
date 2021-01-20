@@ -169,10 +169,10 @@ const customerSignUpScreen = ({ navigation }) => {
 
 	const sendOtp = (properties) => {
 		setIsLoading(true);
-		if (properties.values.username == '' || properties.values.email == '') {
-			alert('Email/Username is empty');
-			return;
-		}
+		// if (properties.errors.username == '' || properties.errors.email == '') {
+		// 	setIsLoading(false);
+		// 	return;
+		// }
 		let register = new FormData();
 		register.append('username', properties.values.username);
 		register.append('email', properties.values.email);
@@ -184,7 +184,7 @@ const customerSignUpScreen = ({ navigation }) => {
 			.then((responseJson) => {
 				console.log(responseJson);
 				setIsLoading(false);
-				if (responseJson.user == 'OTP sent successfully') {
+				if (responseJson.user == 'OTP enviado con éxito') {
 					console.log(responseJson);
 					setOtp(responseJson.otp);
 					alert(responseJson.user);
@@ -199,16 +199,25 @@ const customerSignUpScreen = ({ navigation }) => {
 		region: Yup.string().required('Seleccione su ubicación'),
 		city: Yup.string().required('Seleccione su ubicación'),
 		contact: Yup.string().min(5, '¡Inválido!').required('Se requiere contacto'),
-		username: Yup.string().required('Se requiere nombre de usuario'),
+		username: Yup.string()
+			.min(3, 'Necesario')
+			.required('Se requiere nombre de usuario'),
 		email: Yup.string().email('Email inválido').required('Necesario'),
 		password: Yup.string()
 			.required('No se proporcionó contraseña')
-			.min(8, 'La contraseña es demasiado corta: debe tener un mínimo de 8 caracteres.'),
+			.min(
+				8,
+				'La contraseña es demasiado corta: debe tener un mínimo de 8 caracteres.'
+			),
 		confirm_password: Yup.string()
 			.required('Necesario.')
-			.test('Las contraseñas coinciden', '¡Las contraseñas no coinciden!', function (value) {
-				return this.parent.password === value;
-			}),
+			.test(
+				'Las contraseñas coinciden',
+				'¡Las contraseñas no coinciden!',
+				function (value) {
+					return this.parent.password === value;
+				}
+			),
 		otp: Yup.string().required('No se proporciona OTP.').min(4, 'Otp inválido'),
 	});
 
@@ -245,8 +254,8 @@ const customerSignUpScreen = ({ navigation }) => {
 			{isLoading ? (
 				<Animatable.View
 					style={{
-						flex:0.2,
-						alignSelf:'center',
+						flex: 0.2,
+						alignSelf: 'center',
 						backgroundColor: '#fff',
 						width: imagewidth - 50,
 						alignItems: 'center',
@@ -261,10 +270,8 @@ const customerSignUpScreen = ({ navigation }) => {
 						shadowRadius: 3.84,
 						elevation: 5,
 					}}>
-					<UIActivityIndicator color='#1a237e'/>
-					<Text style={{ textAlign: 'center'}}>
-						Processing...
-					</Text>
+					<UIActivityIndicator color='#1a237e' />
+					<Text style={{ textAlign: 'center' }}>Procesando...</Text>
 				</Animatable.View>
 			) : null}
 			<Formik
@@ -330,7 +337,7 @@ const customerSignUpScreen = ({ navigation }) => {
 								</TouchableOpacity>
 								{showPicker(props)}
 								<Button
-									title='Submit'
+									title='Enviar'
 									color='#1a237e'
 									style={{
 										borderRadius: 20,
@@ -384,13 +391,9 @@ const customerSignUpScreen = ({ navigation }) => {
 									style={styles.otp}
 									activeOpacity={0.7}
 									onPress={() => {
-										if (props.touched.email && props.errors.email) {
-											alert(
-												'¡Por favor introduzca una dirección de correo electrónico válida!'
-											);
-											return;
+										if (!props.errors.email && !props.errors.username) {
+											sendOtp(props);
 										}
-										sendOtp(props);
 									}}>
 									<Text
 										style={{
@@ -612,7 +615,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor:'#1a237e'
+		backgroundColor: '#1a237e',
 	},
 	textInput: {
 		width: imagewidth / 2.5,

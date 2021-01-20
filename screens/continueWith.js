@@ -32,7 +32,7 @@ const continueWith = ({ navigation }) => {
 					},
 				]}
 				animation='fadeInUpBig'>
-				<Text style={styles.text}>Unirse como!</Text>
+				<Text style={styles.text}>iúnete como!</Text>
 				<View style={styles.button}>
 					<TouchableOpacity
 						onPress={() => {
@@ -68,7 +68,7 @@ const continueWith = ({ navigation }) => {
 									color: '#fff',
 								},
 							]}>
-							Proveedora
+							Proveedor
 						</Text>
 						<MaterialIcons
 							name='navigate-next'

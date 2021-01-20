@@ -432,7 +432,7 @@ const ExploreScreen = ({ navigation }) => {
 								color: '#fff',
 								flexGrow: 1,
 							}}>
-							Salvar
+							Guardar
 						</Text>
 					</TouchableOpacity>
 				</View>

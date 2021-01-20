@@ -287,8 +287,8 @@ const showBookings = ({ route, navigation }, props) => {
 	const [payments, setPaymentMethod] = useState('COD');
 
 	const DetailsSchema = Yup.object().shape({
-		address: Yup.string().min(10, 'Too Short!').required('Address is Required'),
-		city: Yup.string().required('Please Select Your Location'),
+		address: Yup.string().min(10, 'Too Short!').required('La dirección es necesaria'),
+		city: Yup.string().required('Seleccione su ubicación'),
 	});
 
 	const [confirmModal, setConfirmModal] = useState(false);
@@ -318,7 +318,7 @@ const showBookings = ({ route, navigation }, props) => {
 					setConfirmModal(true);
 					AsyncStorage.removeItem('asyncArray1');
 				} else {
-					alert('Something Went Wrong');
+					alert('Algo salió mal');
 				}
 			});
 	};

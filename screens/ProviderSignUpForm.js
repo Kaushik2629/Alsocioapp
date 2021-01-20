@@ -169,10 +169,10 @@ const ProviderSignUpForm = ({ navigation }) => {
 
 	const sendOtp = (properties) => {
 		setIsLoading(true);
-		if (properties.values.username == '' || properties.values.email == '') {
-			alert('Email/Username is empty');
-			return;
-		}
+		// if (properties.errors.username == '' || properties.errors.email == '') {
+		// 	setIsLoading(false);
+		// 	return;
+		// }
 		let register = new FormData();
 		register.append('username', properties.values.username);
 		register.append('email', properties.values.email);
@@ -184,7 +184,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 			.then((responseJson) => {
 				console.log(responseJson);
 				setIsLoading(false);
-				if (responseJson.user == 'OTP sent successfully') {
+				if (responseJson.user == 'OTP enviado con éxito') {
 					console.log(responseJson);
 					setOtp(responseJson.otp);
 					alert(responseJson.user);
@@ -201,7 +201,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 		region: Yup.string().required('Seleccione su ubicación'),
 		city: Yup.string().required('Please Seleccionar ciudad'),
 		contact: Yup.string().min(5, '¡Inválido!').required('Se requiere contacto'),
-		username: Yup.string().required('Se requiere nombre de usuario'),
+		username: Yup.string().min(3,'Necesario').required('Se requiere nombre de usuario'),
 		email: Yup.string().email('Email inválido').required('Necesario'),
 		password: Yup.string()
 			.required('No se proporcionó contraseña.')
@@ -265,7 +265,7 @@ const ProviderSignUpForm = ({ navigation }) => {
 						elevation: 5,
 					}}>
 					<UIActivityIndicator color='#1a237e' />
-					<Text style={{ textAlign: 'center' }}>Processing...</Text>
+					<Text style={{ textAlign: 'center' }}>Procesando...</Text>
 				</Animatable.View>
 			) : null}
 			<Formik
@@ -387,13 +387,9 @@ const ProviderSignUpForm = ({ navigation }) => {
 									style={styles.otp}
 									activeOpacity={0.7}
 									onPress={() => {
-										if (props.touched.email && props.errors.email) {
-											alert(
-												'¡Por favor introduzca una dirección de correo electrónico válida!'
-											);
-											return;
+										if (!props.errors.email && !props.errors.username) {											
+											sendOtp(props);
 										}
-										sendOtp(props);
 									}}>
 									<Text
 										style={{

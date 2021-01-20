@@ -130,7 +130,7 @@ const providerQuotes = ({ navigation }) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
-          title="Citas"
+          title="Cotizaciones"
         />
       </Appbar.Header>
 
@@ -326,7 +326,7 @@ const providerQuotes = ({ navigation }) => {
                   fontWeight: "700",
                 }}
               >
-                Sin comillas
+                No tiene Cotizaciones
               </Text>
             </View>
           }
@@ -363,7 +363,7 @@ const providerQuotes = ({ navigation }) => {
               flexGrow: 1,
             }}
           >
-            Login to view your Bookings
+            Inicie sesión para ver sus reservas
           </Text>
         </TouchableOpacity>
       </View>

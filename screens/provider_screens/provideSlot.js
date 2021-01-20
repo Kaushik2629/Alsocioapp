@@ -346,6 +346,7 @@ const providerSlot = ({ navigation }) => {
               </Text>
             </View>
 
+<<<<<<< Updated upstream
             <TouchableOpacity
               style={{
                 borderRadius: 20,
@@ -399,6 +400,59 @@ const providerSlot = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+=======
+						<TouchableOpacity
+							style={{
+								borderRadius: 20,
+								fontSize: 15,
+								margin: 15,
+								backgroundColor: '#1a237e',
+							}}
+							onPress={() => {
+								if (
+									(startTime != '' && endTime == '') ||
+									(startTime == '' && endTime != '')
+								) {
+									alert('¡Cambio de horario! ');
+									return;
+								}
+								setIsLoading(true);
+								setShowEditModal(!showEditModal);
+								let slotdetails = new FormData();
+								slotdetails.append('day', Day);
+								slotdetails.append('username', a.UserName);
+								slotdetails.append('start', startTime);
+								slotdetails.append('end', endTime);
+								fetch('https://alsocio.com/app/edit-business-hours/', {
+									method: 'POST',
+									body: slotdetails,
+								})
+									.then((response) => response.json())
+									.then((responseJson) => {
+										setIsLoading(false);
+										setDetails(responseJson),
+											setStartTime(''),
+											setEndTime(''),
+											setCheck24hr(false);
+									})
+									.catch((error) => console.error(error));
+							}}>
+							<Text
+								style={{
+									alignSelf: 'center',
+									fontSize: 15,
+									fontWeight: 'bold',
+									margin: 15,
+									color: '#fff',
+									flexGrow: 1,
+								}}>
+								Guardar
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</Modal>
+>>>>>>> Stashed changes
 
       {isLoading ? (
         <View

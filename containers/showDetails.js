@@ -907,10 +907,10 @@ const showDetails = ({ route, navigation }) => {
 	};
 
 	const QuoteSchema = Yup.object().shape({
-		request: Yup.string().min(1, 'Too Short!').required('Request is Required'),
+		request: Yup.string().min(1, 'Too Short!').required('Se requiere solicitud'),
 		description: Yup.string()
-			.min(1, 'Too Short!')
-			.required('Description is required'),
+			.min(1, '¡Demasiado corto!')
+			.required('Se requiere descripción'),
 	});
 
 	return (

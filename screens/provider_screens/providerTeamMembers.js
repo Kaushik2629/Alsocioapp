@@ -42,6 +42,7 @@ const providerTeamMembers = ({ navigation }) => {
 			.then((responseJson) => {
 				setIsLoading(false);
 				setDetails(responseJson);
+				console.log(responseJson)
 			})
 			.catch((error) => console.error(error));
 	};
@@ -54,12 +55,13 @@ const providerTeamMembers = ({ navigation }) => {
 	const [showTeamMembersModal, setShowTeamMembersModal] = useState(false);
 
 	const TeamMemberSchema = Yup.object().shape({
-		first_name: Yup.string().required(' First Name is Required'),
-		last_name: Yup.string().required('Last Name is Required'),
+		first_name: Yup.string().required('Se requiere el primer nombre'),
+		last_name: Yup.string().required('Se requiere apellido'),
 		email: Yup.string()
-			.email('Invalid Email Format')
-			.required('Email is Required'),
-		contact: Yup.string().required('Contact is Required'),
+			.email('Formato de correo inválido')
+			.required('Correo electronico es requerido'),
+		contact: Yup.string().required('Se requiere contacto'),
+		uri: Yup.string().required('Se requiere imagen')
 		// uri: Yup.string().required('Image is Required'),
 	});
 
@@ -305,6 +307,16 @@ const providerTeamMembers = ({ navigation }) => {
 													onPress={() => uploadImage(props)}>
 													<Text>{props.values.uri}</Text>
 												</Card>
+												{props.touched.uri && props.errors.uri && (
+														<Text
+															style={{
+																fontSize: 10,
+																padding: 10,
+																color: 'red',
+															}}>
+															{props.errors.uri}
+														</Text>
+													)}
 
 												<TouchableOpacity
 													activeOpacity={0.7}
@@ -399,10 +411,10 @@ const providerTeamMembers = ({ navigation }) => {
 											</Text>
 										)}
 									</View>
-									<View style={{ flexDirection: 'row', padding: 10 }}>
+									{/* <View style={{ flexDirection: 'row', padding: 10 }}>
 										<Text style={styles.leftLabel}>Servicio - </Text>
 										<Text style={styles.rightLabel}>{item.service}</Text>
-									</View>
+									</View> */}
 								</Card.Content>
 							</Card>
 						)}

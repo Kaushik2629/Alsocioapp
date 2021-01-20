@@ -37,16 +37,16 @@ const paymentsScreen = ({ route, navigation }) => {
 
 	const DetailsSchema = Yup.object().shape({
 		cardName: Yup.string()
-			.min(5, 'Too Short!')
-			.required('Card Name cannot be empty!'),
+			.min(5, '¡Demasiado corto!')
+			.required('¡El nombre de la tarjeta no puede estar vacío!'),
 
 		cardNumber: Yup.string()
-			.min(10, 'Invalid Card Number')
-			.required('Card Number cannot be empty!'),
+			.min(10, 'Numero de tarjeta invalido')
+			.required('¡El número de tarjeta no puede estar vacío!'),
 
-		expiry: Yup.string().required('Field cannot be empty!'),
+		expiry: Yup.string().required('¡El campo no puede estar vacío!'),
 
-		CVV: Yup.string().min(3).required('CVV cannot be empty'),
+		CVV: Yup.string().min(3).required('CVV no puede estar vacío'),
 	});
 
 	const [confirmModal, setConfirmModal] = useState(false);
@@ -164,7 +164,7 @@ const paymentsScreen = ({ route, navigation }) => {
 										style={{ padding: 20 }}
 									/>
 									<Text style={{ textAlign: 'center', padding: 20 }}>
-										Order is Processing!!
+									El pedido se está procesando!!
 									</Text>
 								</View>
 							</Animatable.View>
@@ -175,7 +175,7 @@ const paymentsScreen = ({ route, navigation }) => {
 							<View>
 								<View style={{ flexDirection: 'row' }}>
 									<TextInput
-										placeholder={'Enter Name On Card'}
+										placeholder={'Ingrese el nombre en la tarjeta'}
 										mode='outlined'
 										style={styles.textInput}
 										onBlur={() => props.setFieldTouched('cardName')}
@@ -183,7 +183,7 @@ const paymentsScreen = ({ route, navigation }) => {
 										value={props.values.cardName}
 									/>
 									<TextInput
-										placeholder={'Enter Card Number'}
+										placeholder={'Ingrese el número de tarjeta'}
 										mode='outlined'
 										style={styles.textInput}
 										onBlur={() => props.setFieldTouched('cardNumber')}
@@ -250,7 +250,7 @@ const paymentsScreen = ({ route, navigation }) => {
 									</View>
 									<View style={styles.textInput}>
 										<TextInput
-											placeholder={'Enter CVV'}
+											placeholder={'Ingrese CVV'}
 											maxLength={3}
 											mode='outlined'
 											style={{
@@ -309,7 +309,7 @@ const paymentsScreen = ({ route, navigation }) => {
 										margin: 15,
 										color: '#fff',
 									}}>
-									Submit
+									Enviar
 								</Text>
 							</TouchableOpacity>
 						</Card.Content>
