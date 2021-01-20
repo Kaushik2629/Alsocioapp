@@ -4,9 +4,9 @@
     "slug": "alsocio",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/AppIcon.png",
+    "icon": "./assets/AppIcon.jpg",
     "splash": {
-      "image": "./assets/splashImage.jpg",
+      "image": "./assets/splashImage.png",
       "resizeMode": "contain",
       "backgroundColor": "#fff"
     },
@@ -27,7 +27,7 @@
     "android": {
       "package": "com.Alsocio.AlsocioApp",
       "permissions": [],
-      "versionCode": 4,
+      "versionCode": 5,
       "useNextNotificationsApi": true
     },
     "description": "You are in Good Hands!"

@@ -24,7 +24,6 @@ import * as Permissions from 'expo-permissions';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import showBookings from './containers/showBookings';
-import SplashScreen from './screens/SplashScreen';
 import SignInScreen from './screens/SignInScreen';
 import customerSignUpScreen from './screens/customerSignUpScreen';
 import providerTabs from './screens/provider_screens/providerTabs';
@@ -190,12 +189,14 @@ const App = () => {
 				a = await AsyncStorage.getItem('userName');
 
 				let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
-				if (check != null || check.length != 0) {
-					x = [...check];
+				if (check != null) {
+					if (check.length != 0) {
+						x = [...check];
 
-					for (let index = 0; index < x.length; index++) {
-						const element = x[index][1];
-						s = s + element;
+						for (let index = 0; index < x.length; index++) {
+							const element = x[index][1];
+							s = s + element;
+						}
 					}
 				}
 			} catch (e) {

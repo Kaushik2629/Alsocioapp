@@ -127,7 +127,7 @@ export function DrawerContent(props) {
 							icon={({ color, size }) => (
 								<Icon name='home-outline' color={color} size={size} />
 							)}
-							label='Casa'
+							label='Inicio'
 							onPress={() => {
 								{
 									if (a.Role == 'Customer') {

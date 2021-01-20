@@ -41,7 +41,7 @@ const providerHome = ({ route, navigation }) => {
     },
     {
       text1: "Ver sus sucursales",
-      text2: "Ir a Ramas",
+      text2: "Ir a sucursales",
       navigate: "providerBranches",
     },
     {

@@ -38,7 +38,7 @@ const SettingsScreen = ({ navigation }) => {
 		if (a.UserName != null) {
 			fetchUsername();
 		}
-	}, []);
+	}, [a.itemCount]);
 
 
 	const showDateStamp = (DateString) => {
@@ -53,7 +53,7 @@ const SettingsScreen = ({ navigation }) => {
 					fontWeight: 'bold',
 					color: '#000',
 				}}>
-			Date-
+			Fecha-
 			</Text>
         <Text
 				style={{
@@ -79,7 +79,7 @@ const SettingsScreen = ({ navigation }) => {
 					fontWeight: 'bold',
 					color: '#000',
 				}}>
-			Time-
+			Hora-
 			</Text>
 			<Text
 				style={{
@@ -142,15 +142,15 @@ const SettingsScreen = ({ navigation }) => {
 									{showTimeStamp(item.date)}
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>No.of Services - </Text>
+									<Text style={styles.leftLabel}>Numero de servicios - </Text>
 									<Text style={styles.rightLabel}>{item.services}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Sub Total - </Text>
+									<Text style={styles.leftLabel}>Total parcial - </Text>
 									<Text style={styles.rightLabel}>{item.sub_total}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Service -</Text>
+									<Text style={styles.leftLabel}>Cargos por servicio -</Text>
 									<Text style={styles.rightLabel}>{item.service_charges}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
@@ -158,21 +158,21 @@ const SettingsScreen = ({ navigation }) => {
 									<Text style={styles.rightLabel}>{item.itbms}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Total Cost -</Text>
+									<Text style={styles.leftLabel}>Coste total -</Text>
 									<Text style={styles.rightLabel}>{item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Status -</Text>
+									<Text style={styles.leftLabel}>Estado -</Text>
 									<Text style={styles.rightLabel}>{item.status}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Refund -</Text>
+									<Text style={styles.leftLabel}>Reembolso -</Text>
 									<Text style={styles.rightLabel}>{item.refund}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Refund Status -</Text>
+									<Text style={styles.leftLabel}>Estado de reembolso -</Text>
 									<Text style={styles.rightLabel}>{item.refund_status}</Text>
 								</View>
 							</Card.Content>

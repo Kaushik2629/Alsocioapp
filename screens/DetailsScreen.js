@@ -46,7 +46,7 @@ const DetailsScreen = ({ navigation }) => {
 	useEffect(() => {
 		fetchUsername();
 		console.log(details.length);
-	}, [a.UserName]);
+	}, [a.itemCount]);
 
 	const [currentDate, setCurrentDate] = useState('');
 

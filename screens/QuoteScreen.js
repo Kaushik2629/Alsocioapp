@@ -40,7 +40,7 @@ const QuoteScreen = ({ navigation }) => {
 		if (a.UserName != null) {
 			fetchUsername();
 		}
-	}, []);
+	}, [a.UserName]);
 
 	const showImage = (ImageUrl) => {
 		// if (ImageUrl == "") {
