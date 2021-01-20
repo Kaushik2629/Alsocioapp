@@ -358,7 +358,7 @@ const providerSlot = ({ navigation }) => {
                   (startTime != "" && endTime == "") ||
                   (startTime == "" && endTime != "")
                 ) {
-                  alert("¡Selecciona ambas ranuras! ");
+                  alert('¡Cambio de horario! ');
                   return;
                 }
                 setIsLoading(true);
@@ -393,7 +393,7 @@ const providerSlot = ({ navigation }) => {
                   flexGrow: 1,
                 }}
               >
-                Salvar
+               Guardar
               </Text>
             </TouchableOpacity>
           </View>
