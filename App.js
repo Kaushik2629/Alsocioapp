@@ -225,10 +225,14 @@ const App = () => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				console.log(responseJson);
+				// console.log(responseJson);
 				if (responseJson.notifications.length != 0) {
 					console.log('called in function');
-					setNotificationBody(responseJson.notifications);
+					// setNotificationBody(responseJson.notifications);
+					responseJson.notifications.map((item) => {
+						console.log(item.notification)
+						sendPushNotification(expoPushToken, item.notification);
+					});
 				}
 			})
 			.catch((error) => console.error(error));
@@ -236,15 +240,13 @@ const App = () => {
 	};
 	useEffect(() => {
 		var t = setInterval(() => {
-			if (loginState.userName != null) {
-				fetchNotifications();
-				// console.log(loginState.userName)
-			}
+			fetchNotifications();
+			// console.log(loginState.userName)
 		}, 8000);
 		return () => {
 			clearTimeout(t);
 		};
-	}, [loginState.showCount]);
+	}, [loginState]);
 
 	//to send expo notification
 	const [expoPushToken, setExpoPushToken] = useState('');
@@ -317,13 +319,19 @@ const App = () => {
 		};
 	}, []);
 
-	useEffect(() => {
-		if (notificationBody.length != 0) {
-			notificationBody.map((item) => {
-				sendPushNotification(expoPushToken, item.notification);
-			});
-		}
-	}, [notificationBody.length]);
+	// useEffect(() => {
+	// 	var t = setInterval(()=>{
+	// 		console.log(notificationBody)
+	// 		// if (notificationBody.length != 0) {
+	// 		// 	notificationBody.map((item) => {
+	// 		// 		sendPushNotification(expoPushToken, item.notification);
+	// 		// 	});
+	// 		// }
+	// 	},5000);
+	// 	return () => {
+	// 		clearTimeout(t);
+	// 	};
+	// }, [notificationBody.length]);
 
 	async function sendPushNotification(expoPushToken, notifiedMessage) {
 		const message = {
