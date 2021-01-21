@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "606060647526",
+    "project_id": "alsocio-3b5c3",
+    "storage_bucket": "alsocio-3b5c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606060647526:android:a09dc633c5e0fde9e689a7",
+        "android_client_info": {
+          "package_name": "com.Alsocio.AlsocioApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606060647526-up7fidqr8p4hjnjrc84gf5f6e0qh5k2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXFNMTRNR5RoDznFFjyY9MbtCzqnU72Nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606060647526-up7fidqr8p4hjnjrc84gf5f6e0qh5k2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

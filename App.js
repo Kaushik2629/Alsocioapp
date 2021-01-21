@@ -37,6 +37,7 @@ import continueWith from './screens/continueWith';
 import ProviderSignUpForm from './screens/ProviderSignUpForm';
 import showFeaturedServices from './screens/showFeaturedServices';
 import forgotPasswordScreen from './screens/forgotPasswordScreen';
+import * as firebase from 'firebase';
 
 const Drawer = createDrawerNavigator();
 
@@ -243,7 +244,7 @@ const App = () => {
 		return () => {
 			clearTimeout(t);
 		};
-	}, []);
+	}, [loginState.showCount]);
 
 	//to send expo notification
 	const [expoPushToken, setExpoPushToken] = useState('');
@@ -282,6 +283,11 @@ const App = () => {
 				lightColor: '#FF231F7C',
 			});
 		}
+
+		// let uid = firebase.auth().currentUser.uid;
+		// firebase.database().ref("users").child(uid).update({
+		// 	expoPushToken:token
+		// })
 
 		return token;
 	}

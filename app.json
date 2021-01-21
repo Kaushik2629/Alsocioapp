@@ -25,6 +25,7 @@
       "favicon": "./assets/icon.png"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "package": "com.Alsocio.AlsocioApp",
       "permissions": [],
       "versionCode": 5,
