@@ -184,7 +184,7 @@ const chatContainer = ({ route, navigation }) => {
 						margin: 10,
 						borderRadius: 10,
 						alignSelf: 'flex-start',
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 					}}>
 					<View
 						style={{
@@ -241,7 +241,7 @@ const chatContainer = ({ route, navigation }) => {
 	// alert(messageId)
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -273,7 +273,7 @@ const chatContainer = ({ route, navigation }) => {
 					<IconButton
 						size={40}
 						icon='send-circle'
-						color='#1a237e'
+						color='#262262'
 						onPress={() => handleSend()}
 					/>
 				</TouchableOpacity>
@@ -293,7 +293,7 @@ const chatContainer = ({ route, navigation }) => {
 					<IconButton
 						size={40}
 						icon='send-circle'
-						color='#1a237e'
+						color='#262262'
 						onPress={() => handleSend()}
 					/>
 				</TouchableOpacity>
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
 	},
 	textInput: {
 		flexGrow: 1,
-		color: '#1a237e',
+		color: '#262262',
 		paddingHorizontal: 10,
 		paddingVertical: 10,
 		borderColor: '#fff',

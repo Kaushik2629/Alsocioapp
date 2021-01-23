@@ -16,7 +16,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const continueWith = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<StatusBar backgroundColor='#1a237e' barStyle='light-content' />
+			<StatusBar backgroundColor='#262262' barStyle='light-content' />
 			<Animatable.View style={styles.header} animation='fadeIn'>
 				<Animatable.Image
 					source={require('../assets/icon.png')}
@@ -89,7 +89,7 @@ const height_logo = height * 0.2;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 	header: {
 		flex: 2,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
 		borderColor: '#26418f',
 		borderWidth: 0.5,
 		marginTop: 15,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 		flexDirection: 'row',
 	},
 });

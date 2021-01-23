@@ -120,7 +120,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0  }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -135,7 +135,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			) : (
 				<FlatList
@@ -195,7 +195,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 									<View>
 										<TouchableOpacity
 											style={{
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 												width: 120,
 												height: 60,
 												borderRadius: 5,
@@ -222,7 +222,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 										<View style={{ flexDirection: 'row' }}>
 											<Icon
 												name='ios-checkbox-outline'
-												color='#1a237e'
+												color='#262262'
 												size={36}
 												style={{ marginHorizontal: 10 }}
 											/>

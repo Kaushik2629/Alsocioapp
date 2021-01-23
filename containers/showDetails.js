@@ -34,7 +34,7 @@ const showDetails = ({ route, navigation }) => {
 	const serviceId = route.params.service_id;
 	let servicedetails = new FormData();
 	servicedetails.append('service_id', serviceId);
-	const { changeCount } = useContext(AuthContext);
+	const { changeCount, refresh } = useContext(AuthContext);
 	const count = useContext(AuthContext);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -188,17 +188,17 @@ const showDetails = ({ route, navigation }) => {
 					}}>
 					<TouchableOpacity
 						style={{
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 							width: 200,
 							borderRadius: 5,
 						}}
 						onPress={() => {
 							if (addedToCart && slotValue == '') {
-								alert('Please add Slots!');
+								alert('Agregue ranuras!');
 							} else if (addedToCart && slotValue == 'No Slots Available') {
 								alert('Cannot Proceed without adding slots');
 							} else if (newDate == '') {
-								alert('Please add Slots!');
+								alert('Agregue ranuras!');
 							} else {
 								navigation.navigate('showCartitems');
 							}
@@ -236,7 +236,7 @@ const showDetails = ({ route, navigation }) => {
 						<View style={{ flexDirection: 'row' }}>
 							<TouchableOpacity
 								style={{
-									backgroundColor: '#1a237e',
+									backgroundColor: '#262262',
 									width: 50,
 									height: 35,
 									marginBottom: 5,
@@ -264,7 +264,7 @@ const showDetails = ({ route, navigation }) => {
 							</Text>
 							<TouchableOpacity
 								style={{
-									backgroundColor: '#1a237e',
+									backgroundColor: '#262262',
 									width: 50,
 									height: 35,
 									marginBottom: 5,
@@ -378,11 +378,17 @@ const showDetails = ({ route, navigation }) => {
 						quoteDetails.append('description', values.description);
 						quoteDetails.append('request_quote', values.request);
 						quoteDetails.append('username', count.UserName);
-						quoteDetails.append('image', {
-							uri: values.uri,
-							name: filename,
-							type,
-						});
+						if (values.uri != '') {
+							quoteDetails.append('image', {
+								uri: values.uri,
+								name: filename,
+								type,
+							});
+						} else {
+							quoteDetails.append('image', {
+								uri: values.uri,
+							});
+						}
 						fetch('https://alsocio.com/app/send-quote/', {
 							method: 'POST',
 							body: quoteDetails,
@@ -392,8 +398,10 @@ const showDetails = ({ route, navigation }) => {
 						})
 							.then((response) => response.json())
 							.then((responseJson) => {
+								setIsLoading(true);
 								setModalVisible(!modalVisible);
-								alert('Quote has been Sent Successfully');
+								refresh();
+								alert('La cotización se ha enviado correctamente');
 							})
 							.catch((error) => console.error(error));
 					}}
@@ -467,7 +475,7 @@ const showDetails = ({ route, navigation }) => {
 
 							<Button
 								title='Enviar'
-								color='#1a237e'
+								color='#262262'
 								style={{
 									borderRadius: 20,
 									fontSize: 15,
@@ -718,7 +726,7 @@ const showDetails = ({ route, navigation }) => {
 												borderRadius: 20,
 												fontSize: 15,
 												margin: 10,
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 											}}
 											onPress={() => {
 												setSlotPickerModal(!slotPickerModal);
@@ -769,9 +777,15 @@ const showDetails = ({ route, navigation }) => {
 											}}>
 											Espacio :
 										</Text>
-										<Text style={{ margin: 15, fontSize: 20 }}>
-											{slotValue}
-										</Text>
+										{slotValue == 'No Slots Available' ? (
+											<Text style={{ margin: 12, fontSize: 12 }}>
+												No hay espacios disponibles
+											</Text>
+										) : (
+											<Text style={{ margin: 15, fontSize: 20 }}>
+												{slotValue}
+											</Text>
+										)}
 									</View>
 									<View
 										style={{
@@ -790,7 +804,7 @@ const showDetails = ({ route, navigation }) => {
 											color='#fff'
 											style={{
 												resizeMode: 'center',
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 												//backgroundColor:'black'
 											}}
 											onPress={() => {
@@ -907,7 +921,9 @@ const showDetails = ({ route, navigation }) => {
 	};
 
 	const QuoteSchema = Yup.object().shape({
-		request: Yup.string().min(1, 'Too Short!').required('Se requiere solicitud'),
+		request: Yup.string()
+			.min(1, 'Too Short!')
+			.required('Se requiere solicitud'),
 		description: Yup.string()
 			.min(1, '¡Demasiado corto!')
 			.required('Se requiere descripción'),
@@ -917,7 +933,7 @@ const showDetails = ({ route, navigation }) => {
 		<View style={styles.container}>
 			<Appbar.Header
 				style={{
-					backgroundColor: '#1a237e',
+					backgroundColor: '#262262',
 					alignItems: 'center',
 					marginTop: 0,
 				}}>
@@ -936,7 +952,7 @@ const showDetails = ({ route, navigation }) => {
 							alignContent: 'center',
 							justifyContent: 'center',
 						}}>
-						<MaterialIndicator color='#1a237e' />
+						<MaterialIndicator color='#262262' />
 					</View>
 				) : (
 					<View
@@ -1064,7 +1080,7 @@ const showDetails = ({ route, navigation }) => {
 											<View style={{ flexDirection: 'row', marginLeft: 20 }}>
 												<Icon
 													name='ios-checkbox-outline'
-													color='#1a237e'
+													color='#262262'
 													size={36}
 													style={{ marginHorizontal: 10 }}
 												/>
@@ -1096,7 +1112,7 @@ const showDetails = ({ route, navigation }) => {
 										{count.UserName != null ? (
 											<TouchableOpacity
 												style={{
-													backgroundColor: '#1a237e',
+													backgroundColor: '#262262',
 													width: 100,
 													height: 40,
 													marginLeft: 20,

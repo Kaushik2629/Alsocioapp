@@ -157,7 +157,7 @@ const showCartitems = ({ route, navigation }, props) => {
 					<View style={{ flexDirection: 'row' }}>
 						<TouchableOpacity
 							style={{
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 								width: 50,
 								height: 35,
 								marginBottom: 5,
@@ -185,7 +185,7 @@ const showCartitems = ({ route, navigation }, props) => {
 						</Text>
 						<TouchableOpacity
 							style={{
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 								width: 50,
 								height: 35,
 								marginBottom: 5,
@@ -221,13 +221,13 @@ const showCartitems = ({ route, navigation }, props) => {
 						fontSize: 15,
 						fontWeight: 'bold',
 					}}>
-					El costo es -
+					Subtotal -
 				</Text>
 				<Text style={{ fontSize: 15 }}>${cost}</Text>
 			</View>
 		) : (
 			<View style={{ marginLeft: 20, marginTop: 10, flexDirection: 'row' }}>
-				<Text>El costo es -</Text>
+				<Text>Subtotal -</Text>
 				<Text
 					style={{
 						marginLeft:10,
@@ -273,7 +273,7 @@ const showCartitems = ({ route, navigation }, props) => {
 					justifyContent: 'center',
 					marginTop: 20,
 				}}>
-				<MaterialIndicator color='#1a237e' />
+				<MaterialIndicator color='#262262' />
 			</View>
 		);
 	}
@@ -318,7 +318,7 @@ const showCartitems = ({ route, navigation }, props) => {
 
 			const handleSentence = () => {
 				if (s == 1) {
-					return <Text>1 service is added</Text>;
+					return <Text>1 servicio aggregado</Text>;
 				}
 				if (s > 1) {
 					return <Text>{s} services added</Text>;
@@ -360,7 +360,7 @@ const showCartitems = ({ route, navigation }, props) => {
 							<TouchableOpacity
 								style={{
 									alignSelf: 'flex-end',
-									backgroundColor: '#1a237e',
+									backgroundColor: '#262262',
 									width: 200,
 									borderRadius: 5,
 								}}
@@ -449,7 +449,7 @@ const showCartitems = ({ route, navigation }, props) => {
 									borderRadius: 20,
 									fontSize: 15,
 									margin: 15,
-									backgroundColor: '#1a237e',
+									backgroundColor: '#262262',
 								}}
 								onPress={() => {
 									navigation.navigate('SignInScreen'),
@@ -471,7 +471,7 @@ const showCartitems = ({ route, navigation }, props) => {
 									borderRadius: 20,
 									fontSize: 15,
 									margin: 15,
-									backgroundColor: '#1a237e',
+									backgroundColor: '#262262',
 								}}
 								onPress={() => {
 									navigation.navigate('customerSignUpScreen'),
@@ -540,7 +540,7 @@ const showCartitems = ({ route, navigation }, props) => {
 										<Col style={{ alignItems: 'center', marginTop: 20 }}>
 											<TouchableOpacity
 												style={{
-													backgroundColor: '#1a237e',
+													backgroundColor: '#262262',
 													width: 200,
 													height: 35,
 													marginBottom: 5,

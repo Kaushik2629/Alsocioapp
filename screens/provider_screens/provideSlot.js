@@ -133,7 +133,7 @@ const providerSlot = ({ navigation }) => {
     <View style={styles.container}>
       <Appbar.Header
         style={{
-          backgroundColor: "#1a237e",
+          backgroundColor: "#262262",
           alignItems: "center",
           marginTop: 0,
         }}
@@ -204,7 +204,7 @@ const providerSlot = ({ navigation }) => {
               }}
             >
               <RadioButton
-                color="#1a237e"
+                color="#262262"
                 value="time"
                 status={isCheck ? "checked" : "unchecked"}
                 onPress={() => {
@@ -312,7 +312,7 @@ const providerSlot = ({ navigation }) => {
                 {/* )} */}
               </View>
               <RadioButton
-                color="#1a237e"
+                color="#262262"
                 status={check24hr ? "checked" : "unchecked"}
                 onPress={() => {
                   setIsCheck(false),
@@ -331,7 +331,7 @@ const providerSlot = ({ navigation }) => {
               }}
             >
               <RadioButton
-                color="#1a237e"
+                color="#262262"
                 status={isHoliday ? "checked" : "unchecked"}
                 onPress={() => {
                   setIsCheck(false),
@@ -351,7 +351,7 @@ const providerSlot = ({ navigation }) => {
                 borderRadius: 20,
                 fontSize: 15,
                 margin: 15,
-                backgroundColor: "#1a237e",
+                backgroundColor: "#262262",
               }}
               onPress={() => {
                 if (
@@ -409,7 +409,7 @@ const providerSlot = ({ navigation }) => {
             marginTop: 20,
           }}
         >
-          <MaterialIndicator color="#1a237e" />
+          <MaterialIndicator color="#262262" />
         </View>
       ) : (
         <FlatList
@@ -470,7 +470,7 @@ const providerSlot = ({ navigation }) => {
                       borderRadius: 20,
                       fontSize: 15,
                       margin: 15,
-                      backgroundColor: "#1a237e",
+                      backgroundColor: "#262262",
                     }}
                     onPress={() => {
                       setShowEditModal(true), setDay(item.day);

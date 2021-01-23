@@ -126,7 +126,7 @@ const providerBookings = ({ navigation }) => {
 					style={{ flexGrow: 1, flexDirection: 'row', paddingVertical: 10 }}>
 					<TouchableOpacity
 						style={{
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 							width: imagewidth / 3.65,
 							height: 56,
 							marginBottom: 5,
@@ -203,7 +203,7 @@ const providerBookings = ({ navigation }) => {
 					style={{ flexGrow: 1, flexDirection: 'row', paddingVertical: 10 }}>
 					<TouchableOpacity
 						style={{
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 							width: imagewidth / 3.65,
 							height: 56,
 							marginBottom: 5,
@@ -225,7 +225,7 @@ const providerBookings = ({ navigation }) => {
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={{
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 							width: imagewidth / 3.65,
 							height: 56,
 							marginBottom: 5,
@@ -318,7 +318,7 @@ const providerBookings = ({ navigation }) => {
 		<View style={styles.container}>
 			<Appbar.Header
 				style={{
-					backgroundColor: '#1a237e',
+					backgroundColor: '#262262',
 					alignItems: 'center',
 					marginTop: 0,
 				}}>
@@ -405,7 +405,7 @@ const providerBookings = ({ navigation }) => {
 								/>
 								<Button
 									title='Enviar'
-									color='#1a237e'
+									color='#262262'
 									style={{
 										borderRadius: 20,
 										fontSize: 15,
@@ -475,7 +475,7 @@ const providerBookings = ({ navigation }) => {
 								borderRadius: 20,
 								fontSize: 15,
 								margin: 15,
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 							}}
 							onPress={() => {
 								completeBooking(bookingId, a.UserName), setAskAgain(true);
@@ -496,7 +496,7 @@ const providerBookings = ({ navigation }) => {
 								borderRadius: 20,
 								fontSize: 15,
 								margin: 15,
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 							}}
 							onPress={() => {
 								setAskAgain(false);
@@ -580,7 +580,7 @@ const providerBookings = ({ navigation }) => {
 							borderRadius: 20,
 							fontSize: 15,
 							margin: 15,
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 						}}
 						onPress={() => {
 							// alert(bookingId)
@@ -675,7 +675,7 @@ const providerBookings = ({ navigation }) => {
 								borderRadius: 20,
 								fontSize: 15,
 								margin: 15,
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 							}}
 							onPress={() => {
 								deleteBooking(bookingId, a.UserName),
@@ -698,7 +698,7 @@ const providerBookings = ({ navigation }) => {
 								borderRadius: 20,
 								fontSize: 15,
 								margin: 15,
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 							}}
 							onPress={() => {
 								setConfirm(false);
@@ -727,7 +727,7 @@ const providerBookings = ({ navigation }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			) : (
 				<FlatList
@@ -775,7 +775,7 @@ const providerBookings = ({ navigation }) => {
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Costo -</Text>
-									<Text style={styles.rightLabel}>${item.cost}</Text>
+									<Text style={styles.rightLabel}>$${item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Cargos adicionales -</Text>
@@ -793,7 +793,7 @@ const providerBookings = ({ navigation }) => {
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Habla a</Text>
+									<Text style={styles.leftLabel}>Direccion</Text>
 									<Text style={[styles.rightLabel, { width: 200 }]}>
 										{item.address}
 									</Text>

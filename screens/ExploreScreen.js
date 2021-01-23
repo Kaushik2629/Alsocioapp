@@ -27,7 +27,8 @@ const imageheight = Dimensions.get('screen').height;
 const itemsPerPage = 5;
 
 const ExploreScreen = ({ navigation }) => {
-	const a = useContext(AuthContext);
+	const {	refresh } = useContext(AuthContext);
+	const a = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -42,6 +43,7 @@ const ExploreScreen = ({ navigation }) => {
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
+				console.log(responseJson)
 				setIsLoading(false);
 				setDetails(responseJson.bookings);
 			})
@@ -74,6 +76,7 @@ const ExploreScreen = ({ navigation }) => {
 				.then((response) => response.json())
 				.then((responseJson) => {
 					setDetails(responseJson.bookings);
+					refresh();
 					setIsLoading(false);
 				})
 				.catch((error) => console.error(error));
@@ -188,7 +191,7 @@ const ExploreScreen = ({ navigation }) => {
 
 	return a.UserName != null ? (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -254,7 +257,7 @@ const ExploreScreen = ({ navigation }) => {
 								borderRadius: 20,
 								fontSize: 15,
 								margin: 15,
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 							}}
 							onPress={() => {
 								deleteBooking(bookingId, a.UserName),
@@ -276,7 +279,7 @@ const ExploreScreen = ({ navigation }) => {
 								borderRadius: 20,
 								fontSize: 15,
 								margin: 15,
-								backgroundColor: '#1a237e',
+								backgroundColor: '#262262',
 							}}
 							onPress={() => {
 								setConfirm(false);
@@ -402,7 +405,7 @@ const ExploreScreen = ({ navigation }) => {
 							borderRadius: 20,
 							fontSize: 15,
 							margin: 15,
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 						}}
 						onPress={() => {
 							setShowEditModal(!showEditModal);
@@ -492,7 +495,7 @@ const ExploreScreen = ({ navigation }) => {
 								margin: 10,
 								textAlign: 'center',
 								paddingLeft: 10,
-								borderColor: '#1a237e',
+								borderColor: '#262262',
 								color: '#000',
 							}}
 							onChangeText={(val) => {
@@ -505,7 +508,7 @@ const ExploreScreen = ({ navigation }) => {
 							borderRadius: 10,
 							fontSize: 15,
 							margin: 15,
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 						}}
 						onPress={() => {
 							if (ratingCount != 0) {
@@ -555,7 +558,7 @@ const ExploreScreen = ({ navigation }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			) : (
 				<FlatList
@@ -597,7 +600,7 @@ const ExploreScreen = ({ navigation }) => {
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Costo -</Text>
-									<Text style={styles.rightLabel}>{item.cost}</Text>
+									<Text style={styles.rightLabel}>${item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Cantidad -</Text>
@@ -647,7 +650,7 @@ const ExploreScreen = ({ navigation }) => {
 										}}>
 										<TouchableOpacity
 											style={{
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 												width: imagewidth / 3.65,
 												height: 56,
 												marginBottom: 5,
@@ -749,7 +752,7 @@ const ExploreScreen = ({ navigation }) => {
 		</View>
 	) : (
 		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -762,7 +765,7 @@ const ExploreScreen = ({ navigation }) => {
 						borderRadius: 20,
 						fontSize: 15,
 						margin: 15,
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 					}}
 					onPress={() => navigation.navigate('SignInScreen')}>
 					<Text

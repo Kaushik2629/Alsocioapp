@@ -110,7 +110,7 @@ const providerQuotes = ({ navigation }) => {
               />
               <Button
                 title="Enviar"
-                color="#1a237e"
+                color="#262262"
                 style={{
                   borderRadius: 20,
                   fontSize: 15,
@@ -126,7 +126,7 @@ const providerQuotes = ({ navigation }) => {
 
   return a.UserName != null ? (
     <View style={styles.container}>
-      <Appbar.Header style={{ backgroundColor: "#1a237e",alignItems:'center', marginTop: 0  }}>
+      <Appbar.Header style={{ backgroundColor: "#262262",alignItems:'center', marginTop: 0  }}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
@@ -196,7 +196,7 @@ const providerQuotes = ({ navigation }) => {
             marginTop: 20,
           }}
         >
-          <MaterialIndicator color="#1a237e" />
+          <MaterialIndicator color="#262262" />
         </View>
       ) : (
         <FlatList
@@ -276,7 +276,7 @@ const providerQuotes = ({ navigation }) => {
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
                   <Text style={styles.leftLabel}>Costo -</Text>
-                  <Text style={styles.rightLabel}>{item.cost}</Text>
+                  <Text style={styles.rightLabel}>${item.cost}</Text>
                 </View>
                 <View style={{ flexDirection: "row", padding: 10 }}>
                   <Text style={styles.leftLabel}>Cargos por servicio -</Text>
@@ -288,7 +288,7 @@ const providerQuotes = ({ navigation }) => {
                     borderRadius: 20,
                     fontSize: 15,
                     margin: 15,
-                    backgroundColor: "#1a237e",
+                    backgroundColor: "#262262",
                   }}
                   onPress={() => {
                     setModalVisible(true), setQuoteId(item.id);
@@ -335,7 +335,7 @@ const providerQuotes = ({ navigation }) => {
     </View>
   ) : (
     <View style={{ flex: 1 }}>
-      <Appbar.Header style={{ backgroundColor: "#1a237e",alignItems:'center', marginTop: 0  }}>
+      <Appbar.Header style={{ backgroundColor: "#262262",alignItems:'center', marginTop: 0  }}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
@@ -349,7 +349,7 @@ const providerQuotes = ({ navigation }) => {
             borderRadius: 20,
             fontSize: 15,
             margin: 15,
-            backgroundColor: "#1a237e",
+            backgroundColor: "#262262",
           }}
           onPress={() => navigation.navigate("SignInScreen")}
         >

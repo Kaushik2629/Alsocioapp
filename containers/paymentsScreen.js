@@ -118,7 +118,7 @@ const paymentsScreen = ({ route, navigation }) => {
 					</Text>
 					<Button
 						title='Go Back To Home Page'
-						color='#1a237e'
+						color='#262262'
 						style={{
 							borderRadius: 20,
 							fontSize: 15,
@@ -160,7 +160,7 @@ const paymentsScreen = ({ route, navigation }) => {
 								}}>
 								<View style={{ justifyContent: 'center' }}>
 									<UIActivityIndicator
-										color='#1a237e'
+										color='#262262'
 										style={{ padding: 20 }}
 									/>
 									<Text style={{ textAlign: 'center', padding: 20 }}>
@@ -298,7 +298,7 @@ const paymentsScreen = ({ route, navigation }) => {
 									borderRadius: 20,
 									fontSize: 15,
 									margin: 15,
-									backgroundColor: '#1a237e',
+									backgroundColor: '#262262',
 								}}
 								onPress={() => props.handleSubmit()}>
 								<Text

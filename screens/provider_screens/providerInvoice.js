@@ -48,7 +48,7 @@ const providerInvoice = ({ navigation }) => {
 		<View style={styles.container}>
 			<Appbar.Header
 				style={{
-					backgroundColor: '#1a237e',
+					backgroundColor: '#262262',
 					alignItems: 'center',
 					marginTop: 0,
 				}}>
@@ -123,7 +123,7 @@ const providerInvoice = ({ navigation }) => {
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Total -</Text>
-								<Text style={styles.rightLabel}>{item.cost}</Text>
+								<Text style={styles.rightLabel}>${item.cost}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Cliente -</Text>

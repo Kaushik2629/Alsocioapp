@@ -40,7 +40,7 @@ const QuoteScreen = ({ navigation }) => {
 		if (a.UserName != null) {
 			fetchUsername();
 		}
-	}, [a.UserName]);
+	}, [a.Refresh]);
 
 	const showImage = (ImageUrl) => {
 		// if (ImageUrl == "") {
@@ -64,7 +64,7 @@ const QuoteScreen = ({ navigation }) => {
 
 	return a.UserName != null ? (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -162,7 +162,7 @@ const QuoteScreen = ({ navigation }) => {
 		</View>
 	) : (
 		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0 }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -176,7 +176,7 @@ const QuoteScreen = ({ navigation }) => {
 						borderRadius: 20,
 						fontSize: 15,
 						margin: 15,
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 					}}
 					onPress={() => navigation.navigate('SignInScreen')}>
 					<Text

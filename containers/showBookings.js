@@ -62,7 +62,7 @@ const showBookings = ({ route, navigation }, props) => {
 				})
 					.then((response) => response.json())
 					.then((responseJson) => {
-						// console.log(responseJson)
+						// console.log(responseJson);
 						showList = [...showList, ...responseJson.service];
 						setDetails(showList);
 					});
@@ -118,7 +118,7 @@ const showBookings = ({ route, navigation }, props) => {
 		return (
 			<Animatable.View
 				style={{
-					marginTop:10,
+					marginTop: 10,
 					flexDirection: 'row',
 					backgroundColor: '#fff',
 					borderWidth: 0.5,
@@ -137,7 +137,7 @@ const showBookings = ({ route, navigation }, props) => {
 					<TouchableOpacity
 						style={{
 							// alignSelf: 'flex-end',
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 							width: 180,
 							borderRadius: 5,
 						}}
@@ -157,7 +157,7 @@ const showBookings = ({ route, navigation }, props) => {
 					<TouchableOpacity
 						style={{
 							// alignSelf: 'flex-end',
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 							width: 180,
 							borderRadius: 5,
 						}}
@@ -287,7 +287,9 @@ const showBookings = ({ route, navigation }, props) => {
 	const [payments, setPaymentMethod] = useState('COD');
 
 	const DetailsSchema = Yup.object().shape({
-		address: Yup.string().min(10, 'Too Short!').required('La dirección es necesaria'),
+		address: Yup.string()
+			.min(10, 'Too Short!')
+			.required('La dirección es necesaria'),
 		city: Yup.string().required('Seleccione su ubicación'),
 	});
 
@@ -344,7 +346,12 @@ const showBookings = ({ route, navigation }, props) => {
 
 	return (
 		<View style={{ flex: 1 }}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#262262',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content titleStyle={{ padding: 10 }} title='Detalles de pago' />
 			</Appbar.Header>
@@ -378,7 +385,7 @@ const showBookings = ({ route, navigation }, props) => {
 							<Animatable.View
 								style={{
 									position: 'absolute',
-									alignSelf:'center',
+									alignSelf: 'center',
 									backgroundColor: '#fff',
 									shadowColor: '#000',
 									width: imagewidth - 50,
@@ -394,9 +401,9 @@ const showBookings = ({ route, navigation }, props) => {
 									elevation: 5,
 									zIndex: 999,
 								}}>
-								<UIActivityIndicator color='#1a237e' style={{ padding: 10 }} />
+								<UIActivityIndicator color='#262262' style={{ padding: 10 }} />
 								<Text style={{ textAlign: 'center', padding: 20 }}>
-								Se está procesando el pedido...
+									Se está procesando el pedido...
 								</Text>
 							</Animatable.View>
 						) : null}
@@ -425,7 +432,7 @@ const showBookings = ({ route, navigation }, props) => {
 								</Text>
 								<Button
 									title='Volver a la página principal'
-									color='#1a237e'
+									color='#262262'
 									style={{
 										borderRadius: 20,
 										fontSize: 15,
@@ -537,7 +544,7 @@ const showBookings = ({ route, navigation }, props) => {
 										{showPicker(props)}
 										<Button
 											title='Enviar'
-											color='#1a237e'
+											color='#262262'
 											style={{
 												borderRadius: 20,
 												fontSize: 15,
@@ -607,7 +614,11 @@ const showBookings = ({ route, navigation }, props) => {
 															textAlign: 'right',
 														}}>
 														{addtocart(item.id)}
-														<Text>${item.service_cost}</Text>
+														{item.discount && item.discount > 0 ? (
+															<Text>${item.discount}</Text>
+														) : (
+															<Text>${item.service_cost}</Text>
+														)}
 													</View>
 												</View>
 												{/* </Card.Content> */}
@@ -707,7 +718,7 @@ const showBookings = ({ route, navigation }, props) => {
 												fontSize: 25,
 												fontWeight: '400',
 											}}>
-											${total}
+											${Math.round(total)}
 										</Text>
 									</View>
 								</View>
@@ -719,7 +730,7 @@ const showBookings = ({ route, navigation }, props) => {
 										margin: (10, 'auto'),
 									}}>
 									<RadioButton
-										color='#1a237e'
+										color='#262262'
 										value='COD'
 										status={payments === 'COD' ? 'checked' : 'unchecked'}
 										onPress={() => {
@@ -729,7 +740,7 @@ const showBookings = ({ route, navigation }, props) => {
 									/>
 									<Text style={{ fontSize: 17 }}>COD</Text>
 									<RadioButton
-										color='#1a237e'
+										color='#262262'
 										value='Card'
 										status={payments === 'Card' ? 'checked' : 'unchecked'}
 										onPress={() => {
@@ -751,7 +762,6 @@ const showBookings = ({ route, navigation }, props) => {
 						</ScrollView>
 						{showPopUp(props)}
 					</View>
-					
 				)}
 			</Formik>
 		</View>

@@ -92,7 +92,7 @@ const providerTeamMembers = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0  }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -108,7 +108,7 @@ const providerTeamMembers = ({ navigation }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			) : (
 				<View style={{ flex: 0.95 }}>
@@ -323,7 +323,7 @@ const providerTeamMembers = ({ navigation }) => {
 													style={{
 														borderRadius: 15,
 														margin: 10,
-														backgroundColor: '#1a237e',
+														backgroundColor: '#262262',
 														width: imagewidth / 1.5,
 													}}
 													onPress={() => {
@@ -491,7 +491,7 @@ const styles = StyleSheet.create({
 	},
 	floatingButtonStyle: {
 		resizeMode: 'contain',
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 		width: 50,
 		height: 50,
 		//backgroundColor:'black'

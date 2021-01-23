@@ -119,7 +119,7 @@ const forgotPasswordScreen = ({ navigation }) => {
 						shadowRadius: 3.84,
 						elevation: 5,
 					}}>
-					<UIActivityIndicator color='#1a237e' />
+					<UIActivityIndicator color='#262262' />
 					<Text style={{ textAlign: 'center' }}>Processing...</Text>
 				</Animatable.View>
 			) : null}
@@ -253,7 +253,7 @@ const forgotPasswordScreen = ({ navigation }) => {
 											style={{
 												fontSize: 10,
 												alignSelf: 'center',
-												color: '#1a237e',
+												color: '#262262',
 											}}>
 											Sorry,No User Found
 										</Text>
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor:'#1a237e'
+		backgroundColor:'#262262'
 	},
 	textInput: {
 		width: imagewidth / 2.5,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
 	otp: {
 		borderRadius: 5,
 		margin: 15,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 	card: {
 		width: imagewidth - 20,
@@ -408,6 +408,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 10,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 });

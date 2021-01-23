@@ -48,13 +48,13 @@ export default providerTabs;
 
 const providerStackScreen = ({ navigation, route }) => {
 	return (
-		<Tab.Navigator activeColor='#fff' barStyle={{ backgroundColor: '#1a237e' }}>
+		<Tab.Navigator activeColor='#fff' barStyle={{ backgroundColor: '#262262' }}>
 			<Tab.Screen
 				name='providerHome'
 				component={providerHome}
 				options={{
 					tabBarLabel: 'Inicio',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-home' color={color} size={26} />
 					),
@@ -65,7 +65,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				component={providerBookings}
 				options={{
 					tabBarLabel: 'Reservaciones',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='md-calendar' color={color} size={26} />
 					),
@@ -76,7 +76,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				component={providerSlot}
 				options={{
 					tabBarLabel: 'Horas de trabajo',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='md-clock' color={color} size={26} />
 					),
@@ -87,7 +87,7 @@ const providerStackScreen = ({ navigation, route }) => {
 				component={ProfileScreen}
 				options={{
 					tabBarLabel: 'Perfil',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-person' color={color} size={26} />
 					),

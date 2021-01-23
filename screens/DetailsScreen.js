@@ -288,7 +288,7 @@ const DetailsScreen = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0}}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -304,7 +304,7 @@ const DetailsScreen = ({ navigation }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			) : (
 				<FlatList

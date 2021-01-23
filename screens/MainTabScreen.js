@@ -49,7 +49,7 @@ const MainTabScreen = ({ navigation }) => {
 				component={showCartitems}
 				options={{
 					headerStyle: {
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 					},
 					headerTintColor: '#fff',
 					headerTitleStyle: {
@@ -85,7 +85,7 @@ const MainTabScreen = ({ navigation }) => {
 				component={paymentsScreen}
 				options={{
 					headerStyle: {
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 					},
 					headerTintColor: '#fff',
 					headerTitleStyle: {
@@ -122,7 +122,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				component={HomeScreen}
 				options={{
 					tabBarLabel: 'Inicio',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-home' color={color} size={26} />
 					),
@@ -133,7 +133,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				component={ExploreStackScreen}
 				options={{
 					tabBarLabel: 'Reservaciones',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='md-calendar' color={color} size={26} />
 					),
@@ -144,7 +144,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				component={DetailsStackScreen}
 				options={{
 					tabBarLabel: 'Notificaciones',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-notifications' color={color} size={26} />
 					),
@@ -155,7 +155,7 @@ const HomeStackScreen = ({ navigation, route }) => {
 				component={ProfileScreen}
 				options={{
 					tabBarLabel: 'Perfil',
-					tabBarColor: '#1a237e',
+					tabBarColor: '#262262',
 					tabBarIcon: ({ color }) => (
 						<Icon name='ios-person' color={color} size={26} />
 					),

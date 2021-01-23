@@ -37,7 +37,6 @@ import continueWith from './screens/continueWith';
 import ProviderSignUpForm from './screens/ProviderSignUpForm';
 import showFeaturedServices from './screens/showFeaturedServices';
 import forgotPasswordScreen from './screens/forgotPasswordScreen';
-import * as firebase from 'firebase';
 
 const Drawer = createDrawerNavigator();
 
@@ -111,11 +110,11 @@ const App = () => {
 					...prevState,
 					userToken: action.token,
 				};
-			// case 'NOTIFY':
-			// 	return{
-			// 		...prevState,
-			// 		notification: action.getNotifications
-			// 	}
+			case 'REFRESH':
+				return{
+					...prevState,
+					isLoading:false
+				}
 		}
 	};
 
@@ -147,10 +146,9 @@ const App = () => {
 				}
 				dispatch({ type: 'LOGOUT' });
 			},
-			signUp: () => {
-				// setUserToken('fgkj');
-				// setIsLoading(false);
-			},
+			// signUp: () => {
+				
+			// },
 			// toggleTheme: () => {
 			// 	setIsDarkTheme((isDarkTheme) => !isDarkTheme);
 			// },
@@ -166,6 +164,9 @@ const App = () => {
 				}
 				dispatch({ type: 'ROLE', token: userType });
 			},
+			refresh:()=>{
+				dispatch({type: 'REFRESH'})
+			},
 			// notifyUser: (message)=>{
 			// 	let x = [];
 			// 	x=x.push(message)
@@ -174,6 +175,7 @@ const App = () => {
 			Role: loginState.userToken,
 			UserName: loginState.userName,
 			itemCount: loginState.showCount,
+			Refresh: loginState.isLoading
 			// notificationMessage:loginState.notification
 		}),
 		[loginState]
@@ -213,7 +215,7 @@ const App = () => {
 		}, 100);
 	}, []);
 
-	const [notificationBody, setNotificationBody] = useState([]);
+	// const [notificationBody, setNotificationBody] = useState([]);
 	const fetchNotifications = () => {
 		// alert('id')
 		// if (loginState.userName != null) {
@@ -319,20 +321,7 @@ const App = () => {
 		};
 	}, []);
 
-	// useEffect(() => {
-	// 	var t = setInterval(()=>{
-	// 		console.log(notificationBody)
-	// 		// if (notificationBody.length != 0) {
-	// 		// 	notificationBody.map((item) => {
-	// 		// 		sendPushNotification(expoPushToken, item.notification);
-	// 		// 	});
-	// 		// }
-	// 	},5000);
-	// 	return () => {
-	// 		clearTimeout(t);
-	// 	};
-	// }, [notificationBody.length]);
-
+	
 	async function sendPushNotification(expoPushToken, notifiedMessage) {
 		const message = {
 			to: expoPushToken,
@@ -353,13 +342,13 @@ const App = () => {
 		});
 	}
 
-	if (loginState.isLoading) {
-		return (
-			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-				<ActivityIndicator size='large' />
-			</View>
-		);
-	}
+	// if (loginState.isLoading) {
+	// 	return (
+	// 		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+	// 			<ActivityIndicator size='large' />
+	// 		</View>
+	// 	);
+	// }
 
 	return (
 		<PaperProvider theme={theme}>

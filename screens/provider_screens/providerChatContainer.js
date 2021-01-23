@@ -191,7 +191,7 @@ const providerChatContainer = ({ route, navigation }) => {
             margin: 10,
             borderRadius: 10,
             alignSelf: "flex-start",
-            backgroundColor: "#1a237e",
+            backgroundColor: "#262262",
           }}
         >
           <View
@@ -251,7 +251,7 @@ const providerChatContainer = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Appbar.Header style={{ backgroundColor: "#1a237e",alignItems:'center', marginTop: 0  }}>
+      <Appbar.Header style={{ backgroundColor: "#262262",alignItems:'center', marginTop: 0  }}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content
           titleStyle={{ padding: 10 }}
@@ -283,7 +283,7 @@ const providerChatContainer = ({ route, navigation }) => {
             <IconButton
               size={40}
               icon="send-circle"
-              color="#1a237e"
+              color="#262262"
               onPress={() => handleSend()}
             />
           </TouchableOpacity>
@@ -303,7 +303,7 @@ const providerChatContainer = ({ route, navigation }) => {
             <IconButton
               size={40}
               icon="send-circle"
-              color="#1a237e"
+              color="#262262"
               onPress={() => handleSend()}
             />
           </TouchableOpacity>
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flexGrow: 1,
-    color: "#1a237e",
+    color: "#262262",
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderColor: "#fff",

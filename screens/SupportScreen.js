@@ -116,7 +116,7 @@ const SupportScreen = ({ route, navigation }) => {
 			style={{
 				flex: 1,
 			}}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0}}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content  titleStyle={{ padding: 10 }} title={category} />
 			</Appbar.Header>
@@ -129,7 +129,7 @@ const SupportScreen = ({ route, navigation }) => {
 							alignContent: 'center',
 							justifyContent: 'center',
 						}}>
-						<MaterialIndicator color='#1a237e' />
+						<MaterialIndicator color='#262262' />
 					</View>
 				) : (
 					mainCategory()

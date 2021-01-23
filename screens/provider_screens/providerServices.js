@@ -185,7 +185,7 @@ const providerServices = ({ navigation }) => {
 		category: Yup.string().required('La categoria es requerida'),
 		sub_category: Yup.string().required('Se requiere una subcategoría'),
 		service: Yup.string().required('El nombre del servicio es obligatorio'),
-		service_cost: Yup.string().required('Service El costo es Required'),
+		service_cost: Yup.string().required('Service Subtotal Required'),
 		includes: Yup.string().required('Incluye es obligatorio'),
 		uri: Yup.string().required('Se requiere imagen'),
 	});
@@ -231,7 +231,7 @@ const providerServices = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0  }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -246,7 +246,7 @@ const providerServices = ({ navigation }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			) : (
 				<View style={{ flex: 0.99 }}>
@@ -525,7 +525,7 @@ const providerServices = ({ navigation }) => {
 											)}
 											<View style={styles.checkbox}>
 												<Checkbox
-													color='#1a237e'
+													color='#262262'
 													value={props.values.additional_charges}
 													status={
 														props.values.additional_charges === true
@@ -543,7 +543,7 @@ const providerServices = ({ navigation }) => {
 											</View>
 											<View style={styles.checkbox}>
 												<Checkbox
-													color='#1a237e'
+													color='#262262'
 													value={props.values.social_distancing}
 													status={
 														props.values.social_distancing === true
@@ -567,7 +567,7 @@ const providerServices = ({ navigation }) => {
 													borderRadius: 20,
 													fontSize: 15,
 													margin: 10,
-													backgroundColor: '#1a237e',
+													backgroundColor: '#262262',
 												}}
 												onPress={() => {
 													props.handleSubmit();
@@ -798,7 +798,7 @@ const styles = StyleSheet.create({
 	},
 	floatingButtonStyle: {
 		resizeMode: 'contain',
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 		width: 50,
 		height: 50,
 		//backgroundColor:'black'

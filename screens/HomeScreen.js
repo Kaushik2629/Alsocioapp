@@ -196,7 +196,7 @@ const HomeScreen = ({ route, navigation }) => {
 				<Text
 					style={{
 						fontSize: 12,
-						color: '#1a237e',
+						color: '#262262',
 						// textAlign: 'center',
 					}}>
 					Hola,{a.UserName}
@@ -384,7 +384,7 @@ const HomeScreen = ({ route, navigation }) => {
 									{showPicker(props)}
 									<Button
 										title='Submit'
-										color='#1a237e'
+										color='#262262'
 										style={{
 											borderRadius: 20,
 											fontSize: 15,
@@ -397,10 +397,10 @@ const HomeScreen = ({ route, navigation }) => {
 					</Formik>
 				</Modal>
 
-				<StatusBar backgroundColor='#1a237e' barStyle='light-content' />
+				<StatusBar backgroundColor='#262262' barStyle='light-content' />
 				<Appbar.Header
 					style={{
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 						height: 0,
 						marginTop: 0,
 					}}></Appbar.Header>
@@ -452,7 +452,7 @@ const HomeScreen = ({ route, navigation }) => {
 					</View>
 				</View>
 				{isLoading ? (
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				) : (
 					<ScrollView style={styles.scrollView}>
 						<View
@@ -685,7 +685,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     // justifyContent: 'flex-end',
     alignItems: "center",
-    borderColor: "#1a237e",
+    borderColor: "#262262",
     paddingHorizontal: 10,
     justifyContent: "space-between",
     marginRight: 10,
@@ -697,7 +697,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#1a237e",
+    borderColor: "#262262",
     paddingVertical: 13,
     paddingHorizontal: 10,
     // height: 40,

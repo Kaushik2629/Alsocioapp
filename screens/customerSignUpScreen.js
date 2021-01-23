@@ -131,7 +131,7 @@ const customerSignUpScreen = ({ navigation }) => {
 		return cityValue == null ? (
 			<TouchableOpacity
 				style={{
-					borderColor: '#1a237e',
+					borderColor: '#262262',
 					fontSize: 10,
 					margin: 10,
 					fontWeight: 'bold',
@@ -148,7 +148,7 @@ const customerSignUpScreen = ({ navigation }) => {
 		) : (
 			<TouchableOpacity
 				style={{
-					borderColor: '#1a237e',
+					borderColor: '#262262',
 					fontSize: 10,
 					margin: 10,
 					fontWeight: 'bold',
@@ -270,7 +270,7 @@ const customerSignUpScreen = ({ navigation }) => {
 						shadowRadius: 3.84,
 						elevation: 5,
 					}}>
-					<UIActivityIndicator color='#1a237e' />
+					<UIActivityIndicator color='#262262' />
 					<Text style={{ textAlign: 'center' }}>Procesando...</Text>
 				</Animatable.View>
 			) : null}
@@ -338,7 +338,7 @@ const customerSignUpScreen = ({ navigation }) => {
 								{showPicker(props)}
 								<Button
 									title='Enviar'
-									color='#1a237e'
+									color='#262262'
 									style={{
 										borderRadius: 20,
 										fontSize: 15,
@@ -536,7 +536,7 @@ const customerSignUpScreen = ({ navigation }) => {
 
 										<View style={styles.checkbox}>
 											<Checkbox
-												color='#1a237e'
+												color='#262262'
 												value={props.values.terms_conditions}
 												status={
 													props.values.terms_conditions === true
@@ -556,7 +556,7 @@ const customerSignUpScreen = ({ navigation }) => {
 										</View>
 										<View style={styles.checkbox}>
 											<Checkbox
-												color='#1a237e'
+												color='#262262'
 												value={props.values.email_updates}
 												status={
 													props.values.email_updates === true
@@ -615,7 +615,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 	textInput: {
 		width: imagewidth / 2.5,
@@ -643,7 +643,7 @@ const styles = StyleSheet.create({
 	otp: {
 		borderRadius: 5,
 		margin: 15,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 	card: {
 		width: imagewidth - 20,
@@ -670,6 +670,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 10,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 });

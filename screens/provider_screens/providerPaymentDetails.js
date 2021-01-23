@@ -53,7 +53,7 @@ const providerPaymentDetails = ({ navigation }) => {
 						justifyContent: 'center',
 						marginTop: 20,
 					}}>
-					<MaterialIndicator color='#1a237e' />
+					<MaterialIndicator color='#262262' />
 				</View>
 			);
 		}
@@ -192,7 +192,7 @@ const providerPaymentDetails = ({ navigation }) => {
 												textAlign: 'center',
 												paddingLeft: 10,
 												height: 40,
-												borderColor: '#1a237e',
+												borderColor: '#262262',
 												borderWidth: 1,
 												fontSize: 10,
 												fontWeight: 'bold',
@@ -209,7 +209,7 @@ const providerPaymentDetails = ({ navigation }) => {
 												borderRadius: 20,
 												fontSize: 15,
 												margin: 15,
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 											}}
 											onPress={() => props.handleSubmit()}>
 											<Text
@@ -235,7 +235,7 @@ const providerPaymentDetails = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#1a237e',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0  }}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
 		textAlign: 'left',
 		paddingLeft: 10,
 		height: 40,
-		borderColor: '#1a237e',
+		borderColor: '#262262',
 		borderWidth: 1,
 		fontSize: 10,
 		fontWeight: 'bold',

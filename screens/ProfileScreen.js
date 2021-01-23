@@ -385,7 +385,7 @@ const ProfileScreen = ({ navigation }) => {
 							justifyContent: 'center',
 							marginTop: 20,
 						}}>
-						<MaterialIndicator color='#1a237e' />
+						<MaterialIndicator color='#262262' />
 					</View>
 				);
 			}
@@ -555,7 +555,7 @@ const ProfileScreen = ({ navigation }) => {
 												borderRadius: 20,
 												fontSize: 15,
 												margin: 15,
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 											}}
 											onPress={() => props.handleSubmit()}>
 											<Text
@@ -617,7 +617,7 @@ const ProfileScreen = ({ navigation }) => {
 													{showPicker(props)}
 													<Button
 														title='Enviar'
-														color='#1a237e'
+														color='#262262'
 														style={{
 															borderRadius: 20,
 															fontSize: 15,
@@ -727,7 +727,7 @@ const ProfileScreen = ({ navigation }) => {
 						</Card>
 					</View>
 					<TouchableOpacity onPress={() => setShowChangePasswordModal(true)}>
-						<Text style={{ color: '#1a237e', marginTop: 15,textAlign:'center' }}>
+						<Text style={{ color: '#262262', marginTop: 15,textAlign:'center' }}>
 						Cambia la contraseña?
 						</Text>
 					</TouchableOpacity>
@@ -736,7 +736,7 @@ const ProfileScreen = ({ navigation }) => {
 							borderRadius: 20,
 							fontSize: 15,
 							margin: 15,
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 						}}
 						onPress={() => setCustomerEditModal(true)}>
 						<Text
@@ -765,7 +765,7 @@ const ProfileScreen = ({ navigation }) => {
 							justifyContent: 'center',
 							marginTop: 20,
 						}}>
-						<MaterialIndicator color='#1a237e' />
+						<MaterialIndicator color='#262262' />
 					</View>
 				);
 			}
@@ -932,7 +932,7 @@ const ProfileScreen = ({ navigation }) => {
 												textAlign: 'center',
 												paddingLeft: 10,
 												height: 40,
-												borderColor: '#1a237e',
+												borderColor: '#262262',
 												borderWidth: 1,
 												borderRadius: 15,
 												fontSize: 10,
@@ -955,7 +955,7 @@ const ProfileScreen = ({ navigation }) => {
 												borderRadius: 20,
 												fontSize: 15,
 												margin: 15,
-												backgroundColor: '#1a237e',
+												backgroundColor: '#262262',
 											}}
 											onPress={() => props.handleSubmit()}>
 											<Text
@@ -1017,7 +1017,7 @@ const ProfileScreen = ({ navigation }) => {
 													{showPicker(props)}
 													<Button
 														title='Submit'
-														color='#1a237e'
+														color='#262262'
 														style={{
 															borderRadius: 20,
 															fontSize: 15,
@@ -1145,7 +1145,7 @@ const ProfileScreen = ({ navigation }) => {
 						</Card>
 					</View>
 					<TouchableOpacity onPress={() => setShowChangePasswordModal(true)}>
-						<Text style={{ color: '#1a237e', marginTop: 15,textAlign:'center' }}>
+						<Text style={{ color: '#262262', marginTop: 15,textAlign:'center' }}>
 						Cambia la contraseña?
 						</Text>
 					</TouchableOpacity>
@@ -1154,7 +1154,7 @@ const ProfileScreen = ({ navigation }) => {
 							borderRadius: 20,
 							fontSize: 15,
 							margin: 15,
-							backgroundColor: '#1a237e',
+							backgroundColor: '#262262',
 						}}
 						onPress={() => setProviderEditModal(true)}>
 						<Text
@@ -1178,7 +1178,7 @@ const ProfileScreen = ({ navigation }) => {
 		<View style={styles.container}>
 			<Appbar.Header
 				style={{
-					backgroundColor: '#1a237e',
+					backgroundColor: '#262262',
 					alignItems: 'center',
 					marginTop: 0,
 				}}>
@@ -1192,7 +1192,7 @@ const ProfileScreen = ({ navigation }) => {
 		<View style={{ flex: 1 }}>
 			<Appbar.Header
 				style={{
-					backgroundColor: '#1a237e',
+					backgroundColor: '#262262',
 					alignItems: 'center',
 					marginTop: 0,
 				}}>
@@ -1210,7 +1210,7 @@ const ProfileScreen = ({ navigation }) => {
 						borderRadius: 20,
 						fontSize: 15,
 						margin: 15,
-						backgroundColor: '#1a237e',
+						backgroundColor: '#262262',
 					}}
 					onPress={() => navigation.navigate('SignInScreen')}>
 					<Text
@@ -1255,7 +1255,7 @@ const styles = StyleSheet.create({
 		textAlign: 'left',
 		paddingLeft: 10,
 		height: 40,
-		borderColor: '#1a237e',
+		borderColor: '#262262',
 		borderWidth: 1,
 		borderRadius: 15,
 		fontSize: 10,
@@ -1265,7 +1265,7 @@ const styles = StyleSheet.create({
 	regionOptions: {
 		flexGrow: 1,
 		height: 40,
-		borderColor: '#1a237e',
+		borderColor: '#262262',
 		borderWidth: 1,
 		borderRadius: 15,
 		fontSize: 10,
@@ -1279,6 +1279,6 @@ const styles = StyleSheet.create({
 	otp: {
 		borderRadius: 5,
 		margin: 15,
-		backgroundColor: '#1a237e',
+		backgroundColor: '#262262',
 	},
 });

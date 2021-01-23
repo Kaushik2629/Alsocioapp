@@ -64,7 +64,7 @@ const providerHome = ({ route, navigation }) => {
               style={{
                 borderRadius: 20,
                 fontSize: 15,
-                backgroundColor: "#1a237e",
+                backgroundColor: "#262262",
                 paddingHorizontal: 10,
                 paddingVertical: 10,
                 flex: 1,
@@ -94,16 +94,16 @@ const providerHome = ({ route, navigation }) => {
         flex: 1,
       }}
     >
-      <StatusBar backgroundColor="#1a237e" barStyle="light-content" />
+      <StatusBar backgroundColor="#262262" barStyle="light-content" />
       <Appbar.Header
-        style={{ backgroundColor: "#1a237e", height: 0, marginTop: 0 }}
+        style={{ backgroundColor: "#262262", height: 0, marginTop: 0 }}
       ></Appbar.Header>
       <View style={styles.upperHeaderContainer}>
         <View style={styles.showUserName}>
           <Text
             style={{
               fontSize: 12,
-              color: "#1a237e",
+              color: "#262262",
               // textAlign: 'center',
             }}
           >
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#1a237e",
+    borderColor: "#262262",
     paddingVertical: 13,
     paddingHorizontal: 10,
     // height: 40,
