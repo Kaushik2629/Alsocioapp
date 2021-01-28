@@ -775,7 +775,7 @@ const providerBookings = ({ navigation }) => {
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Costo -</Text>
-									<Text style={styles.rightLabel}>$${item.cost}</Text>
+									<Text style={styles.rightLabel}>${item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Cargos adicionales -</Text>

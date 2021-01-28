@@ -107,19 +107,19 @@ const providerInvoice = ({ navigation }) => {
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Subtotal - </Text>
-								<Text style={styles.rightLabel}>{item.sub_total}</Text>
+								<Text style={styles.rightLabel}>${item.sub_total}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Cargos del proveedor -</Text>
-								<Text style={styles.rightLabel}>{item.provider_charges}</Text>
+								<Text style={styles.rightLabel}>${item.provider_charges}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Cargos por servicio -</Text>
-								<Text style={styles.rightLabel}>{item.service_charges}</Text>
+								<Text style={styles.rightLabel}>${item.service_charges}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>ITBMS -</Text>
-								<Text style={styles.rightLabel}>{item.itbms}</Text>
+								<Text style={styles.rightLabel}>${item.itbms}</Text>
 							</View>
 							<View style={{ flexDirection: 'row', padding: 10 }}>
 								<Text style={styles.leftLabel}>Total -</Text>

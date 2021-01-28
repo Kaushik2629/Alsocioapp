@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Share } from 'react-native';
+import { View, StyleSheet, Share, Modal,TouchableOpacity,Button } from 'react-native';
 import {
 	useTheme,
 	Avatar,
@@ -10,20 +10,26 @@ import {
 	Text,
 	TouchableRipple,
 	Switch,
+	IconButton,
+	Colors,
 } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ModalPicker from 'react-native-modal-picker';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AuthContext } from '../components/context';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Platform } from 'react-native';
+import { Formik } from 'formik';
 
 export function DrawerContent(props) {
 	const paperTheme = useTheme();
 
-	const { signOut } = useContext(AuthContext);
+	const [showPickerModal, setShowPickerModal] = useState(false);
+
+	const { signOut, regionSelect, citySelect } = useContext(AuthContext);
 
 	const a = useContext(AuthContext);
 
@@ -113,8 +119,180 @@ export function DrawerContent(props) {
 		}
 	};
 
+	//for region
+	const [regionArray, setRegionArray] = useState([]);
+
+	const [cityArray, setCityArray] = useState([]);
+
+	const showRegionOptions = () => {
+		let item = [];
+		let region_array = [];
+		let showCity_array = [];
+		let showRegion_array = [];
+		fetch('https://alsocio.com/app/get-city-region/', {
+			method: 'GET',
+		})
+			.then((response) => response.json())
+			.then((responseJson) => {
+				item = [...item, responseJson];
+
+				item.map((item) => {
+					region_array = [...region_array, item.region_city_dict];
+
+					region_array.map((city) => {
+						showRegion_array = Object.keys(city);
+
+						setRegionArray(showRegion_array);
+
+						showCity_array = Object.values(city);
+
+						setCityArray(showCity_array);
+					});
+				});
+			})
+			.catch((error) => console.error(error));
+	};
+
+	useEffect(() => {
+		{
+			showRegionOptions();
+		}
+	}, []);
+
+	const [cityList, setCityList] = useState([]);
+
+	const showPicker = (properties) => {
+		return (
+			<View style={{ justifyContent: 'space-around', padding: 10 }}>
+				<View style={{ padding: 10 }}>
+					<ModalPicker
+						data={data}
+						cancelText='end'
+						// style={{padding:15, backgroundColor: 'green'}}
+						selectStyle={{
+							padding: 27,
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+						cancelTextStyle={{ fontSize: 25 }}
+						initValue='Seleccione región!'
+						onChange={(option) => {
+							// alert(option.label);
+							// let index1 = regionArray.indexOf(option.label);
+							properties.setFieldValue('region', option.label);
+							let array = [cityArray[option.key]].toString();
+							let city_array = array.split(',');
+							console.log(city_array);
+							setCityList(city_array);
+						}}
+					/>
+				</View>
+				<View style={{ padding: 10 }}>
+					<ModalPicker
+						selectStyle={{
+							padding: 27,
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+						data={city_data}
+						initValue='Ciudad selecta'
+						onChange={(option) => {
+							properties.setFieldValue('city', option.label);
+						}}
+					/>
+				</View>
+			</View>
+		);
+	};
+
+	let temp = 0;
+	const data = regionArray.map((element) => {
+		return { key: temp++, label: element };
+	});
+
+	let temp1 = 0;
+	const city_data = cityList.map((item) => {
+		return { key: temp1++, label: item };
+	});
+
 	return (
 		<View style={{ flex: 1 }}>
+			<Modal
+				animationType='fade'
+				visible={showPickerModal}
+				transparent={true}
+				onRequestClose={() => {
+					setShowPickerModal(!showPickerModal);
+				}}>
+				<Formik
+					initialValues={{ region: '', city: '' }}
+					onSubmit={(values) => {						
+						if (values.region != '' && values.city != '') {
+							setShowPickerModal(false)
+							regionSelect(values.region);
+							citySelect(values.city);
+						}else{
+							alert('Please select both!')
+						}
+					}}>
+					{(props) => (
+						<View
+							style={{
+								marginTop: 60,
+							}}>
+							<View
+								style={{
+									backgroundColor: '#fff',
+									shadowColor: '#000',
+									marginTop: 50,
+									marginHorizontal: 20,
+									borderRadius: 15,
+									shadowOffset: {
+										width: 2,
+										height: 2,
+									},
+									padding: 10,
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+								}}>
+								<TouchableOpacity
+									style={{
+										flexGrow: 1,
+										elevation: 3,
+										alignSelf: 'flex-end',
+									}}
+									onPress={() => {
+										setShowPickerModal(!showPickerModal);
+									}}>
+									<Icon.Button
+										name='close'
+										size={25}
+										backgroundColor='#fff'
+										color='#000'
+										style={{ padding: 15, textAlign: 'right' }}
+										onPress={() => {
+											setShowPickerModal(!showPickerModal);
+										}}></Icon.Button>
+								</TouchableOpacity>
+								{showPicker(props)}
+								<Button
+									title='Submit'
+									color='#262262'
+									style={{
+										borderRadius: 20,
+										fontSize: 15,
+									}}
+									onPress={() => {
+										props.handleSubmit();
+									}}
+								/>
+							</View>
+						</View>
+					)}
+				</Formik>
+			</Modal>
+
 			<DrawerContentScrollView {...props}>
 				<View style={styles.drawerContent}>
 					<View style={styles.userInfoSection}>
@@ -246,6 +424,29 @@ export function DrawerContent(props) {
 								shareApp();
 							}}
 						/>
+						{a.cityValue==null || a.cityValue==''?(
+							<DrawerItem
+								style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
+								icon={({ color, size }) => (
+									<Icon name='map-marker' color={color} size={size} />
+								)}
+								label='Selecciona tu Ubicación'
+								onPress={() => {
+									setShowPickerModal(true);
+								}}
+							/>
+						):(
+							<DrawerItem
+								style={{ borderBottomColor: '#f4f4f4', borderBottomWidth: 1 }}
+								icon={({ color, size }) => (
+									<Icon name='map-marker' color={color} size={size} />
+								)}
+								label={a.cityValue}
+								onPress={() => {
+									setShowPickerModal(true);
+								}}
+							/>
+						)}
 					</Drawer.Section>
 				</View>
 			</DrawerContentScrollView>

@@ -145,13 +145,11 @@ const showFeaturedServices = ({ navigation, route }) => {
 					renderItem={({ item }) => (
 						<Card
 							style={{
-								shadowColor: '#000',
-								shadowOffset: { width: 0, height: 1 },
-								shadowOpacity: 0.5,
-								shadowRadius: 10,
-								elevation: 10,
-								margin: 10,
+								elevation: 5,
+								marginHorizontal: 10,
 								borderRadius: 10,
+								borderWidth: 0.3,
+								margin: 10,
 								marginBottom: 20,
 							}}>
 							<Card.Content>

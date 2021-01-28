@@ -54,6 +54,8 @@ const App = () => {
 		userName: null,
 		userToken: null,
 		showCount: 0,
+		region: '',
+		city: '',
 		// notification:'',
 	};
 
@@ -78,6 +80,7 @@ const App = () => {
 					userToken: action.token,
 					userName: action.id,
 					showCount: action.change,
+					city: action.selectCity,
 					isLoading: false,
 				};
 			case 'LOGIN':
@@ -111,10 +114,20 @@ const App = () => {
 					userToken: action.token,
 				};
 			case 'REFRESH':
-				return{
+				return {
 					...prevState,
-					isLoading:false
-				}
+					isLoading: false,
+				};
+			case 'REGION':
+				return {
+					...prevState,
+					region: action.selectRegion,
+				};
+			case 'CITY':
+				return {
+					...prevState,
+					city: action.selectCity,
+				};
 		}
 	};
 
@@ -147,13 +160,15 @@ const App = () => {
 				dispatch({ type: 'LOGOUT' });
 			},
 			// signUp: () => {
-				
+
 			// },
 			// toggleTheme: () => {
 			// 	setIsDarkTheme((isDarkTheme) => !isDarkTheme);
 			// },
 			changeCount: (s) => {
-				dispatch({ type: 'COUNT', change: s });
+				if (s != null) {
+					dispatch({ type: 'COUNT', change: s });
+				}
 			},
 			fetchRole: async (response) => {
 				const userType = response;
@@ -164,18 +179,31 @@ const App = () => {
 				}
 				dispatch({ type: 'ROLE', token: userType });
 			},
-			refresh:()=>{
-				dispatch({type: 'REFRESH'})
+			refresh: () => {
+				dispatch({ type: 'REFRESH' });
 			},
 			// notifyUser: (message)=>{
 			// 	let x = [];
 			// 	x=x.push(message)
 			// 	dispatch({type: 'NOTIFY', getNotifications:x})
 			// },
+			regionSelect: (regionValue) => {
+				dispatch({ type: 'REGION', selectRegion: regionValue });
+			},
+			citySelect: async (cityValue) => {
+				dispatch({ type: 'CITY', selectCity: cityValue });
+				try {
+					await AsyncStorage.setItem('cityValue', cityValue);
+				} catch (e) {
+					console.log(e);
+				}
+			},
 			Role: loginState.userToken,
 			UserName: loginState.userName,
 			itemCount: loginState.showCount,
-			Refresh: loginState.isLoading
+			Refresh: loginState.isLoading,
+			regionValue: loginState.region,
+			cityValue: loginState.city,
 			// notificationMessage:loginState.notification
 		}),
 		[loginState]
@@ -187,9 +215,11 @@ const App = () => {
 			let s = 0;
 			let userRole = null;
 			let a = null;
+			let updateCityValue = null;
 			try {
 				userRole = await AsyncStorage.getItem('userToken');
 				a = await AsyncStorage.getItem('userName');
+				updateCityValue = await AsyncStorage.getItem('cityValue');
 
 				let check = JSON.parse(await AsyncStorage.getItem('asyncArray1'));
 				if (check != null) {
@@ -210,6 +240,7 @@ const App = () => {
 				token: userRole,
 				id: a,
 				change: s,
+				selectCity: updateCityValue,
 				isLoading: false,
 			});
 		}, 100);
@@ -218,27 +249,27 @@ const App = () => {
 	// const [notificationBody, setNotificationBody] = useState([]);
 	const fetchNotifications = () => {
 		// alert('id')
-		// if (loginState.userName != null) {
-		let customer_name = new FormData();
-		customer_name.append('username', loginState.userName);
-		fetch('https://alsocio.com/app/get-notifications/', {
-			method: 'POST',
-			body: customer_name,
-		})
-			.then((response) => response.json())
-			.then((responseJson) => {
-				// console.log(responseJson);
-				if (responseJson.notifications.length != 0) {
-					console.log('called in function');
-					// setNotificationBody(responseJson.notifications);
-					responseJson.notifications.map((item) => {
-						console.log(item.notification)
-						sendPushNotification(expoPushToken, item.notification);
-					});
-				}
+		if (loginState.userName != null) {
+			let customer_name = new FormData();
+			customer_name.append('username', loginState.userName);
+			fetch('https://alsocio.com/app/get-notifications/', {
+				method: 'POST',
+				body: customer_name,
 			})
-			.catch((error) => console.error(error));
-		// }
+				.then((response) => response.json())
+				.then((responseJson) => {
+					// console.log(responseJson);
+					if (responseJson.notifications.length != 0) {
+						console.log('called in function');
+						// setNotificationBody(responseJson.notifications);
+						responseJson.notifications.map((item) => {
+							console.log(item.notification);
+							sendPushNotification(expoPushToken, item.notification);
+						});
+					}
+				})
+				.catch((error) => console.error(error));
+		}
 	};
 	useEffect(() => {
 		var t = setInterval(() => {
@@ -321,7 +352,6 @@ const App = () => {
 		};
 	}, []);
 
-	
 	async function sendPushNotification(expoPushToken, notifiedMessage) {
 		const message = {
 			to: expoPushToken,

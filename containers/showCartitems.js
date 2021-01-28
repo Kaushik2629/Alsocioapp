@@ -321,7 +321,7 @@ const showCartitems = ({ route, navigation }, props) => {
 					return <Text>1 servicio aggregado</Text>;
 				}
 				if (s > 1) {
-					return <Text>{s} services added</Text>;
+					return <Text>{s} servicios agregados</Text>;
 				}
 			};
 
@@ -380,7 +380,7 @@ const showCartitems = ({ route, navigation }, props) => {
 										textAlign: 'center',
 										paddingVertical: 15,
 									}}>
-									Revisa
+									Continuar
 								</Text>
 							</TouchableOpacity>
 						</View>

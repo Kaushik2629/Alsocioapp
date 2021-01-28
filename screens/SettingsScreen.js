@@ -146,16 +146,16 @@ const SettingsScreen = ({ navigation }) => {
 									<Text style={styles.rightLabel}>{item.services}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
-									<Text style={styles.leftLabel}>Total parcial - </Text>
-									<Text style={styles.rightLabel}>{item.sub_total}</Text>
+									<Text style={styles.leftLabel}>Subtotal - </Text>
+									<Text style={styles.rightLabel}>${item.sub_total}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Cargos por servicio -</Text>
-									<Text style={styles.rightLabel}>{item.service_charges}</Text>
+									<Text style={styles.rightLabel}>${item.service_charges}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>ITBMS -</Text>
-									<Text style={styles.rightLabel}>{item.itbms}</Text>
+									<Text style={styles.rightLabel}>${item.itbms}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Coste total -</Text>
@@ -168,7 +168,7 @@ const SettingsScreen = ({ navigation }) => {
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Reembolso -</Text>
-									<Text style={styles.rightLabel}>{item.refund}</Text>
+									<Text style={styles.rightLabel}>${item.refund}</Text>
 								</View>
 								<View
 									style={{ flexGrow: 1, flexDirection: 'row', padding: 10 }}>

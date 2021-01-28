@@ -21,6 +21,7 @@ import { TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import { AuthContext } from '../components/context';
 import { SkypeIndicator, UIActivityIndicator } from 'react-native-indicators';
+import ModalPicker from 'react-native-modal-picker';
 
 const imagewidth = Dimensions.get('window').width;
 const imageheight = Dimensions.get('window').height;
@@ -168,7 +169,7 @@ const showBookings = ({ route, navigation }, props) => {
 								textAlign: 'center',
 								paddingVertical: 15,
 							}}>
-							Revisa
+							Pagar
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -177,6 +178,7 @@ const showBookings = ({ route, navigation }, props) => {
 		);
 	};
 
+	//for region
 	const [regionArray, setRegionArray] = useState([]);
 
 	const [cityArray, setCityArray] = useState([]);
@@ -188,7 +190,6 @@ const showBookings = ({ route, navigation }, props) => {
 		let showRegion_array = [];
 		fetch('https://alsocio.com/app/get-city-region/', {
 			method: 'GET',
-			// body: usercategory,
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
@@ -199,10 +200,12 @@ const showBookings = ({ route, navigation }, props) => {
 
 					region_array.map((city) => {
 						showRegion_array = Object.keys(city);
+
 						setRegionArray(showRegion_array);
+
 						showCity_array = Object.values(city);
+
 						setCityArray(showCity_array);
-						// setSelectedCity(showCity_array);
 					});
 				});
 			})
@@ -215,74 +218,67 @@ const showBookings = ({ route, navigation }, props) => {
 		}
 	}, []);
 
-	//For Radio Buttons
+	const [cityList, setCityList] = useState([]);
 
 	const [showPickerModal, setShowPickerModal] = useState(false);
 
-	const [regionValue, setRegionValue] = useState();
+	// const [regionValue, setRegionValue] = useState();
 
-	const [cityValue, setCityValue] = useState();
-
-	const regionpicker = () => {
-		return regionArray.map((element) => {
-			return <Picker.Item label={element} value={element} />;
-		});
-	};
-
-	let cityRegion = null;
-	const citypicker = () => {
-		let index = regionArray.indexOf(regionValue);
-		let array = [cityArray[index]].toString();
-		let city_array = array.split(',');
-
-		return city_array.map((item) => {
-			cityRegion = regionValue + ',' + item;
-			return <Picker.Item label={item} value={item} />;
-		});
-	};
+	// const [cityValue, setCityValue] = useState();
 
 	const showPicker = (properties) => {
 		return (
-			<View
-				style={{
-					flexGrow: 1,
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}>
-				<Picker
-					style={{
-						marginVertical: 10,
-						width: imagewidth / 1.5,
-						borderRadius: 10,
-						backgroundColor: '#e0e0e0',
-					}}
-					selectedValue={regionValue}
-					onValueChange={(itemValue) => {
-						setRegionValue(itemValue);
-						setCityValue();
-						properties.setFieldValue('region', itemValue);
-					}}>
-					<Picker.Item label='Seleccionar región' value='' />
-					{regionpicker()}
-				</Picker>
-				<Picker
-					style={{
-						marginVertical: 10,
-						width: imagewidth / 1.5,
-						borderRadius: 10,
-						backgroundColor: '#e0e0e0',
-					}}
-					selectedValue={cityValue}
-					onValueChange={(itemValue) => {
-						setCityValue(itemValue);
-						properties.setFieldValue('city', itemValue);
-					}}>
-					<Picker.Item label='Seleccionar ciudad' value='' />
-					{citypicker()}
-				</Picker>
+			<View style={{ justifyContent: 'space-around', padding: 10 }}>
+				<View style={{ padding: 10 }}>
+					<ModalPicker
+						data={data}
+						cancelText='end'
+						// style={{padding:15, backgroundColor: 'green'}}
+						selectStyle={{
+							padding: 27,
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+						cancelTextStyle={{ fontSize: 25 }}
+						initValue='Seleccione región'
+						onChange={(option) => {
+							// alert(option.label);
+							// let index1 = regionArray.indexOf(option.label);
+							properties.setFieldValue('region', option.label);
+							let array = [cityArray[option.key]].toString();
+							let city_array = array.split(',');
+							console.log(city_array);
+							setCityList(city_array);
+						}}
+					/>
+				</View>
+				<View style={{ padding: 10 }}>
+					<ModalPicker
+						selectStyle={{
+							padding: 27,
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+						data={city_data}
+						initValue='Ciudad selecta'
+						onChange={(option) => {
+							properties.setFieldValue('city', option.label);
+						}}
+					/>
+				</View>
 			</View>
 		);
 	};
+
+	let temp = 0;
+	const data = regionArray.map((element) => {
+		return { key: temp++, label: element };
+	});
+
+	let temp1 = 0;
+	const city_data = cityList.map((item) => {
+		return { key: temp1++, label: item };
+	});
 
 	const [payments, setPaymentMethod] = useState('COD');
 
@@ -457,7 +453,7 @@ const showBookings = ({ route, navigation }, props) => {
 									fontSize: 15,
 									margin: 10,
 								}}
-								placeholder='Ingrese su direccion'
+								placeholder='Direccion'
 								onBlur={() => props.setFieldTouched('address')}
 								onChangeText={props.handleChange('address')}
 								value={props.values.address}
@@ -483,7 +479,7 @@ const showBookings = ({ route, navigation }, props) => {
 								<TouchableOpacity onPress={() => setShowPickerModal(true)}>
 									{props.values.city == '' && props.values.region == '' ? (
 										<Text style={{ fontSize: 12, textAlign: 'center' }}>
-											Seleccione su región y Cirty
+											Seleccione su región y Ciudad
 										</Text>
 									) : (
 										<Text>
@@ -549,7 +545,16 @@ const showBookings = ({ route, navigation }, props) => {
 												borderRadius: 20,
 												fontSize: 15,
 											}}
-											onPress={() => setShowPickerModal(!showPickerModal)}
+											onPress={() => {
+												if (
+													props.values.region != '' &&
+													props.values.city != ''
+												) {
+													setShowPickerModal(!showPickerModal);
+												}else{
+													alert('Please Select Both!')
+												}
+											}}
 										/>
 									</View>
 								</View>
@@ -641,7 +646,7 @@ const showBookings = ({ route, navigation }, props) => {
 											style={{
 												marginLeft: 40,
 											}}>
-											Total parcial
+											Subtotal
 										</Text>
 									</View>
 									<View

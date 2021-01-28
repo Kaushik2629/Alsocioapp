@@ -98,19 +98,6 @@ const providerHome = ({ route, navigation }) => {
       <Appbar.Header
         style={{ backgroundColor: "#262262", height: 0, marginTop: 0 }}
       ></Appbar.Header>
-      <View style={styles.upperHeaderContainer}>
-        <View style={styles.showUserName}>
-          <Text
-            style={{
-              fontSize: 12,
-              color: "#262262",
-              // textAlign: 'center',
-            }}
-          >
-            Hola,{a.UserName}
-          </Text>
-        </View>
-      </View>
       <View
         style={{
           flexDirection: "row",

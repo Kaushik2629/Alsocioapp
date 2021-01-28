@@ -50,10 +50,8 @@ const showServices = ({ navigation, route }) => {
 		return discount == null || discount == 0 ? (
 			<Text
 				style={{
-					fontSize: 15,
+					fontSize: 25,
 					fontWeight: '500',
-					marginLeft: 20,
-					marginTop: 10,
 				}}>
 				${cost}
 			</Text>
@@ -61,10 +59,8 @@ const showServices = ({ navigation, route }) => {
 			<View style={{ flexDirection: 'row' }}>
 				<Text
 					style={{
-						fontSize: 15,
+						fontSize: 25,
 						fontWeight: '500',
-						marginLeft: 20,
-						marginTop: 10,
 						textDecorationLine: 'line-through',
 						textDecorationStyle: 'solid',
 					}}>
@@ -72,10 +68,9 @@ const showServices = ({ navigation, route }) => {
 				</Text>
 				<Text
 					style={{
-						fontSize: 15,
+						fontSize: 25,
 						fontWeight: '500',
 						marginLeft: 5,
-						marginTop: 10,
 					}}>
 					${discount}
 				</Text>
@@ -122,7 +117,12 @@ const showServices = ({ navigation, route }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0 }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#262262',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content titleStyle={{ padding: 10 }} title={list} />
 			</Appbar.Header>
@@ -144,37 +144,21 @@ const showServices = ({ navigation, route }) => {
 					renderItem={({ item }) => (
 						<Card
 							style={{
-								shadowColor: '#000',
-								shadowOffset: { width: 0, height: 1 },
-								shadowOpacity: 0.5,
-								shadowRadius: 10,
-								elevation: 10,
-								margin: 10,
+								elevation: 5,
+								marginHorizontal: 10,
 								borderRadius: 10,
+								borderWidth: 0.3,
+								margin: 10,
 								marginBottom: 20,
 							}}>
 							<Card.Content>
-								<View>
-									<Image
-										style={{
-											width: imagewidth-50,
-											height: imageheight/3,
-											marginVertical: 10,
-										}}
-										source={{
-											uri: 'https:alsocio.com/media/' + item.img,
-										}}
-									/>
-								</View>
 								<View style={{ flexDirection: 'row' }}>
 									<View style={{ flexGrow: 1 }}>
-										{showDiscount(item.service_cost, item.discount)}
 										<Text
 											style={{
 												fontSize: 15,
 												marginLeft: 20,
 												fontWeight: 'bold',
-												marginBottom: 8,
 											}}>
 											Servicio por:
 											<Text style={{ fontWeight: '400' }}>
@@ -192,7 +176,8 @@ const showServices = ({ navigation, route }) => {
 										</Text>
 									</View>
 									<View>
-										<TouchableOpacity
+										{showDiscount(item.service_cost, item.discount)}
+										{/* <TouchableOpacity
 											style={{
 												backgroundColor: '#262262',
 												width: 120,
@@ -213,41 +198,83 @@ const showServices = ({ navigation, route }) => {
 												}}>
 												Detalles
 											</Text>
-										</TouchableOpacity>
+										</TouchableOpacity> */}
 									</View>
 								</View>
-								<View style={{ justifyContent: 'center', padding: 10 }}>
-									{item.covid_norms == true ? (
-										<View style={{ flexDirection: 'row' }}>
-											<Icon
-												name='ios-checkbox-outline'
-												color='#262262'
-												size={36}
-												style={{ marginHorizontal: 10 }}
-											/>
+								<View>
+									<Image
+										style={{
+											width: imagewidth - 50,
+											height: imageheight / 3,
+											marginVertical: 10,
+										}}
+										source={{
+											uri: 'https:alsocio.com/media/' + item.img,
+										}}
+									/>
+								</View>
+								<View style={{ flexDirection: 'row'}}>
+									<View style={{flexGrow:1,padding:10}}>
+										{item.covid_norms == true ? (
+											<View style={{ flexDirection: 'row'}}>
+												<View style={{flexBasis: 20}}>
+													<Icon
+														name='ios-checkbox-outline'
+														color='#262262'
+														size={20}
+														style={{ marginRight: 5}}
+													/>
+												</View>
+												<View style={{flexGrow: 1, flexDirection: 'row'}}>
+													<Text
+														style={{
+															fontSize: 10,
+															fontWeight: '400',
+															flex: 1,
+															flexWrap: 'wrap'
+														}}>
+														El Proveedor de servicio cumple con todas las medias de bioseguridad
+													</Text>
+												</View>
+											</View>
+										) : null}
+										{item.additional_charges == true ? (
 											<Text
 												style={{
-													fontSize: 15,
-													fontWeight: '400',
-													alignSelf: 'center',
+													flexBasis:70,
+													fontSize: 10,
+													padding: 10,
+													color: 'red',
+													textAlign: 'right',
+													alignSelf: 'flex-start',
 												}}>
-												Este servicio sigue las normas COVID-19
+												*Puden aplicarse cargos adicionales
 											</Text>
-										</View>
-									) : null}
-									{item.additional_charges == true ? (
-										<Text
+										) : null}
+									</View>
+									<View style={{flexBasis:120}}>
+										<TouchableOpacity
 											style={{
-												fontSize: 10,
-												padding: 10,
-												color: 'red',
-												flexGrow: 1,
-												textAlign: 'right',
-												alignSelf: 'flex-start',
-											}}>
-											*Se pueden aplicar cargos adicionales
-										</Text>
-									) : null}
+												backgroundColor: '#262262',
+												alignSelf:'stretch',
+												paddingVertical:15,
+												borderRadius: 5,
+												alignItems: 'center'
+											}}
+											onPress={() =>
+												navigation.navigate('showDetails', {
+													service_id: item.id,
+												})
+											}>
+											<Text
+												style={{
+													color: '#fff',
+													textAlign: 'center'
+												}}>
+												Detalles
+											</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
 							</Card.Content>
 						</Card>

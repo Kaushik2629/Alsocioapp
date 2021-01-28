@@ -22,6 +22,7 @@ import {
 } from 'react-native-gesture-handler';
 import { TextInput, Card, Title, Appbar } from 'react-native-paper';
 
+
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
 
@@ -56,6 +57,9 @@ const SupportScreen = ({ route, navigation }) => {
 				.catch((error) => console.error(error));
 		}, []);
 	};
+
+	
+
 	const mainCategory = () => {
 		return selectedSubCategory.map((element) => {
 			console.log(element);
@@ -64,11 +68,8 @@ const SupportScreen = ({ route, navigation }) => {
 					style={{
 						width: imagewidth - 20,
 						// alignItems: 'center',
-						shadowColor: '#000',
-						shadowOffset: { width: 0, height: 1 },
-						shadowOpacity: 0.8,
-						shadowRadius: 10,
-						elevation: 15,
+						borderWidth: 0.3,
+						elevation: 5,
 						margin: 10,
 						borderRadius: 10,
 					}}>
@@ -111,15 +112,33 @@ const SupportScreen = ({ route, navigation }) => {
 		});
 	};
 
+	
 	return (
 		<View
 			style={{
 				flex: 1,
 			}}>
-			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0}}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#262262',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
-				<Appbar.Content  titleStyle={{ padding: 10 }} title={category} />
+				<Appbar.Content titleStyle={{ padding: 10 }} title={category} />
 			</Appbar.Header>
+			{/* <Button
+				title='Show Regions'
+				color='#262262'
+				style={{
+					borderRadius: 20,
+					fontSize: 15,
+				}}
+				onPress={() => {
+					setShowPickerModal(true);
+				}}
+			/> */}
+			
 			<ScrollView>
 				{list()}
 				{isLoading ? (

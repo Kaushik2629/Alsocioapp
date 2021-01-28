@@ -25,6 +25,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 import { MaterialIndicator } from 'react-native-indicators';
 import { AuthContext } from '../components/context';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
@@ -75,7 +76,7 @@ const showDetails = ({ route, navigation }) => {
 	// fetchCount();
 	useEffect(() => {
 		fetchCount();
-	}, []);
+	}, [serviceId]);
 
 	const [addedToCart, setAddedToCart] = useState(false);
 
@@ -90,7 +91,7 @@ const showDetails = ({ route, navigation }) => {
 		};
 		showCartPopUp();
 		changeCount(s);
-	}, [cartCount.length]);
+	}, [cartCount]);
 
 	//For Decrement
 	const handleDecrement = (e, serviceIdDec) => {
@@ -230,7 +231,7 @@ const showDetails = ({ route, navigation }) => {
 			for (let index = 0; index < cartCount.length; index++) {
 				const element = cartCount[index];
 				// alert(element);
-				if (element[0] == serviceId) {
+				if (element[0] == serviceId && element[1] != 0) {
 					const cartitem = cartCount[index][1];
 					return (
 						<View style={{ flexDirection: 'row' }}>
@@ -313,6 +314,7 @@ const showDetails = ({ route, navigation }) => {
 						const arrayCount = [...temp];
 						await AsyncStorage.setItem('asyncArray1', JSON.stringify(temp));
 						setCartcount(arrayCount);
+						// setCartcount(arrayCount);
 						setAddedToCart(true);
 					}
 					arrayData(serviceId);
@@ -532,6 +534,10 @@ const showDetails = ({ route, navigation }) => {
 
 	const [slot, setSlot] = useState([]);
 
+	var date1 = new Date().getDate(); //Current Date
+	var month = new Date().getMonth() + 1; //Current Month
+	var year = new Date().getFullYear(); //Current Year
+
 	const arraySlot = (serviceIdChange) => {
 		if (cartCount == [] || cartCount == null) {
 			return;
@@ -541,25 +547,30 @@ const showDetails = ({ route, navigation }) => {
 				const element = cartCount[index];
 				if (serviceIdChange == element[0]) {
 					// alert('jbjibdr');
-					let get_Date = new Date(element[2]);
+					let get_Date = new Date();
+					// alert(get_Date)
+					if(element[2]!=''){
 					let arr = [element[2]].toString();
 					arr = arr.split('T');
 					let time = arr[0].toString();
-					setnewDate(time);
+					setnewDate(time);}
+					else{
+						setnewDate('')
+					}
 					setSlotValue(element[3]);
-					let day = get_Date.getDay();
-					let slotDetails = new FormData();
-					slotDetails.append('day', day);
-					slotDetails.append('service_id', serviceIdChange);
-					fetch('https://alsocio.com/app/get-time-slots/', {
-						method: 'POST',
-						body: slotDetails,
-					})
-						.then((response) => response.json())
-						.then((responseJson) => {
-							setSlot(responseJson.slots);
-							changeDate(serviceIdChange, time);
-						});
+					// let day = get_Date.getDay();
+					// let slotDetails = new FormData();
+					// slotDetails.append('day', day);
+					// slotDetails.append('service_id', serviceIdChange);
+					// fetch('https://alsocio.com/app/get-time-slots/', {
+					// 	method: 'POST',
+					// 	body: slotDetails,
+					// })
+					// 	.then((response) => response.json())
+					// 	.then((responseJson) => {
+					// 		setSlot(responseJson.slots);
+					// 		changeDate(serviceIdChange, time);
+					// 	});
 				}
 			}
 			return;
@@ -568,6 +579,8 @@ const showDetails = ({ route, navigation }) => {
 	useEffect(() => {
 		arraySlot(serviceId);
 	}, [count.itemCount]);
+
+	const [showDatePickerModal, setShowDatePickerModal] = useState(false);
 
 	const showDatePicker = (serviceId) => {
 		// await AsyncStorage.removeItem('dateTimeArray')
@@ -634,10 +647,10 @@ const showDetails = ({ route, navigation }) => {
 													fontWeight: 'bold',
 													marginBottom: 15,
 												}}>
-												Seleccionar ranuras de fecha y hora
+												Seleccionar fecha y hora
 											</Text>
 
-											<DatePicker
+											{/* <DatePicker
 												// style={{ width: 200}}
 												date={newDate} // Initial date from state
 												mode='date' // The enum of date, datetime and time
@@ -678,7 +691,80 @@ const showDetails = ({ route, navigation }) => {
 															}
 														});
 												}}
-											/>
+											/> */}
+											<View>
+												{/* For Date */}
+												<TouchableOpacity
+													onPress={() => {
+														setShowDatePickerModal(true);
+													}}
+													style={{
+														backgroundColor: '#fff',
+														alignSelf: 'stretch',
+														padding: 10,
+														margin: 8,
+														borderRadius: 5,
+														borderWidth: 0.4,
+													}}>
+													{newDate == '' ? (
+														<Text style={{ fontSize: 18 }}>Seleccione fecha</Text>
+													) : (
+														<Text style={{ fontSize: 18 }}>{newDate}</Text>
+													)}
+												</TouchableOpacity>
+												{/* {Platform.OS == "ios" && ( */}
+												<DateTimePickerModal
+													isVisible={showDatePickerModal}
+													mode='date'
+													date={new Date()}
+													onConfirm={(date) => {
+														setShowDatePickerModal(!showDatePickerModal);
+														setSlotValue('');
+														setSlot([]);
+														let get_Date = date;
+														let day = get_Date.getDay();
+														setnewDate(
+															date.getFullYear() +
+																'-' +
+																date.getMonth() +
+																1 +
+																'-' +
+																date.getDate()
+														);
+														let slotDetails = new FormData();
+														slotDetails.append('day', day);
+														slotDetails.append('service_id', serviceId);
+														fetch('https://alsocio.com/app/get-time-slots/', {
+															method: 'POST',
+															body: slotDetails,
+														})
+															.then((response) => response.json())
+															.then((responseJson) => {
+																if (
+																	responseJson.slots == 'No Slots Available'
+																) {
+																	setSlot(['No Slots Available']);
+																} else {
+																	setSlot(responseJson.slots);
+																	changeDate(
+																		serviceId,
+																		date.getFullYear() +
+																			'-' +
+																			date.getMonth() +
+																			1 +
+																			'-' +
+																			date.getDate()
+																	);
+																}
+															});
+													}}
+													onCancel={() => {
+														setShowDatePickerModal(!showDatePickerModal);
+													}}
+												/>
+												{/* )} */}
+											</View>
+
 											<Picker
 												selectedValue={slotValue}
 												style={{
@@ -717,7 +803,7 @@ const showDetails = ({ route, navigation }) => {
 													arrayTimeSlot(serviceId, itemValue);
 												}}
 												multiple={false}>
-												<Picker.Item label='Ranuras de servicio' value='' />
+												<Picker.Item label='Hora' value='' />
 												{pickeritem(slot)}
 											</Picker>
 										</View>
@@ -739,7 +825,7 @@ const showDetails = ({ route, navigation }) => {
 													margin: 15,
 													color: '#fff',
 												}}>
-												Enviar
+												Seleccionar
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -775,7 +861,7 @@ const showDetails = ({ route, navigation }) => {
 												fontSize: 20,
 												fontWeight: '800',
 											}}>
-											Espacio :
+											Hora :
 										</Text>
 										{slotValue == 'No Slots Available' ? (
 											<Text style={{ margin: 12, fontSize: 12 }}>
@@ -1090,7 +1176,7 @@ const showDetails = ({ route, navigation }) => {
 														fontWeight: '400',
 														alignSelf: 'center',
 													}}>
-													Este servicio sigue las normas COVID-19
+													El Proveedor de servicio cumple con todas las medias de bioseguridad
 												</Text>
 											</View>
 										) : null}
@@ -1105,7 +1191,7 @@ const showDetails = ({ route, navigation }) => {
 													textAlign: 'right',
 													alignSelf: 'flex-start',
 												}}>
-												*Se pueden aplicar cargos adicionales
+												*Puden aplicarse cargos adicionales
 											</Text>
 										) : null}
 										{/* </View> */}
@@ -1126,7 +1212,7 @@ const showDetails = ({ route, navigation }) => {
 														textAlign: 'center',
 														marginTop: 10,
 													}}>
-													Citar
+													Cotizar
 												</Text>
 											</TouchableOpacity>
 										) : null}
@@ -1261,7 +1347,7 @@ const showDetails = ({ route, navigation }) => {
 									fontSize: 20,
 									fontWeight: 'bold',
 								}}>
-								Región del proveedor
+								Zonas de servicio
 							</Text>
 							<Grid>
 								<Row style={{ borderBottomWidth: 0.5, padding: 10 }}>
