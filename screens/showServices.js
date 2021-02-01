@@ -108,7 +108,6 @@ const showServices = ({ navigation, route }) => {
 				style={{
 					flexDirection: 'row',
 					alignSelf: 'flex-start',
-					marginLeft: 20,
 				}}>
 				{stars}
 			</View>
@@ -144,12 +143,16 @@ const showServices = ({ navigation, route }) => {
 					renderItem={({ item }) => (
 						<Card
 							style={{
-								elevation: 5,
-								marginHorizontal: 10,
-								borderRadius: 10,
-								borderWidth: 0.3,
+								// elevation: 5,
+								// marginHorizontal: 10,
+								// borderRadius: 10,
+								// borderWidth: 0.3,
+								// margin: 10,
+								// marginBottom: 20,
 								margin: 10,
-								marginBottom: 20,
+								borderWidth: 0.6,
+								alignItems: 'stretch',
+								justifyContent: 'center',
 							}}>
 							<Card.Content>
 								<View style={{ flexDirection: 'row' }}>
@@ -157,11 +160,12 @@ const showServices = ({ navigation, route }) => {
 										<Text
 											style={{
 												fontSize: 15,
-												marginLeft: 20,
 												fontWeight: 'bold',
+												flex: 1,
+												flexWrap: 'wrap',
 											}}>
 											Servicio por:
-											<Text style={{ fontWeight: '400' }}>
+											<Text style={{ fontSize: 14, fontWeight: '400' }}>
 												{item.company_name}
 											</Text>
 										</Text>
@@ -170,35 +174,20 @@ const showServices = ({ navigation, route }) => {
 											style={{
 												fontSize: 15,
 												fontWeight: '400',
-												marginLeft: 20,
+												flex: 1,
+												flexWrap: 'wrap',
 											}}>
 											{item.service}
 										</Text>
 									</View>
-									<View>
+									<View
+										style={{
+											flexBasis: 50,
+											flex: 1,
+											flexWrap: 'nowrap',
+											alignItems: 'flex-end',
+										}}>
 										{showDiscount(item.service_cost, item.discount)}
-										{/* <TouchableOpacity
-											style={{
-												backgroundColor: '#262262',
-												width: 120,
-												height: 60,
-												borderRadius: 5,
-												margin: 'auto',
-											}}
-											onPress={() =>
-												navigation.navigate('showDetails', {
-													service_id: item.id,
-												})
-											}>
-											<Text
-												style={{
-													color: '#fff',
-													textAlign: 'center',
-													padding: 20,
-												}}>
-												Detalles
-											</Text>
-										</TouchableOpacity> */}
 									</View>
 								</View>
 								<View>
@@ -213,27 +202,28 @@ const showServices = ({ navigation, route }) => {
 										}}
 									/>
 								</View>
-								<View style={{ flexDirection: 'row'}}>
-									<View style={{flexGrow:1,padding:10}}>
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 1, padding: 10 }}>
 										{item.covid_norms == true ? (
-											<View style={{ flexDirection: 'row'}}>
-												<View style={{flexBasis: 20}}>
+											<View style={{ flexDirection: 'row' }}>
+												<View style={{ flexBasis: 20 }}>
 													<Icon
 														name='ios-checkbox-outline'
 														color='#262262'
 														size={20}
-														style={{ marginRight: 5}}
+														style={{ marginRight: 5 }}
 													/>
 												</View>
-												<View style={{flexGrow: 1, flexDirection: 'row'}}>
+												<View style={{ flexGrow: 1, flexDirection: 'row' }}>
 													<Text
 														style={{
-															fontSize: 10,
+															fontSize: 12,
 															fontWeight: '400',
 															flex: 1,
-															flexWrap: 'wrap'
+															flexWrap: 'wrap',
 														}}>
-														El Proveedor de servicio cumple con todas las medias de bioseguridad
+														El Proveedor de servicio cumple con todas las medias
+														de bioseguridad
 													</Text>
 												</View>
 											</View>
@@ -241,25 +231,28 @@ const showServices = ({ navigation, route }) => {
 										{item.additional_charges == true ? (
 											<Text
 												style={{
-													flexBasis:70,
+													marginTop: 10,
+													flexBasis: 70,
 													fontSize: 10,
-													padding: 10,
+													fontWeight: '400',
+													flex: 1,
+													flexWrap: 'wrap',
 													color: 'red',
 													textAlign: 'right',
 													alignSelf: 'flex-start',
 												}}>
-												*Puden aplicarse cargos adicionales
+												*Pueden aplicarse cargos adicionales
 											</Text>
 										) : null}
 									</View>
-									<View style={{flexBasis:120}}>
+									<View style={{ flexBasis: 120 }}>
 										<TouchableOpacity
 											style={{
 												backgroundColor: '#262262',
-												alignSelf:'stretch',
-												paddingVertical:15,
+												alignSelf: 'stretch',
+												paddingVertical: 15,
 												borderRadius: 5,
-												alignItems: 'center'
+												alignItems: 'center',
 											}}
 											onPress={() =>
 												navigation.navigate('showDetails', {
@@ -269,7 +262,7 @@ const showServices = ({ navigation, route }) => {
 											<Text
 												style={{
 													color: '#fff',
-													textAlign: 'center'
+													textAlign: 'center',
 												}}>
 												Detalles
 											</Text>

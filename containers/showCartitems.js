@@ -497,20 +497,16 @@ const showCartitems = ({ route, navigation }, props) => {
 						return (
 							<Card
 								style={{
-									flex: 1,
-									paddingVertical: 10,
-									shadowColor: '#000',
-									shadowOffset: { width: 0, height: 1 },
-									shadowOpacity: 0.5,
-									shadowRadius: 10,
-									elevation: 10,
 									margin: 10,
-									borderRadius: 10,
+									borderWidth: 0.6,
 								}}>
-								{showDiscount(item.service_cost, item.discount)}
+									<View style={{paddingVertical:10}}>
+										{showDiscount(item.service_cost, item.discount)}
+									</View>
+								
 								<Image
 									style={{
-										width: imagewidth - 40,
+										width: imagewidth - 50,
 										height: imageheight / 3,
 										margin: 10,
 									}}

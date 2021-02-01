@@ -26,94 +26,31 @@ import ModalPicker from 'react-native-modal-picker';
 const imagewidth = Dimensions.get('window').width;
 const imageheight = Dimensions.get('window').height;
 
-const showBookings = ({ route, navigation }, props) => {
+const quoteCheckout = ({ route, navigation }, props) => {
 	const { changeCount } = useContext(AuthContext);
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	const checkName = useContext(AuthContext);
-
-	const [cartCount, setCartcount] = useState([]);
-	let a = [];
-	const fetchCount = async () => {
-		let check = route.params.cartDetails;
-		if (check != null) {
-			a = [...check];
-			setCartcount(a);
-		}
-	};
-	// fetchCount();
-	useEffect(() => {
-		fetchCount();
-	}, []);
-
 	const [details, setDetails] = useState([]);
 
 	const fetchDetails = async () => {
-		let showList = [];
-		let check = route.params.cartDetails;
-		if (check != null) {
-			for (let index = 0; index < check.length; index++) {
-				const element = check[index];
-				let servicedetails = new FormData();
-				servicedetails.append('service_id', element[0]);
-				fetch('https://alsocio.com/app/get-service-details/', {
-					method: 'POST',
-					body: servicedetails,
-				})
-					.then((response) => response.json())
-					.then((responseJson) => {
-						// console.log(responseJson);
-						showList = [...showList, ...responseJson.service];
-						setDetails(showList);
-					});
-			}
-		}
-	};
-	useEffect(() => {
-		fetchDetails();
-	}, []);
-
-	//for reciept
-	let recieptCartItem = null;
-	let recieptTotalCost = 0;
-	const [showReciept, setReciept] = useState(null);
-	// const fetchReciept = async () => {
-	useEffect(() => {
-		recieptCartItem = route.params.cartDetails;
-		recieptTotalCost = route.params.cost;
-		let recieptDetails = new FormData();
-		recieptDetails.append('cart_items', JSON.stringify(recieptCartItem));
-		recieptDetails.append('cost', recieptTotalCost);
-		fetch('https://alsocio.com/app/get-cart-items/', {
+		let check = route.params.quoteId;
+		let quoteDetails = new FormData();
+		quoteDetails.append('quote_id', check);
+		fetch('https://alsocio.com/app/get-quote-details/', {
 			method: 'POST',
-			body: recieptDetails,
+			body: quoteDetails,
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
 				console.log(responseJson);
-				setReciept(responseJson);
-			});
-	}, []);
-
-	const addtocart = (serviceId) => {
-		for (let index = 0; index < cartCount.length; index++) {
-			const element = cartCount[index];
-			// alert(element);
-			if (element[0] == serviceId) {
-				const cartitem = cartCount[index][1];
-				return (
-					<View style={{ flexGrow: 1 }}>
-						<Text
-						// style={{marginBottom:20}}
-						>
-							{cartitem}X
-						</Text>
-					</View>
-				);
-			}
-		}
+				setDetails(responseJson);
+			})
+			.catch((error) => console.error(error));
 	};
+	useEffect(() => {
+		fetchDetails();
+	}, []);
 
 	const showPopUp = (properties) => {
 		return (
@@ -142,7 +79,7 @@ const showBookings = ({ route, navigation }, props) => {
 							width: 180,
 							borderRadius: 5,
 						}}
-						onPress={() => navigation.navigate('showCartitems')}>
+						onPress={() => navigation.navigate('QuoteScreen')}>
 						<Text
 							style={{
 								color: '#fff',
@@ -162,7 +99,8 @@ const showBookings = ({ route, navigation }, props) => {
 							width: 180,
 							borderRadius: 5,
 						}}
-						onPress={() => properties.handleSubmit()}>
+						// onPress={() => properties.handleSubmit()}
+					>
 						<Text
 							style={{
 								color: '#fff',
@@ -291,54 +229,35 @@ const showBookings = ({ route, navigation }, props) => {
 
 	const [confirmModal, setConfirmModal] = useState(false);
 
-	let showCartArray = route.params.cartDetails;
-	let amount = route.params.cost;
-	const fetchPayment = (properties) => {
-		setIsLoading(true);
-		let servicedetails = new FormData();
-		servicedetails.append('username', checkName.UserName);
-		servicedetails.append('cart_items', JSON.stringify(showCartArray));
-		servicedetails.append('cost', amount);
-		servicedetails.append('city', properties.city);
-		servicedetails.append('region', properties.region);
-		servicedetails.append('address', properties.address);
-		servicedetails.append('payment_radio', properties.paymentMethod);
+	// let showCartArray = route.params.cartDetails;
+	// let amount = route.params.cost;
+	// const fetchPayment = (properties) => {
+	// 	setIsLoading(true);
+	// 	let servicedetails = new FormData();
+	// 	servicedetails.append('username', checkName.UserName);
+	// 	servicedetails.append('cart_items', JSON.stringify(showCartArray));
+	// 	servicedetails.append('cost', amount);
+	// 	servicedetails.append('city', properties.city);
+	// 	servicedetails.append('region', properties.region);
+	// 	servicedetails.append('address', properties.address);
+	// 	servicedetails.append('payment_radio', properties.paymentMethod);
 
-		fetch('https://alsocio.com/app/book-order/', {
-			method: 'POST',
-			body: servicedetails,
-		})
-			.then((response) => response.json())
-			.then((responseJson) => {
-				console.log(responseJson);
-				setIsLoading(false);
-				if (responseJson.order_status == 'placed') {
-					setConfirmModal(true);
-					AsyncStorage.removeItem('asyncArray1');
-				} else {
-					alert('Algo salió mal');
-				}
-			});
-	};
-
-	let recieptArray = [];
-	let subCost = route.params.cost;
-	recieptArray = [showReciept];
-	let charge = 0;
-	let itbms = 0;
-	let total = 0;
-	const showRecieptArray = () => {
-		if (showReciept != null) {
-			for (let index = 0; index < [showReciept].length; index++) {
-				const element = recieptArray[index];
-				// alert(element.cost);
-				charge = element.charge;
-				itbms = element.itbms;
-				total = element.total;
-			}
-			return;
-		}
-	};
+	// 	fetch('https://alsocio.com/app/book-order/', {
+	// 		method: 'POST',
+	// 		body: servicedetails,
+	// 	})
+	// 		.then((response) => response.json())
+	// 		.then((responseJson) => {
+	// 			console.log(responseJson);
+	// 			setIsLoading(false);
+	// 			if (responseJson.order_status == 'placed') {
+	// 				setConfirmModal(true);
+	// 				AsyncStorage.removeItem('asyncArray1');
+	// 			} else {
+	// 				alert('Algo salió mal');
+	// 			}
+	// 		});
+	// };
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -360,19 +279,19 @@ const showBookings = ({ route, navigation }, props) => {
 					paymentMethod: 'COD',
 				}}
 				onSubmit={(values) => {
-					if (values.paymentMethod == 'COD') {
-						fetchPayment(values);
-					}
-					if (values.paymentMethod == 'Card') {
-						navigation.navigate('paymentsScreen', {
-							cartItems: route.params.cartDetails,
-							cost: route.params.cost,
-							city: values.city,
-							region: values.region,
-							address: values.address,
-							paymentMethod: values.paymentMethod,
-						});
-					}
+					// if (values.paymentMethod == 'COD') {
+					// 	fetchPayment(values);
+					// }
+					// if (values.paymentMethod == 'Card') {
+					// 	navigation.navigate('paymentsScreen', {
+					// 		cartItems: route.params.cartDetails,
+					// 		cost: route.params.cost,
+					// 		city: values.city,
+					// 		region: values.region,
+					// 		address: values.address,
+					// 		paymentMethod: values.paymentMethod,
+					// 	});
+					// }
 				}}
 				validationSchema={DetailsSchema}>
 				{(props) => (
@@ -560,83 +479,69 @@ const showBookings = ({ route, navigation }, props) => {
 								</View>
 							</Modal>
 
-							<FlatList
-								data={details}
-								style={styles.flatlist}
-								renderItem={({ item }) => {
-									return (
-										<Card style={{ borderRadius: 0.3, borderWidth: 0.3 }}>
-											<View
+							<Card style={{ borderRadius: 0.3, borderWidth: 0.3 }}>
+								<View
+									style={{
+										alignItems: 'center',
+										justifyContent: 'center',
+										padding: 15,
+									}}>
+									<View
+										style={{
+											flexDirection: 'row',
+										}}>
+										{/* <Card.Content style={{flex: 1,flexDirection: 'row',}}> */}
+										<View
+											style={{
+												flexBasis: 100,
+												padding: 10,
+												textAlign: 'center',
+											}}>
+											<Image
+												style={{ width: 80, height: 80 }}
+												source={{
+													uri: 'https:alsocio.com/media/' + details.image,
+												}}
+											/>
+										</View>
+										<View
+											style={{
+												flexGrow: 1,
+												paddingHorizontal: 10,
+												flexDirection: 'row',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}>
+											<Text
 												style={{
-													alignItems: 'center',
-													justifyContent: 'center',
-													padding: 15,
+													fontWeight: 'bold',
+													fontSize: 15,
+													flex: 1,
+													flexWrap: 'wrap',
 												}}>
-												<View
+												Cotizacione :
+												<Text
 													style={{
-														flexDirection: 'row',
+														fontSize: 15,
+														fontWeight: '700',
 													}}>
-													{/* <Card.Content style={{flex: 1,flexDirection: 'row',}}> */}
-													<View
-														style={{
-															flexBasis: 100,
-															padding: 10,
-															textAlign: 'center',
-														}}>
-														<Image
-															style={{ width: 80, height: 80 }}
-															source={{
-																uri: 'https:alsocio.com/media/' + item.img,
-															}}
-														/>
-													</View>
-													<View
-														style={{
-															flexGrow: 1,
-															paddingHorizontal: 10,
-															flexDirection: 'row',
-															alignItems: 'center',
-															justifyContent: 'center',
-														}}>
-														<Text
-															style={{
-																fontWeight: 'bold',
-																fontSize: 15,
-																flex: 1,
-																flexWrap: 'wrap',
-															}}>
-															Servicio por :
-															<Text
-																style={{
-																	fontSize: 15,
-																	fontWeight: '400',
-																}}>
-																{item.company_name}
-															</Text>
-														</Text>
-													</View>
-													<View
-														style={{
-															flexBasis: 50,
-															padding: 10,
-															textAlign: 'right',
-															alignItems: 'flex-end',
-														}}>
-														{addtocart(item.id)}
-														{item.discount && item.discount > 0 ? (
-															<Text>${item.discount}</Text>
-														) : (
-															<Text>${item.service_cost}</Text>
-														)}
-													</View>
-												</View>
-												{/* </Card.Content> */}
-											</View>
-										</Card>
-									);
-								}}
-							/>
-							{showRecieptArray()}
+													{details.quote}
+												</Text>
+											</Text>
+										</View>
+										<View
+											style={{
+												flexBasis: 50,
+												padding: 10,
+												textAlign: 'right',
+												alignItems: 'flex-end',
+											}}>
+											<Text>${details.cost}</Text>
+										</View>
+									</View>
+									{/* </Card.Content> */}
+								</View>
+							</Card>
 							<Card
 								style={{
 									borderRadius: 0.3,
@@ -658,7 +563,7 @@ const showBookings = ({ route, navigation }, props) => {
 											marginRight: 18,
 											padding: (0, 10),
 										}}>
-										<Text>${subCost}</Text>
+										<Text>${details.cost}</Text>
 									</View>
 								</View>
 
@@ -668,7 +573,7 @@ const showBookings = ({ route, navigation }, props) => {
 											style={{
 												marginLeft: 40,
 											}}>
-											Cargo por servicio
+											Comisión por servicio
 										</Text>
 									</View>
 									<View
@@ -676,7 +581,7 @@ const showBookings = ({ route, navigation }, props) => {
 											marginRight: 18,
 											padding: (0, 10),
 										}}>
-										<Text>${charge}</Text>
+										<Text>${details.service_charges}</Text>
 									</View>
 								</View>
 
@@ -694,7 +599,7 @@ const showBookings = ({ route, navigation }, props) => {
 											marginRight: 18,
 											padding: (0, 10),
 										}}>
-										<Text>${itbms}</Text>
+										<Text>${details.itbms}</Text>
 									</View>
 								</View>
 							</Card>
@@ -727,7 +632,12 @@ const showBookings = ({ route, navigation }, props) => {
 												fontSize: 25,
 												fontWeight: '400',
 											}}>
-											${Math.round(total)}
+											$
+											{Math.round(
+												parseInt(details.cost) +
+													parseInt(details.service_charges) +
+													parseInt(details.itbms)
+											)}
 										</Text>
 									</View>
 								</View>
@@ -741,20 +651,26 @@ const showBookings = ({ route, navigation }, props) => {
 									<RadioButton
 										color='#262262'
 										value='COD'
-										status={payments === 'COD' ? 'checked' : 'unchecked'}
+										status={
+											props.values.paymentMethod === 'COD'
+												? 'checked'
+												: 'unchecked'
+										}
 										onPress={() => {
-											setPaymentMethod('COD'),
-												props.setFieldValue('paymentMethod', 'COD');
+											props.setFieldValue('paymentMethod', 'COD');
 										}}
 									/>
 									<Text style={{ fontSize: 17 }}>COD</Text>
 									<RadioButton
 										color='#262262'
 										value='Card'
-										status={payments === 'Card' ? 'checked' : 'unchecked'}
+										status={
+											props.values.paymentMethod === 'Card'
+												? 'checked'
+												: 'unchecked'
+										}
 										onPress={() => {
-											setPaymentMethod('Card'),
-												props.setFieldValue('paymentMethod', 'Card');
+											props.setFieldValue('paymentMethod', 'Card');
 										}}
 									/>
 									<Text style={{ fontSize: 17 }}>Card</Text>
@@ -776,7 +692,7 @@ const showBookings = ({ route, navigation }, props) => {
 		</View>
 	);
 };
-export default showBookings;
+export default quoteCheckout;
 
 const styles = StyleSheet.create({
 	container: {

@@ -293,10 +293,11 @@ const showDetails = ({ route, navigation }) => {
 				style={{
 					backgroundColor: '#f9a825',
 					width: 200,
-					height: 35,
+					height: 40,
 					marginBottom: 5,
 					borderRadius: 5,
-					marginLeft: 20,
+					// marginLeft: 20,
+					justifyContent:'center'
 				}}
 				onPress={() => {
 					async function arrayData(serviceId) {
@@ -323,7 +324,6 @@ const showDetails = ({ route, navigation }) => {
 					style={{
 						color: '#fff',
 						textAlign: 'center',
-						marginTop: 10,
 					}}>
 					Añadir
 				</Text>
@@ -375,6 +375,7 @@ const showDetails = ({ route, navigation }) => {
 				<Formik
 					initialValues={{ request: '', description: '', uri: '' }}
 					onSubmit={(values) => {
+						setIsLoading(true)
 						let quoteDetails = new FormData();
 						quoteDetails.append('service_id', serviceId);
 						quoteDetails.append('description', values.description);
@@ -400,8 +401,8 @@ const showDetails = ({ route, navigation }) => {
 						})
 							.then((response) => response.json())
 							.then((responseJson) => {
-								setIsLoading(true);
 								setModalVisible(!modalVisible);
+								setIsLoading(false)
 								refresh();
 								alert('La cotización se ha enviado correctamente');
 							})
@@ -549,13 +550,14 @@ const showDetails = ({ route, navigation }) => {
 					// alert('jbjibdr');
 					let get_Date = new Date();
 					// alert(get_Date)
-					if(element[2]!=''){
-					let arr = [element[2]].toString();
-					arr = arr.split('T');
-					let time = arr[0].toString();
-					setnewDate(time);}
-					else{
-						setnewDate('')
+					if (element[2] != '') {
+						// alert(element[2].getDate())
+						let arr = [element[2]].toString();
+						arr = arr.split('T');
+						let time = arr[0].toString();
+						setnewDate(time);
+					} else {
+						setnewDate('');
 					}
 					setSlotValue(element[3]);
 					// let day = get_Date.getDay();
@@ -581,6 +583,12 @@ const showDetails = ({ route, navigation }) => {
 	}, [count.itemCount]);
 
 	const [showDatePickerModal, setShowDatePickerModal] = useState(false);
+
+	const makeTwoDigits=(Number)=>{
+		const monthString = `${Number}`;
+		if (monthString.length === 2) return parseInt(Number);
+		return `0${parseInt(Number)}`;
+	}
 
 	const showDatePicker = (serviceId) => {
 		// await AsyncStorage.removeItem('dateTimeArray')
@@ -648,50 +656,7 @@ const showDetails = ({ route, navigation }) => {
 													marginBottom: 15,
 												}}>
 												Seleccionar fecha y hora
-											</Text>
-
-											{/* <DatePicker
-												// style={{ width: 200}}
-												date={newDate} // Initial date from state
-												mode='date' // The enum of date, datetime and time
-												placeholder={newDate}
-												format='YYYY-MM-DD'
-												minDate={currentDate}
-												confirmBtnText='Confirm'
-												cancelBtnText='Cancel'
-												customStyles={{
-													dateIcon: {
-														position: 'absolute',
-														left: 0,
-														top: 4,
-														marginLeft: 0,
-													},
-													dateInput: {
-														marginLeft: 36,
-													},
-												}}
-												onDateChange={(date) => {
-													setnewDate(date);
-													let get_Date = new Date(date);
-													let day = get_Date.getDay();
-													let slotDetails = new FormData();
-													slotDetails.append('day', day);
-													slotDetails.append('service_id', serviceId);
-													fetch('https://alsocio.com/app/get-time-slots/', {
-														method: 'POST',
-														body: slotDetails,
-													})
-														.then((response) => response.json())
-														.then((responseJson) => {
-															if (responseJson.slots == 'No Slots Available') {
-																setSlot(['No Slots Available']);
-															} else {
-																setSlot(responseJson.slots);
-																changeDate(serviceId, date);
-															}
-														});
-												}}
-											/> */}
+											</Text>											
 											<View>
 												{/* For Date */}
 												<TouchableOpacity
@@ -707,7 +672,9 @@ const showDetails = ({ route, navigation }) => {
 														borderWidth: 0.4,
 													}}>
 													{newDate == '' ? (
-														<Text style={{ fontSize: 18 }}>Seleccione fecha</Text>
+														<Text style={{ fontSize: 18 }}>
+															Seleccione fecha
+														</Text>
 													) : (
 														<Text style={{ fontSize: 18 }}>{newDate}</Text>
 													)}
@@ -718,6 +685,7 @@ const showDetails = ({ route, navigation }) => {
 													mode='date'
 													date={new Date()}
 													onConfirm={(date) => {
+														// alert(date.getMonth()+1)
 														setShowDatePickerModal(!showDatePickerModal);
 														setSlotValue('');
 														setSlot([]);
@@ -726,10 +694,9 @@ const showDetails = ({ route, navigation }) => {
 														setnewDate(
 															date.getFullYear() +
 																'-' +
-																date.getMonth() +
-																1 +
+																makeTwoDigits(parseInt(date.getMonth()+1)) +
 																'-' +
-																date.getDate()
+																makeTwoDigits(parseInt(date.getDate()))
 														);
 														let slotDetails = new FormData();
 														slotDetails.append('day', day);
@@ -750,10 +717,9 @@ const showDetails = ({ route, navigation }) => {
 																		serviceId,
 																		date.getFullYear() +
 																			'-' +
-																			date.getMonth() +
-																			1 +
+																			makeTwoDigits(parseInt(date.getMonth()+1)) +																	
 																			'-' +
-																			date.getDate()
+																			makeTwoDigits(parseInt(date.getDate()))
 																	);
 																}
 															});
@@ -924,8 +890,13 @@ const showDetails = ({ route, navigation }) => {
 		let requirement_array = array.split(',');
 		return requirement_array.map((item) => {
 			return (
-				<View style={{ padding: 10, alignItems: 'flex-start', marginLeft: 15 }}>
-					<Text style={{ fontSize: 15 }}>- {item}</Text>
+				<View style={{flexDirection:'row',paddingHorizontal:10}}>
+					<View style={{flexBasis: 20}}>
+						<Text>-</Text>
+					</View>
+					<View style={{flexGrow: 1}}>
+						<Text style={{flex: 1, flexWrap: 'wrap'}}>{item.trim()+"\n"}</Text>
+					</View>
 				</View>
 			);
 		});
@@ -936,8 +907,17 @@ const showDetails = ({ route, navigation }) => {
 		let include_array = array.split(',');
 		return include_array.map((item) => {
 			return (
-				<View style={{ padding: 10, alignItems: 'flex-start', marginLeft: 15 }}>
-					<Text style={{ fontSize: 15 }}>- {item}</Text>
+				// <View style={{ padding: 10, marginLeft: 15 }}>
+				// 	<Text style={{ fontSize: 15,flex:1,flexWrap:'wrap',flexDirection:'row' }}>- <Text>{item}</Text></Text>
+				// </View>
+				// <View style={{flexDirection:'row'}}><Text>{'-'+ item}</Text></View>
+				<View style={{flexDirection:'row',paddingHorizontal:10}}>
+					<View style={{flexBasis: 20}}>
+						<Text>-</Text>
+					</View>
+					<View style={{flexGrow: 1}}>
+						<Text style={{flex: 1, flexWrap: 'wrap'}}>{item.trim()+"\n"}</Text>
+					</View>
 				</View>
 			);
 		});
@@ -949,7 +929,6 @@ const showDetails = ({ route, navigation }) => {
 				style={{
 					fontSize: 15,
 					fontWeight: '500',
-					marginLeft: 20,
 					marginTop: 10,
 				}}>
 				${cost}
@@ -960,7 +939,6 @@ const showDetails = ({ route, navigation }) => {
 					style={{
 						fontSize: 15,
 						fontWeight: '500',
-						marginLeft: 20,
 						marginTop: 10,
 						textDecorationLine: 'line-through',
 						textDecorationStyle: 'solid',
@@ -1016,7 +994,7 @@ const showDetails = ({ route, navigation }) => {
 	});
 
 	return (
-		<View style={styles.container}>
+		<>
 			<Appbar.Header
 				style={{
 					backgroundColor: '#262262',
@@ -1029,6 +1007,7 @@ const showDetails = ({ route, navigation }) => {
 					title='Detalles del servicio'
 				/>
 			</Appbar.Header>
+			<View style={styles.container}>
 			<ScrollView>
 				{fetchDetails()}
 				{isLoading ? (
@@ -1041,22 +1020,14 @@ const showDetails = ({ route, navigation }) => {
 						<MaterialIndicator color='#262262' />
 					</View>
 				) : (
-					<View
-						style={{
-							flex: 0.95,
-							marginTop: 20,
-							borderColor: '#000',
-						}}>
+					<View>
 						<FlatList
 							data={serviceData.service}
 							keyExtractor={(item, index) => item.id}
 							renderItem={({ item }) => (
 								<View
 									style={{
-										backgroundColor: '#ffffff',
 										flexDirection: 'column',
-										borderWidth: 0,
-										borderRadius: 5,
 									}}>
 									<Modal
 										animationType='fade'
@@ -1107,9 +1078,7 @@ const showDetails = ({ route, navigation }) => {
 									</Modal>
 									<Image
 										style={{
-											width: imagewidth - 50,
 											height: imageheight / 3,
-											marginHorizontal: 20,
 										}}
 										source={{
 											uri: 'https:alsocio.com/media/' + item.img,
@@ -1124,17 +1093,13 @@ const showDetails = ({ route, navigation }) => {
 											style={{
 												fontSize: 15,
 												fontWeight: '400',
-												marginLeft: 20,
 											}}>
 											{item.category}
 										</Text>
 										{showDiscount(item.service_cost, item.discount)}
 										<Text
 											style={{
-												fontSize: 12,
-												marginLeft: 20,
 												fontWeight: 'bold',
-												marginBottom: 8,
 											}}>
 											Servicio por :{' '}
 											<Text style={{ fontWeight: '500' }}>
@@ -1145,17 +1110,14 @@ const showDetails = ({ route, navigation }) => {
 											style={{
 												flexDirection: 'row',
 												alignContent: 'center',
-												marginHorizontal: 20,
-												marginBottom: 5,
+												marginBottom: 10,
 											}}>
 											{generateStar(item.rating)}
 										</View>
-
 										{addtocart(item.id)}
 										<Text
 											style={{
 												fontSize: 15,
-												marginLeft: 20,
 												marginBottom: 5,
 												fontWeight: '300',
 											}}>
@@ -1163,20 +1125,22 @@ const showDetails = ({ route, navigation }) => {
 										</Text>
 										{/* <View style={{ justifyContent: 'center' }}> */}
 										{item.covid_norms == true ? (
-											<View style={{ flexDirection: 'row', marginLeft: 20 }}>
+											<View style={{ flexDirection: 'row'}}>
 												<Icon
 													name='ios-checkbox-outline'
 													color='#262262'
 													size={36}
-													style={{ marginHorizontal: 10 }}
 												/>
 												<Text
 													style={{
 														fontSize: 15,
+														marginLeft:10,
 														fontWeight: '400',
-														alignSelf: 'center',
+														flex: 1,
+														flexWrap: 'wrap',
 													}}>
-													El Proveedor de servicio cumple con todas las medias de bioseguridad
+													El Proveedor de servicio cumple con todas las medias
+													de bioseguridad
 												</Text>
 											</View>
 										) : null}
@@ -1185,13 +1149,12 @@ const showDetails = ({ route, navigation }) => {
 												style={{
 													fontSize: 10,
 													padding: 10,
-													marginLeft: 20,
 													color: 'red',
 													flexGrow: 1,
 													textAlign: 'right',
 													alignSelf: 'flex-start',
 												}}>
-												*Puden aplicarse cargos adicionales
+												*Pueden aplicarse cargos adicionales
 											</Text>
 										) : null}
 										{/* </View> */}
@@ -1201,7 +1164,6 @@ const showDetails = ({ route, navigation }) => {
 													backgroundColor: '#262262',
 													width: 100,
 													height: 40,
-													marginLeft: 20,
 													borderRadius: 5,
 													marginBottom: 8,
 												}}
@@ -1221,9 +1183,9 @@ const showDetails = ({ route, navigation }) => {
 									<View>
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 15,
+												marginBottom:10,
+												fontSize: 20,
 												fontWeight: 'bold',
 											}}>
 											Requerimientos adicionales
@@ -1231,12 +1193,12 @@ const showDetails = ({ route, navigation }) => {
 										{showRequirements(item.additional_requirements)}
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 15,
+												marginBottom:10,
+												fontSize: 20,
 												fontWeight: 'bold',
 											}}>
-											Incluye
+											Incluye 
 										</Text>
 										{showIncludes(item.includes)}
 									</View>
@@ -1253,7 +1215,6 @@ const showDetails = ({ route, navigation }) => {
 						<View style={{ marginBottom: 20 }}>
 							<Text
 								style={{
-									marginLeft: 10,
 									marginTop: 10,
 									fontSize: 20,
 									fontWeight: 'bold',
@@ -1265,9 +1226,7 @@ const showDetails = ({ route, navigation }) => {
 									<Col>
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
 											Día
@@ -1276,9 +1235,7 @@ const showDetails = ({ route, navigation }) => {
 									<Col>
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
 											comienzo
@@ -1287,9 +1244,7 @@ const showDetails = ({ route, navigation }) => {
 									<Col>
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
 											Fin
@@ -1306,9 +1261,7 @@ const showDetails = ({ route, navigation }) => {
 												<Col>
 													<Text
 														style={{
-															marginLeft: 10,
 															marginTop: 10,
-															fontSize: 10,
 														}}>
 														{item.day}
 													</Text>
@@ -1316,9 +1269,7 @@ const showDetails = ({ route, navigation }) => {
 												<Col>
 													<Text
 														style={{
-															marginLeft: 10,
 															marginTop: 10,
-															fontSize: 10,
 														}}>
 														{item.start}
 													</Text>
@@ -1326,9 +1277,7 @@ const showDetails = ({ route, navigation }) => {
 												<Col>
 													<Text
 														style={{
-															marginLeft: 10,
 															marginTop: 10,
-															fontSize: 10,
 														}}>
 														{item.end}
 													</Text>
@@ -1342,7 +1291,6 @@ const showDetails = ({ route, navigation }) => {
 						<View style={{ marginBottom: 20 }}>
 							<Text
 								style={{
-									marginLeft: 10,
 									marginTop: 10,
 									fontSize: 20,
 									fontWeight: 'bold',
@@ -1354,9 +1302,7 @@ const showDetails = ({ route, navigation }) => {
 									<Col>
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
 											Ciudad
@@ -1365,9 +1311,7 @@ const showDetails = ({ route, navigation }) => {
 									<Col>
 										<Text
 											style={{
-												marginLeft: 10,
 												marginTop: 10,
-												fontSize: 10,
 												fontWeight: 'bold',
 											}}>
 											Región
@@ -1384,9 +1328,7 @@ const showDetails = ({ route, navigation }) => {
 												<Col>
 													<Text
 														style={{
-															marginLeft: 10,
 															marginTop: 10,
-															fontSize: 10,
 														}}>
 														{item.city}
 													</Text>
@@ -1394,9 +1336,7 @@ const showDetails = ({ route, navigation }) => {
 												<Col>
 													<Text
 														style={{
-															marginLeft: 10,
 															marginTop: 10,
-															fontSize: 10,
 														}}>
 														{item.region}
 													</Text>
@@ -1410,8 +1350,9 @@ const showDetails = ({ route, navigation }) => {
 					</View>
 				)}
 			</ScrollView>
-			{showPopUp()}
 		</View>
+		{showPopUp()}
+		</>
 	);
 };
 
@@ -1420,5 +1361,6 @@ export default showDetails;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		padding: 10
 	},
 });

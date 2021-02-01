@@ -254,7 +254,6 @@ const HomeScreen = ({ route, navigation }) => {
 								style={{
 									alignItems: 'center',
 									justifyContent: 'center',
-									marginVertical: 20,
 								}}>
 								<Text
 									style={{
@@ -267,17 +266,17 @@ const HomeScreen = ({ route, navigation }) => {
 								<Swiper
 									showsButtons={false}
 									paginationStyle={{ margin: 0 }}
-									height={270}
+									height={300}
 									// style={{ flexGrow:0.5}}
 								>
 									{featuredServicesArray.map((item) => {
 										return (
 											<Card
 												style={{
-													elevation: 5,
 													marginHorizontal: 10,
-													borderRadius: 10,
-													borderWidth: 0.3,
+													borderWidth: 0.6,
+													alignItems:'stretch',
+													justifyContent:'center'
 												}}
 												onPress={() =>
 													navigation.navigate('showFeaturedServices', {
@@ -287,18 +286,15 @@ const HomeScreen = ({ route, navigation }) => {
 													})
 												}>
 												<Card.Cover
-													style={{ resizeMode: 'cover' }}
 													source={{
 														uri: 'https://alsocio.com/media/' + item.image,
 													}}
 												/>
 												<Card.Content
 													style={{
-														marginTop: 10,
-														alignItems: 'center',
-														justifyContent: 'center',
+														padding:10
 													}}>
-													<Text>{item.service}</Text>
+													<Text style={{textAlign:'center'}}>{item.service}</Text>
 												</Card.Content>
 											</Card>
 										);
@@ -322,15 +318,15 @@ const HomeScreen = ({ route, navigation }) => {
 									}}>
 									Reseñas Comentarios
 								</Text>
-								<Swiper showsButtons={false} height={200}>
+								<Swiper showsButtons={false} height={215}>
 									{featuredReviewsArray.map((item) => {
 										return (
 											<Card
 												style={{
-													elevation: 5,
 													marginHorizontal: 10,
-													borderRadius: 10,
-													borderWidth: 0.3,
+													borderWidth: 0.6,
+													alignItems:'stretch',
+													justifyContent:'center'
 												}}>
 												<Card.Content
 													style={{

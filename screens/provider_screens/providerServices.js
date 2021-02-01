@@ -714,7 +714,7 @@ const providerServices = ({ navigation }) => {
 												textAlign: 'right',
 												alignSelf: 'flex-end',
 											}}>
-											*Puden aplicarse cargos adicionales
+											*Pueden aplicarse cargos adicionales
 										</Text>
 									) : null}
 								</Card.Content>

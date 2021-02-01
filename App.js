@@ -50,7 +50,7 @@ Notifications.setNotificationHandler({
 
 const App = () => {
 	const initialLoginState = {
-		isLoading: true,
+		isLoading: false,
 		userName: null,
 		userToken: null,
 		showCount: 0,
@@ -81,7 +81,7 @@ const App = () => {
 					userName: action.id,
 					showCount: action.change,
 					city: action.selectCity,
-					isLoading: false,
+					isLoading: true,
 				};
 			case 'LOGIN':
 				return {
@@ -116,7 +116,7 @@ const App = () => {
 			case 'REFRESH':
 				return {
 					...prevState,
-					isLoading: false,
+					isLoading: true,
 				};
 			case 'REGION':
 				return {
@@ -241,10 +241,11 @@ const App = () => {
 				id: a,
 				change: s,
 				selectCity: updateCityValue,
-				isLoading: false,
 			});
 		}, 100);
 	}, []);
+
+	console.log(loginState.isLoading)
 
 	// const [notificationBody, setNotificationBody] = useState([]);
 	const fetchNotifications = () => {
@@ -411,6 +412,7 @@ const App = () => {
 								component={ProviderSignUpForm}
 							/>
 							<Drawer.Screen name='continueWith' component={continueWith} />
+							<Drawer.Screen name='quoteCheckoutScreen' component={quoteCheckoutScreen} />
 						</Drawer.Navigator>
 					</NavigationContainer>
 				</AuthContext.Provider>
