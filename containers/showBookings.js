@@ -371,6 +371,7 @@ const showBookings = ({ route, navigation }, props) => {
 							region: values.region,
 							address: values.address,
 							paymentMethod: values.paymentMethod,
+							username: checkName.UserName
 						});
 					}
 				}}

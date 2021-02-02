@@ -316,7 +316,7 @@ const HomeScreen = ({ route, navigation }) => {
 										marginVertical: 15,
 										fontWeight: '900',
 									}}>
-									Reseñas Comentarios
+									Comentarios
 								</Text>
 								<Swiper showsButtons={false} height={215}>
 									{featuredReviewsArray.map((item) => {

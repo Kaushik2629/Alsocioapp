@@ -17,6 +17,8 @@ import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import QuoteScreen from './screens/QuoteScreen';
+import quoteCheckoutScreen from './screens/quoteCheckoutScreen';
+import quoteCardPaymentsScreen from './screens/quoteCardPaymentsScreen';
 import { AuthContext } from './components/context';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -413,6 +415,7 @@ const App = () => {
 							/>
 							<Drawer.Screen name='continueWith' component={continueWith} />
 							<Drawer.Screen name='quoteCheckoutScreen' component={quoteCheckoutScreen} />
+							<Drawer.Screen name='quoteCardPaymentsScreen' component={quoteCardPaymentsScreen} />
 						</Drawer.Navigator>
 					</NavigationContainer>
 				</AuthContext.Provider>

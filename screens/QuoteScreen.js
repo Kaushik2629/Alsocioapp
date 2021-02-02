@@ -152,7 +152,7 @@ const QuoteScreen = ({ navigation }) => {
 											backgroundColor: '#262262',
 										}}
 										onPress={() => {
-											navigation.navigate('quoteCheckoutScreen.js',{
+											navigation.navigate('quoteCheckoutScreen',{
 												quoteId:item.quote_id
 											})
 										}}>

@@ -21,10 +21,9 @@ import { UIActivityIndicator } from 'react-native-indicators';
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
 
-const paymentsScreen = ({ route, navigation }) => {
+const quoteCardPaymentsScreen = ({ route, navigation }) => {
 	const [currentDate, setCurrentDate] = useState('');
-
-	const { changeCount } = useContext(AuthContext);
+	const { refresh } = useContext(AuthContext);
 
 	useEffect(() => {
 		var month = new Date().getMonth() + 1; //Current Month
@@ -56,9 +55,8 @@ const paymentsScreen = ({ route, navigation }) => {
 	const payFunction = (parameters) => {
 		setIsLoading(true);
 		let servicedetails = new FormData();
-		servicedetails.append('username',route.params.username);
-		servicedetails.append('cart_items', JSON.stringify(route.params.cartItems));
-		servicedetails.append('cost', route.params.cost);
+		servicedetails.append('username', route.params.username);
+		servicedetails.append('quote_id', route.params.quote_id);
 		servicedetails.append('city', route.params.city);
 		servicedetails.append('region', route.params.region);
 		servicedetails.append('address', route.params.address);
@@ -66,21 +64,19 @@ const paymentsScreen = ({ route, navigation }) => {
 		servicedetails.append('name', parameters.cardName);
 		servicedetails.append('card_number', parameters.cardNumber);
 		servicedetails.append('expiration', parameters.expiry);
-		servicedetails.append('cvv', parameters.CVV);
-
-		fetch('https://alsocio.com/app/card-book-order/', {
+        servicedetails.append('cvv', parameters.CVV);
+		fetch('https://alsocio.com/app/card-book-quote-order/', {
 			method: 'POST',
 			body: servicedetails,
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
-				console.log(responseJson);
 				setIsLoading(false);
 				if (responseJson.order_status == 'placed') {
 					setConfirmModal(true);
-					AsyncStorage.removeItem('asyncArray1');
+					refresh();
 				} else {
-					alert('Something Went Wrong');
+					alert('Algo salió mal');
 				}
 			});
 	};
@@ -104,19 +100,17 @@ const paymentsScreen = ({ route, navigation }) => {
 						elevation: 5,
 					}}>
 					<Text style={{ fontSize: 20, fontWeight: 'bold', padding: 15 }}>
-						Your Order has been Confirmed!
+						Su pedido ha sido confirmado
 					</Text>
 					<Button
-						title='Go Back To Home Page'
+						title='Volver a la página principal'
 						color='#262262'
 						style={{
 							borderRadius: 20,
 							fontSize: 15,
 						}}
 						onPress={() => {
-							changeCount(0),
-								setConfirmModal(!confirmModal),
-								navigation.navigate('Home');
+							setConfirmModal(!confirmModal), navigation.navigate('Home');
 						}}
 					/>
 				</View>
@@ -136,8 +130,8 @@ const paymentsScreen = ({ route, navigation }) => {
 									position: 'absolute',
 									backgroundColor: '#fff',
 									shadowColor: '#000',
-									width:imagewidth-15,
-									marginTop:15,
+									width: imagewidth - 15,
+									marginTop: 15,
 									borderRadius: 15,
 									shadowOffset: {
 										width: 2,
@@ -154,7 +148,7 @@ const paymentsScreen = ({ route, navigation }) => {
 										style={{ padding: 20 }}
 									/>
 									<Text style={{ textAlign: 'center', padding: 20 }}>
-									El pedido se está procesando!!
+										El pedido se está procesando!!
 									</Text>
 								</View>
 							</Animatable.View>
@@ -309,7 +303,7 @@ const paymentsScreen = ({ route, navigation }) => {
 		</View>
 	);
 };
-export default paymentsScreen;
+export default quoteCardPaymentsScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -319,7 +313,7 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		width: imagewidth - 20,
-		justifyContent:'center',
+		justifyContent: 'center',
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.5,

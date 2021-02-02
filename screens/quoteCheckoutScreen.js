@@ -10,7 +10,7 @@ import {
 	Button,
 	Modal,
 } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Appbar, RadioButton } from 'react-native-paper';
@@ -18,7 +18,6 @@ import * as Animatable from 'react-native-animatable';
 import { Card } from 'react-native-paper';
 import { Field, Formik } from 'formik';
 import { TextInput } from 'react-native-paper';
-import { Picker } from '@react-native-community/picker';
 import { AuthContext } from '../components/context';
 import { SkypeIndicator, UIActivityIndicator } from 'react-native-indicators';
 import ModalPicker from 'react-native-modal-picker';
@@ -26,8 +25,9 @@ import ModalPicker from 'react-native-modal-picker';
 const imagewidth = Dimensions.get('window').width;
 const imageheight = Dimensions.get('window').height;
 
-const quoteCheckout = ({ route, navigation }, props) => {
-	const { changeCount } = useContext(AuthContext);
+const quoteCheckoutScreen = ({ route, navigation }, props) => {
+	const { refresh } = useContext(AuthContext);
+	const checkName = useContext(AuthContext);
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -50,7 +50,7 @@ const quoteCheckout = ({ route, navigation }, props) => {
 	};
 	useEffect(() => {
 		fetchDetails();
-	}, []);
+	}, [route.params.quoteId]);
 
 	const showPopUp = (properties) => {
 		return (
@@ -99,7 +99,7 @@ const quoteCheckout = ({ route, navigation }, props) => {
 							width: 180,
 							borderRadius: 5,
 						}}
-						// onPress={() => properties.handleSubmit()}
+						onPress={() => properties.handleSubmit()}
 					>
 						<Text
 							style={{
@@ -154,7 +154,7 @@ const quoteCheckout = ({ route, navigation }, props) => {
 		{
 			showRegionOptions();
 		}
-	}, []);
+	}, [route.params.quoteId]);
 
 	const [cityList, setCityList] = useState([]);
 
@@ -231,33 +231,31 @@ const quoteCheckout = ({ route, navigation }, props) => {
 
 	// let showCartArray = route.params.cartDetails;
 	// let amount = route.params.cost;
-	// const fetchPayment = (properties) => {
-	// 	setIsLoading(true);
-	// 	let servicedetails = new FormData();
-	// 	servicedetails.append('username', checkName.UserName);
-	// 	servicedetails.append('cart_items', JSON.stringify(showCartArray));
-	// 	servicedetails.append('cost', amount);
-	// 	servicedetails.append('city', properties.city);
-	// 	servicedetails.append('region', properties.region);
-	// 	servicedetails.append('address', properties.address);
-	// 	servicedetails.append('payment_radio', properties.paymentMethod);
+	const fetchPayment = (properties) => {
+		setIsLoading(true);
+		let quotePayment = new FormData();
+		quotePayment.append('username', checkName.UserName);
+		quotePayment.append('quote_id',route.params.quoteId)
+		quotePayment.append('city', properties.city);
+		quotePayment.append('region', properties.region);
+		quotePayment.append('address', properties.address);
+		quotePayment.append('payment_radio', properties.paymentMethod);
 
-	// 	fetch('https://alsocio.com/app/book-order/', {
-	// 		method: 'POST',
-	// 		body: servicedetails,
-	// 	})
-	// 		.then((response) => response.json())
-	// 		.then((responseJson) => {
-	// 			console.log(responseJson);
-	// 			setIsLoading(false);
-	// 			if (responseJson.order_status == 'placed') {
-	// 				setConfirmModal(true);
-	// 				AsyncStorage.removeItem('asyncArray1');
-	// 			} else {
-	// 				alert('Algo salió mal');
-	// 			}
-	// 		});
-	// };
+		fetch('https://alsocio.com/app/book-quote-order/', {
+			method: 'POST',
+			body: quotePayment,
+		})
+			.then((response) => response.json())
+			.then((responseJson) => {
+				console.log(responseJson);
+				setIsLoading(false);
+				if (responseJson.order_status == 'placed') {
+					setConfirmModal(true);
+				} else {
+					alert('Algo salió mal');
+				}
+			});
+	};
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -279,19 +277,19 @@ const quoteCheckout = ({ route, navigation }, props) => {
 					paymentMethod: 'COD',
 				}}
 				onSubmit={(values) => {
-					// if (values.paymentMethod == 'COD') {
-					// 	fetchPayment(values);
-					// }
-					// if (values.paymentMethod == 'Card') {
-					// 	navigation.navigate('paymentsScreen', {
-					// 		cartItems: route.params.cartDetails,
-					// 		cost: route.params.cost,
-					// 		city: values.city,
-					// 		region: values.region,
-					// 		address: values.address,
-					// 		paymentMethod: values.paymentMethod,
-					// 	});
-					// }
+					if (values.paymentMethod == 'COD') {
+						fetchPayment(values);
+					}
+					if (values.paymentMethod == 'Card') {
+						navigation.navigate('quoteCardPaymentsScreen', {
+							quote_id: route.params.quoteId,
+							city: values.city,
+							region: values.region,
+							address: values.address,
+							paymentMethod: values.paymentMethod,
+							username: checkName.UserName
+						});
+					}
 				}}
 				validationSchema={DetailsSchema}>
 				{(props) => (
@@ -353,7 +351,7 @@ const quoteCheckout = ({ route, navigation }, props) => {
 										fontSize: 15,
 									}}
 									onPress={() => {
-										changeCount(0),
+											refresh(),
 											setConfirmModal(!confirmModal),
 											navigation.navigate('Home');
 									}}
@@ -479,7 +477,7 @@ const quoteCheckout = ({ route, navigation }, props) => {
 								</View>
 							</Modal>
 
-							<Card style={{ borderRadius: 0.3, borderWidth: 0.3 }}>
+							<Card style={{ borderRadius: 0.3, borderWidth: 0.3,margin:10 }}>
 								<View
 									style={{
 										alignItems: 'center',
@@ -692,7 +690,7 @@ const quoteCheckout = ({ route, navigation }, props) => {
 		</View>
 	);
 };
-export default quoteCheckout;
+export default quoteCheckoutScreen;
 
 const styles = StyleSheet.create({
 	container: {

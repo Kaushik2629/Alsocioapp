@@ -603,6 +603,10 @@ const ExploreScreen = ({ navigation }) => {
 									<Text style={styles.rightLabel}>${item.cost}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
+									<Text style={styles.leftLabel}>Cargos adicionales -</Text>
+									<Text style={styles.rightLabel}>${item.additional_charges}</Text>
+								</View>
+								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Cantidad -</Text>
 									<Text style={styles.rightLabel}>{item.quantity}</Text>
 								</View>
