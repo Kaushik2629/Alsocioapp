@@ -30,6 +30,7 @@ const SettingsScreen = ({ navigation }) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				setIsLoading(false);
+				console.log(responseJson)
 				setDetails(responseJson.invoices);
 			})
 			.catch((error) => console.error(error));
@@ -160,6 +161,10 @@ const SettingsScreen = ({ navigation }) => {
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Coste total -</Text>
 									<Text style={styles.rightLabel}>${item.cost}</Text>
+								</View>
+								<View style={{ flexDirection: 'row', padding: 10 }}>
+									<Text style={styles.leftLabel}>Cargos adicionales -</Text>
+									<Text style={styles.rightLabel}>${item.additional_charges}</Text>
 								</View>
 								<View style={{ flexDirection: 'row', padding: 10 }}>
 									<Text style={styles.leftLabel}>Estado -</Text>

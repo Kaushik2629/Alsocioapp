@@ -22,7 +22,6 @@ import {
 } from 'react-native-gesture-handler';
 import { TextInput, Card, Title, Appbar } from 'react-native-paper';
 
-
 const imagewidth = Dimensions.get('screen').width;
 const imageheight = Dimensions.get('screen').height;
 
@@ -58,20 +57,16 @@ const SupportScreen = ({ route, navigation }) => {
 		}, []);
 	};
 
-	
-
 	const mainCategory = () => {
 		return selectedSubCategory.map((element) => {
 			console.log(element);
 			return (
 				<Card
 					style={{
-						width: imagewidth - 20,
-						// alignItems: 'center',
-						borderWidth: 0.3,
-						elevation: 5,
 						margin: 10,
-						borderRadius: 10,
+						borderWidth: 0.6,
+						alignItems: 'stretch',
+						justifyContent: 'center',
 					}}>
 					<Card.Content style={{ textAlign: 'left' }}>
 						<Title style={{ padding: 10 }}>
@@ -112,7 +107,6 @@ const SupportScreen = ({ route, navigation }) => {
 		});
 	};
 
-	
 	return (
 		<View
 			style={{
@@ -138,7 +132,7 @@ const SupportScreen = ({ route, navigation }) => {
 					setShowPickerModal(true);
 				}}
 			/> */}
-			
+
 			<ScrollView>
 				{list()}
 				{isLoading ? (

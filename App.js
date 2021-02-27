@@ -83,27 +83,23 @@ const App = () => {
 					userName: action.id,
 					showCount: action.change,
 					city: action.selectCity,
-					isLoading: true,
 				};
 			case 'LOGIN':
 				return {
 					...prevState,
 					userName: action.id,
-					isLoading: false,
 				};
 			case 'LOGOUT':
 				return {
 					...prevState,
 					userName: null,
 					userToken: null,
-					isLoading: false,
 				};
 			case 'REGISTER':
 				return {
 					...prevState,
 					userName: action.id,
 					userToken: action.token,
-					isLoading: false,
 				};
 			case 'COUNT':
 				return {
@@ -247,7 +243,7 @@ const App = () => {
 		}, 100);
 	}, []);
 
-	console.log(loginState.isLoading)
+	console.log(loginState.isLoading);
 
 	// const [notificationBody, setNotificationBody] = useState([]);
 	const fetchNotifications = () => {
@@ -356,23 +352,24 @@ const App = () => {
 	}, []);
 
 	async function sendPushNotification(expoPushToken, notifiedMessage) {
-		const message = {
-			to: expoPushToken,
-			sound: 'default',
-			title: 'Notifying You!',
-			body: notifiedMessage,
-			data: { data: 'goes here' },
-		};
-
-		await fetch('https://exp.host/--/api/v2/push/send', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Accept-encoding': 'gzip, deflate',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(message),
-		});
+		if (notifiedMessage != '' || notifiedMessage != null) {
+			const message = {
+				to: expoPushToken,
+				sound: 'default',
+				title: 'Notifying You!',
+				body: notifiedMessage,
+				data: { data: 'goes here' },
+			};
+			await fetch('https://exp.host/--/api/v2/push/send', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Accept-encoding': 'gzip, deflate',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(message),
+			});
+		}
 	}
 
 	// if (loginState.isLoading) {
@@ -414,8 +411,14 @@ const App = () => {
 								component={ProviderSignUpForm}
 							/>
 							<Drawer.Screen name='continueWith' component={continueWith} />
-							<Drawer.Screen name='quoteCheckoutScreen' component={quoteCheckoutScreen} />
-							<Drawer.Screen name='quoteCardPaymentsScreen' component={quoteCardPaymentsScreen} />
+							<Drawer.Screen
+								name='quoteCheckoutScreen'
+								component={quoteCheckoutScreen}
+							/>
+							<Drawer.Screen
+								name='quoteCardPaymentsScreen'
+								component={quoteCardPaymentsScreen}
+							/>
 						</Drawer.Navigator>
 					</NavigationContainer>
 				</AuthContext.Provider>

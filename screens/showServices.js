@@ -50,6 +50,8 @@ const showServices = ({ navigation, route }) => {
 		return discount == null || discount == 0 ? (
 			<Text
 				style={{
+					flex:1,
+					textAlign:'right',
 					fontSize: 25,
 					fontWeight: '500',
 				}}>
@@ -143,12 +145,6 @@ const showServices = ({ navigation, route }) => {
 					renderItem={({ item }) => (
 						<Card
 							style={{
-								// elevation: 5,
-								// marginHorizontal: 10,
-								// borderRadius: 10,
-								// borderWidth: 0.3,
-								// margin: 10,
-								// marginBottom: 20,
 								margin: 10,
 								borderWidth: 0.6,
 								alignItems: 'stretch',
@@ -156,7 +152,7 @@ const showServices = ({ navigation, route }) => {
 							}}>
 							<Card.Content>
 								<View style={{ flexDirection: 'row' }}>
-									<View style={{ flexGrow: 1 }}>
+									<View style={{ flexShrink: 1 }}>
 										<Text
 											style={{
 												fontSize: 15,
@@ -182,11 +178,13 @@ const showServices = ({ navigation, route }) => {
 									</View>
 									<View
 										style={{
-											flexBasis: 50,
-											flex: 1,
-											flexWrap: 'nowrap',
-											alignItems: 'flex-end',
-										}}>
+											// flexBasis: 50,
+											// flex: 1,
+											// flexWrap: 'nowrap',
+											flexGrow:1,
+											alignItems:'flex-end',
+										}}
+										>
 										{showDiscount(item.service_cost, item.discount)}
 									</View>
 								</View>

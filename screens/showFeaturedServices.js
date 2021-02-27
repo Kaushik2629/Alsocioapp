@@ -25,7 +25,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-        setIsLoading(true)
+		setIsLoading(true);
 		let services = new FormData();
 		services.append('featured_service', featured_service);
 		services.append('region', region);
@@ -48,10 +48,8 @@ const showFeaturedServices = ({ navigation, route }) => {
 		return discount == null || discount == 0 ? (
 			<Text
 				style={{
-					fontSize: 15,
+					fontSize: 25,
 					fontWeight: '500',
-					marginLeft: 20,
-					marginTop: 10,
 				}}>
 				${cost}
 			</Text>
@@ -59,10 +57,8 @@ const showFeaturedServices = ({ navigation, route }) => {
 			<View style={{ flexDirection: 'row' }}>
 				<Text
 					style={{
-						fontSize: 15,
+						fontSize: 25,
 						fontWeight: '500',
-						marginLeft: 20,
-						marginTop: 10,
 						textDecorationLine: 'line-through',
 						textDecorationStyle: 'solid',
 					}}>
@@ -70,10 +66,9 @@ const showFeaturedServices = ({ navigation, route }) => {
 				</Text>
 				<Text
 					style={{
-						fontSize: 15,
+						fontSize: 25,
 						fontWeight: '500',
 						marginLeft: 5,
-						marginTop: 10,
 					}}>
 					${discount}
 				</Text>
@@ -111,7 +106,6 @@ const showFeaturedServices = ({ navigation, route }) => {
 				style={{
 					flexDirection: 'row',
 					alignSelf: 'flex-start',
-					marginLeft: 20,
 				}}>
 				{stars}
 			</View>
@@ -120,7 +114,12 @@ const showFeaturedServices = ({ navigation, route }) => {
 
 	return (
 		<View style={styles.container}>
-			<Appbar.Header style={{ backgroundColor: '#262262',alignItems:'center', marginTop: 0  }}>
+			<Appbar.Header
+				style={{
+					backgroundColor: '#262262',
+					alignItems: 'center',
+					marginTop: 0,
+				}}>
 				<Appbar.BackAction onPress={() => navigation.goBack()} />
 				<Appbar.Content
 					titleStyle={{ padding: 10 }}
@@ -145,38 +144,23 @@ const showFeaturedServices = ({ navigation, route }) => {
 					renderItem={({ item }) => (
 						<Card
 							style={{
-								elevation: 5,
-								marginHorizontal: 10,
-								borderRadius: 10,
-								borderWidth: 0.3,
 								margin: 10,
-								marginBottom: 20,
+								borderWidth: 0.6,
+								alignItems: 'stretch',
+								justifyContent: 'center',
 							}}>
 							<Card.Content>
-								<View>
-									<Image
-										style={{
-											width: 'auto',
-											height: 200,
-											marginVertical: 10,
-										}}
-										source={{
-											uri: 'https:alsocio.com/media/' + item.img,
-										}}
-									/>
-								</View>
 								<View style={{ flexDirection: 'row' }}>
 									<View style={{ flexGrow: 1 }}>
-										{showDiscount(item.service_cost, item.discount)}
 										<Text
 											style={{
 												fontSize: 15,
-												marginLeft: 20,
 												fontWeight: 'bold',
-												marginBottom: 8,
+												flex: 1,
+												flexWrap: 'wrap',
 											}}>
 											Servicio por:
-											<Text style={{ fontWeight: '400' }}>
+											<Text style={{ fontSize: 14, fontWeight: '400' }}>
 												{item.company_name}
 											</Text>
 										</Text>
@@ -185,19 +169,85 @@ const showFeaturedServices = ({ navigation, route }) => {
 											style={{
 												fontSize: 15,
 												fontWeight: '400',
-												marginLeft: 20,
+												flex: 1,
+												flexWrap: 'wrap',
 											}}>
 											{item.service}
 										</Text>
 									</View>
-									<View>
+									<View
+										style={{
+											flexBasis: 50,
+											flex: 1,
+											flexWrap: 'nowrap',
+											alignItems: 'flex-end',
+										}}>
+										{showDiscount(item.service_cost, item.discount)}
+									</View>
+								</View>
+								<View>
+									<Image
+										style={{
+											width: imagewidth - 50,
+											height: imageheight / 3,
+											marginVertical: 10,
+										}}
+										source={{
+											uri: 'https:alsocio.com/media/' + item.img,
+										}}
+									/>
+								</View>
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ flexGrow: 1, padding: 10 }}>
+										{item.covid_norms == true ? (
+											<View style={{ flexDirection: 'row' }}>
+												<View style={{ flexBasis: 20 }}>
+													<Icon
+														name='ios-checkbox-outline'
+														color='#262262'
+														size={20}
+														style={{ marginRight: 5 }}
+													/>
+												</View>
+												<View style={{ flexGrow: 1, flexDirection: 'row' }}>
+													<Text
+														style={{
+															fontSize: 12,
+															fontWeight: '400',
+															flex: 1,
+															flexWrap: 'wrap',
+														}}>
+														El Proveedor de servicio cumple con todas las medias
+														de bioseguridad
+													</Text>
+												</View>
+											</View>
+										) : null}
+										{item.additional_charges == true ? (
+											<Text
+												style={{
+													marginTop: 10,
+													flexBasis: 70,
+													fontSize: 10,
+													fontWeight: '400',
+													flex: 1,
+													flexWrap: 'wrap',
+													color: 'red',
+													textAlign: 'right',
+													alignSelf: 'flex-start',
+												}}>
+												*Pueden aplicarse cargos adicionales
+											</Text>
+										) : null}
+									</View>
+									<View style={{ flexBasis: 120 }}>
 										<TouchableOpacity
 											style={{
 												backgroundColor: '#262262',
-												width: 120,
-												height: 60,
+												alignSelf: 'stretch',
+												paddingVertical: 15,
 												borderRadius: 5,
-												margin: 'auto',
+												alignItems: 'center',
 											}}
 											onPress={() =>
 												navigation.navigate('showDetails', {
@@ -208,45 +258,11 @@ const showFeaturedServices = ({ navigation, route }) => {
 												style={{
 													color: '#fff',
 													textAlign: 'center',
-													padding: 20,
 												}}>
 												Detalles
 											</Text>
 										</TouchableOpacity>
 									</View>
-								</View>
-								<View style={{ justifyContent: 'center', padding: 10 }}>
-									{item.covid_norms == true ? (
-										<View style={{ flexDirection: 'row' }}>
-											<Icon
-												name='ios-checkbox-outline'
-												color='#262262'
-												size={36}
-												style={{ marginHorizontal: 10 }}
-											/>
-											<Text
-												style={{
-													fontSize: 15,
-													fontWeight: '400',
-													alignSelf: 'center',
-												}}>
-												This service follows COVID-19 norms
-											</Text>
-										</View>
-									) : null}
-									{item.additional_charges == true ? (
-										<Text
-											style={{
-												fontSize: 10,
-												padding: 10,
-												color: 'red',
-												flexGrow: 1,
-												textAlign: 'right',
-												alignSelf: 'flex-start',
-											}}>
-											*Additional Charges may be Applied
-										</Text>
-									) : null}
 								</View>
 							</Card.Content>
 						</Card>

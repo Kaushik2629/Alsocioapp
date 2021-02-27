@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
 import {
 	View,
@@ -23,6 +22,7 @@ const DetailsScreen = ({ navigation }) => {
 	// const {notifyUser} = useContext(AuthContext);
 
 	const fetchUsername = () => {
+		console.log(JSON.stringify(a))
 		if(a.UserName==null){
 			setIsLoading(false);
 			setDetails([]);
@@ -30,7 +30,7 @@ const DetailsScreen = ({ navigation }) => {
 		}
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.com/app/get-notifications/', {
+		fetch('https://alsocio.com/app/get-all-notifications/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -46,7 +46,7 @@ const DetailsScreen = ({ navigation }) => {
 	useEffect(() => {
 		fetchUsername();
 		console.log(details.length);
-	}, [a.itemCount]);
+	}, [a]);
 
 	const [currentDate, setCurrentDate] = useState('');
 

@@ -20,6 +20,7 @@ import { AuthContext } from '../components/context';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Dimensions } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 
 const imageheight = Dimensions.get('screen').height;
 const imagewidth = Dimensions.get('screen').width;
@@ -166,116 +167,119 @@ const SignInScreen = ({ navigation }) => {
 						backgroundColor: colors.background,
 					},
 				]}>
-				<Text
-					style={[
-						styles.text_footer,
-						{
-							color: colors.text,
-						},
-					]}>
-					Nombre de usuario
-				</Text>
-				<View style={styles.action}>
-					<FontAwesome name='user-o' color={colors.text} size={20} />
-					<TextInput
-						placeholder='Su nombre de usuario'
-						placeholderTextColor='#666666'
+				<KeyboardAvoidingView behavior="padding">
+					<Text
 						style={[
-							styles.textInput,
+							styles.text_footer,
 							{
 								color: colors.text,
-							},
-						]}
-						autoCapitalize='none'
-						onChangeText={(val) => textInputChange(val)}
-						onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-					/>
-					{data.check_textInputChange ? (
-						<Animatable.View animation='bounceIn'>
-							<Feather name='check-circle' color='green' size={20} />
-						</Animatable.View>
-					) : null}
-				</View>
-				{data.isValidUser ? null : (
-					<Animatable.View animation='fadeInLeft' duration={500}>
-						<Text style={styles.errorMsg}>
-						El nombre de usuario debe tener 4 caracteres.
-						</Text>
-					</Animatable.View>
-				)}
-
-				<Text
-					style={[
-						styles.text_footer,
-						{
-							color: colors.text,
-							marginTop: 35,
-						},
-					]}>
-					Contraseña
-				</Text>
-				<View style={styles.action}>
-					<Feather name='lock' color={colors.text} size={20} />
-					<TextInput
-						placeholder='Tu contraseña'
-						placeholderTextColor='#666666'
-						secureTextEntry={data.secureTextEntry ? true : false}
-						style={[
-							styles.textInput,
-							{
-								color: colors.text,
-							},
-						]}
-						autoCapitalize='none'
-						onChangeText={(val) => handlePasswordChange(val)}
-					/>
-					<TouchableOpacity onPress={updateSecureTextEntry}>
-						{data.secureTextEntry ? (
-							<Feather name='eye-off' color='grey' size={20} />
-						) : (
-							<Feather name='eye' color='grey' size={20} />
-						)}
-					</TouchableOpacity>
-				</View>
-				{data.isValidPassword ? null : (
-					<Animatable.View animation='fadeInLeft' duration={500}>
-						<Text style={styles.errorMsg}>
-						La contraseña debe tener 8 caracteres.
-						</Text>
-					</Animatable.View>
-				)}
-
-				<TouchableOpacity onPress={()=>navigation.navigate('forgotPasswordScreen')}>
-					<Text style={{ color: '#009387', marginTop: 15 }}>
-						Forgot password?
-					</Text>
-				</TouchableOpacity>
-				<View style={styles.button}>
-					<TouchableOpacity
-						activeOpacity={0.7}
-						onPress={() => {
-							loginHandle(data.username, data.password);
-						}}
-						style={[
-							styles.signIn,
-							{
-								borderColor: '#26418f',
-								borderWidth: 0.5,
-								marginTop: 15,
-								backgroundColor: '#262262',
 							},
 						]}>
-						<Text
+						Nombre de usuario
+					</Text>
+					<View style={styles.action}>
+						<FontAwesome name='user-o' color={colors.text} size={20} />
+						<TextInput
+							placeholder='Su nombre de usuario'
+							placeholderTextColor='#666666'
 							style={[
-								styles.textSign,
+								styles.textInput,
 								{
-									color: '#fff',
+									color: colors.text,
 								},
-							]}>
-							Iniciar sesión
+							]}
+							autoCapitalize='none'
+							onChangeText={(val) => textInputChange(val)}
+							onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+						/>
+						{data.check_textInputChange ? (
+							<Animatable.View animation='bounceIn'>
+								<Feather name='check-circle' color='green' size={20} />
+							</Animatable.View>
+						) : null}
+					</View>
+					{data.isValidUser ? null : (
+						<Animatable.View animation='fadeInLeft' duration={500}>
+							<Text style={styles.errorMsg}>
+								El nombre de usuario debe tener 4 caracteres.
+							</Text>
+						</Animatable.View>
+					)}
+
+					<Text
+						style={[
+							styles.text_footer,
+							{
+								color: colors.text,
+								marginTop: 35,
+							},
+						]}>
+						Contraseña
+					</Text>
+					<View style={styles.action}>
+						<Feather name='lock' color={colors.text} size={20} />
+						<TextInput
+							placeholder='Tu contraseña'
+							placeholderTextColor='#666666'
+							secureTextEntry={data.secureTextEntry ? true : false}
+							style={[
+								styles.textInput,
+								{
+									color: colors.text,
+								},
+							]}
+							autoCapitalize='none'
+							onChangeText={(val) => handlePasswordChange(val)}
+						/>
+						<TouchableOpacity onPress={updateSecureTextEntry}>
+							{data.secureTextEntry ? (
+								<Feather name='eye-off' color='grey' size={20} />
+							) : (
+								<Feather name='eye' color='grey' size={20} />
+							)}
+						</TouchableOpacity>
+					</View>
+					{data.isValidPassword ? null : (
+						<Animatable.View animation='fadeInLeft' duration={500}>
+							<Text style={styles.errorMsg}>
+								La contraseña debe tener 8 caracteres.
+							</Text>
+						</Animatable.View>
+					)}
+
+					<TouchableOpacity
+						onPress={() => navigation.navigate('forgotPasswordScreen')}>
+						<Text style={{ color: '#009387', marginTop: 15 }}>
+							Forgot password?
 						</Text>
 					</TouchableOpacity>
-				</View>
+					<View style={styles.button}>
+						<TouchableOpacity
+							activeOpacity={0.7}
+							onPress={() => {
+								loginHandle(data.username, data.password);
+							}}
+							style={[
+								styles.signIn,
+								{
+									borderColor: '#26418f',
+									borderWidth: 0.5,
+									marginTop: 15,
+									backgroundColor: '#262262',
+								},
+							]}>
+							<Text
+								style={[
+									styles.textSign,
+									{
+										color: '#fff',
+									},
+								]}>
+								Iniciar sesión
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</KeyboardAvoidingView>
 			</Animatable.View>
 		</View>
 	);

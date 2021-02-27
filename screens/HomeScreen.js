@@ -22,9 +22,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Formik } from 'formik';
 import { Badge, Card, IconButton, Colors, Appbar } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
+import NetInfo from '@react-native-community/netinfo';
 
 import { AuthContext } from '../components/context';
 import { MaterialIndicator } from 'react-native-indicators';
+import { Alert } from 'react-native';
+import { Platform } from 'react-native';
 
 const imageheight = Dimensions.get('screen').height;
 const imagewidth = Dimensions.get('screen').width;
@@ -34,7 +37,6 @@ const HomeScreen = ({ route, navigation }) => {
 
 	const a = useContext(AuthContext);
 
-	
 	const fetchCartCount = () => {
 		return a.itemCount != 0 ? (
 			<Badge
@@ -172,9 +174,84 @@ const HomeScreen = ({ route, navigation }) => {
 		);
 	};
 
+	// Subscribe
+	
+
+	// // Unsubscribe
+	// useEffect(() => {
+	// 	var t = setInterval(() => {
+	// 		unsubscribe();
+	// 		// console.log(loginState.userName)
+	// 	}, 5000);
+	// 	return () => {
+	// 		clearTimeout(t);
+	// 	};
+	// });
+	// const [isInternet, setIsInternet] = useState(false)
+	// useEffect(()=>{
+	// 	const unsubscribe = NetInfo.addEventListener((state) => {
+	// 		handleConnectivityChange(state);
+	// 	});
+	// 	unsubscribe();
+	// 	return () =>{
+	// 		unsubscribe && unsubscribe();
+	// 	}
+	// })
+
+	// const handleConnectivityChange =(state)=>{
+	// 	setIsInternet(true);
+	// 	if(isI)
+	// }
+	// const [isInternetReachable, setIsInternetReachable] = useState(false)
+
+	// useEffect(() => {
+    //     // Subscribe
+    //     const unsubscribe = NetInfo.addEventListener((state) => {
+    //         setIsInternetReachable(state.isInternetReachable);
+    //         console.log("Connection type", state.type);
+    //         console.log("Is internet Reachable?", isInternetReachable);
+    //     });
+    //     return () => {
+    //         unsubscribe();
+    //     };
+    // },[])
+
+	function useNetInfo() {
+		// useState hook for setting netInfo
+		const [netInfo, setNetInfo] = useState(false)
+	  
+		// It calls when connection changes
+		onChange = (newState) => {
+		  setNetInfo(newState)
+		}
+	  
+		// useEffect hook calls only once like componentDidMount()
+		useEffect(() => {
+		  // To get current network connection status
+		  NetInfo.isConnected.fetch().then((connectionInfo) => {
+			setNetInfo(connectionInfo)
+		  })
+		  // Whenever connection status changes below event fires
+		  NetInfo.isConnected.addEventListener('connectionChange', onChange)
+	  
+		  // Our event cleanup function
+		  return () => {
+			NetInfo.isConnected.removeEventListener('connectionChange', onChange)
+		  }
+		}, [])
+		
+		// returns current network connection status 
+		return netInfo
+	  }
+	  useEffect(() => {
+		useNetInfo.then((netInfo) =>
+			alert(netInfo)
+		);
+	  });
+
 	return (
 		<React.Fragment>
-			<View style={styles.container}>				
+			<View style={styles.container}>
 				<StatusBar backgroundColor='#262262' barStyle='light-content' />
 				<Appbar.Header
 					style={{
@@ -182,7 +259,6 @@ const HomeScreen = ({ route, navigation }) => {
 						height: 0,
 						marginTop: 0,
 					}}></Appbar.Header>
-				
 
 				<View
 					style={{
@@ -275,8 +351,8 @@ const HomeScreen = ({ route, navigation }) => {
 												style={{
 													marginHorizontal: 10,
 													borderWidth: 0.6,
-													alignItems:'stretch',
-													justifyContent:'center'
+													alignItems: 'stretch',
+													justifyContent: 'center',
 												}}
 												onPress={() =>
 													navigation.navigate('showFeaturedServices', {
@@ -292,9 +368,11 @@ const HomeScreen = ({ route, navigation }) => {
 												/>
 												<Card.Content
 													style={{
-														padding:10
+														padding: 10,
 													}}>
-													<Text style={{textAlign:'center'}}>{item.service}</Text>
+													<Text style={{ textAlign: 'center' }}>
+														{item.service}
+													</Text>
 												</Card.Content>
 											</Card>
 										);
@@ -325,8 +403,8 @@ const HomeScreen = ({ route, navigation }) => {
 												style={{
 													marginHorizontal: 10,
 													borderWidth: 0.6,
-													alignItems:'stretch',
-													justifyContent:'center'
+													alignItems: 'stretch',
+													justifyContent: 'center',
 												}}>
 												<Card.Content
 													style={{
