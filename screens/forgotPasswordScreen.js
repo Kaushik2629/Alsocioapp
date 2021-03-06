@@ -36,7 +36,7 @@ const forgotPasswordScreen = ({ navigation }) => {
 		let register = new FormData();
 		register.append('username', properties.values.username);
 		register.append('email', properties.values.email);
-		fetch('https://alsocio.com/app/send-otp/', {
+		fetch('https://www.alsocio.com/app/send-otp/', {
 			method: 'POST',
 			body: register,
 		})
@@ -79,7 +79,7 @@ const forgotPasswordScreen = ({ navigation }) => {
 		userDetails.append('email', parameters.email);
 		userDetails.append('password', parameters.confirm_password);
 		userDetails.append('username', parameters.username);
-		fetch('https://alsocio.com/app/update-password/', {
+		fetch('https://www.alsocio.com/app/update-password/', {
 			method: 'POST',
 			body: userDetails,
 		})

@@ -65,7 +65,7 @@ const quoteCardPaymentsScreen = ({ route, navigation }) => {
 		servicedetails.append('card_number', parameters.cardNumber);
 		servicedetails.append('expiration', parameters.expiry);
         servicedetails.append('cvv', parameters.CVV);
-		fetch('https://alsocio.com/app/card-book-quote-order/', {
+		fetch('https://www.alsocio.com/app/card-book-quote-order/', {
 			method: 'POST',
 			body: servicedetails,
 		})

@@ -37,7 +37,7 @@ const providerChatContainer = ({ route, navigation }) => {
     // alert(route.params.booking_id)
     let chatDetails = new FormData();
     chatDetails.append("booking_id", route.params.booking_id);
-    fetch("https://alsocio.com/app/get-chats/", {
+    fetch("https://www.alsocio.com/app/get-chats/", {
       method: "POST",
       body: chatDetails,
     })
@@ -61,7 +61,7 @@ const providerChatContainer = ({ route, navigation }) => {
       chatDetails.append("booking_id", route.params.booking_id);
       chatDetails.append("username", a.UserName);
       chatDetails.append("message", message);
-      fetch("https://alsocio.com/app/send-message/", {
+      fetch("https://www.alsocio.com/app/send-message/", {
         method: "POST",
         body: chatDetails,
       })
@@ -78,7 +78,7 @@ const providerChatContainer = ({ route, navigation }) => {
     let chatDetails = new FormData();
     chatDetails.append("booking_id", route.params.booking_id);
     chatDetails.append("message_id", messageId);
-    fetch("https://alsocio.com/app/check-new-message/", {
+    fetch("https://www.alsocio.com/app/check-new-message/", {
       method: "POST",
       body: chatDetails,
     })

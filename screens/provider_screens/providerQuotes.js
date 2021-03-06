@@ -31,7 +31,7 @@ const providerQuotes = ({ navigation }) => {
   const fetchUsername = async () => {
     let customer_name = new FormData();
     customer_name.append("username", a.UserName);
-    fetch("https://alsocio.com/app/get-provider-quotes/", {
+    fetch("https://www.alsocio.com/app/get-provider-quotes/", {
       method: "POST",
       body: customer_name,
     })
@@ -63,7 +63,7 @@ const providerQuotes = ({ navigation }) => {
             quoteDetails.append("reply", values.reply);
             quoteDetails.append("quote_cost", values.cost);
             quoteDetails.append("username", a.UserName);
-            fetch("https://alsocio.com/app/reply-quote/", {
+            fetch("https://www.alsocio.com/app/reply-quote/", {
               method: "POST",
               body: quoteDetails,
             })

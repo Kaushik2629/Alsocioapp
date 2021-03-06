@@ -31,7 +31,7 @@ const showFeaturedServices = ({ navigation, route }) => {
 		services.append('region', region);
 		services.append('city', city);
 		//services.append('location', 'Alanje');
-		fetch('https://alsocio.com/app/get-featured-services-list/', {
+		fetch('https://www.alsocio.com/app/get-featured-services-list/', {
 			method: 'POST',
 			body: services,
 		})

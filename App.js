@@ -251,7 +251,7 @@ const App = () => {
 		if (loginState.userName != null) {
 			let customer_name = new FormData();
 			customer_name.append('username', loginState.userName);
-			fetch('https://alsocio.com/app/get-notifications/', {
+			fetch('https://www.alsocio.com/app/get-notifications/', {
 				method: 'POST',
 				body: customer_name,
 			})

@@ -37,7 +37,7 @@ const quoteCheckoutScreen = ({ route, navigation }, props) => {
 		let check = route.params.quoteId;
 		let quoteDetails = new FormData();
 		quoteDetails.append('quote_id', check);
-		fetch('https://alsocio.com/app/get-quote-details/', {
+		fetch('https://www.alsocio.com/app/get-quote-details/', {
 			method: 'POST',
 			body: quoteDetails,
 		})
@@ -126,7 +126,7 @@ const quoteCheckoutScreen = ({ route, navigation }, props) => {
 		let region_array = [];
 		let showCity_array = [];
 		let showRegion_array = [];
-		fetch('https://alsocio.com/app/get-city-region/', {
+		fetch('https://www.alsocio.com/app/get-city-region/', {
 			method: 'GET',
 		})
 			.then((response) => response.json())
@@ -241,7 +241,7 @@ const quoteCheckoutScreen = ({ route, navigation }, props) => {
 		quotePayment.append('address', properties.address);
 		quotePayment.append('payment_radio', properties.paymentMethod);
 
-		fetch('https://alsocio.com/app/book-quote-order/', {
+		fetch('https://www.alsocio.com/app/book-quote-order/', {
 			method: 'POST',
 			body: quotePayment,
 		})

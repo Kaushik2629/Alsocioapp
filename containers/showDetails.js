@@ -42,7 +42,7 @@ const showDetails = ({ route, navigation }) => {
 	const fetchDetails = () => {
 		useEffect(() => {
 			function fetchData() {
-				fetch('https://alsocio.com/app/get-service-details/', {
+				fetch('https://www.alsocio.com/app/get-service-details/', {
 					method: 'POST',
 					body: servicedetails,
 				})
@@ -392,7 +392,7 @@ const showDetails = ({ route, navigation }) => {
 								uri: values.uri,
 							});
 						}
-						fetch('https://alsocio.com/app/send-quote/', {
+						fetch('https://www.alsocio.com/app/send-quote/', {
 							method: 'POST',
 							body: quoteDetails,
 							headers: {
@@ -564,7 +564,7 @@ const showDetails = ({ route, navigation }) => {
 					// let slotDetails = new FormData();
 					// slotDetails.append('day', day);
 					// slotDetails.append('service_id', serviceIdChange);
-					// fetch('https://alsocio.com/app/get-time-slots/', {
+					// fetch('https://www.alsocio.com/app/get-time-slots/', {
 					// 	method: 'POST',
 					// 	body: slotDetails,
 					// })
@@ -701,7 +701,7 @@ const showDetails = ({ route, navigation }) => {
 														let slotDetails = new FormData();
 														slotDetails.append('day', day);
 														slotDetails.append('service_id', serviceId);
-														fetch('https://alsocio.com/app/get-time-slots/', {
+														fetch('https://www.alsocio.com/app/get-time-slots/', {
 															method: 'POST',
 															body: slotDetails,
 														})

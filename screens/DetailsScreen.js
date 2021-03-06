@@ -30,7 +30,7 @@ const DetailsScreen = ({ navigation }) => {
 		}
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.com/app/get-all-notifications/', {
+		fetch('https://www.alsocio.com/app/get-all-notifications/', {
 			method: 'POST',
 			body: customer_name,
 		})

@@ -32,7 +32,7 @@ const customerSignUpScreen = ({ navigation }) => {
 		let region_array = [];
 		let showCity_array = [];
 		let showRegion_array = [];
-		fetch('https://alsocio.com/app/get-city-region/', {
+		fetch('https://www.alsocio.com/app/get-city-region/', {
 			method: 'GET',
 			// body: usercategory,
 		})
@@ -176,7 +176,7 @@ const customerSignUpScreen = ({ navigation }) => {
 		let register = new FormData();
 		register.append('username', properties.values.username);
 		register.append('email', properties.values.email);
-		fetch('https://alsocio.com/app/send-otp/', {
+		fetch('https://www.alsocio.com/app/send-otp/', {
 			method: 'POST',
 			body: register,
 		})
@@ -232,7 +232,7 @@ const customerSignUpScreen = ({ navigation }) => {
 		userDetails.append('username', parameters.username);
 		userDetails.append('password', parameters.confirm_password);
 		userDetails.append('contact', parameters.contact);
-		fetch('https://alsocio.com/app/customer-signup/', {
+		fetch('https://www.alsocio.com/app/customer-signup/', {
 			method: 'POST',
 			body: userDetails,
 		})

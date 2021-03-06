@@ -33,7 +33,7 @@ const showServices = ({ navigation, route }) => {
 		services.append('region', route.params.region);
 		services.append('city', route.params.city);
 		//services.append('location', 'Alanje');
-		fetch('https://alsocio.com/app/get-services/', {
+		fetch('https://www.alsocio.com/app/get-services/', {
 			method: 'POST',
 			body: services,
 		})

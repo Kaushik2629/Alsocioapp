@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNetInfo } from '@react-native-community/netinfo';
 import {
 	View,
 	Text,
@@ -58,7 +59,7 @@ const HomeScreen = ({ route, navigation }) => {
 	const [mainCategoryImages, setMainCategoryImages] = useState([]);
 
 	const getMainCategory = () => {
-		fetch('https://alsocio.com/app/get-main-categories/', {
+		fetch('https://www.alsocio.com/app/get-main-categories/', {
 			method: 'GET',
 			// body: usercategory,
 		})
@@ -96,7 +97,7 @@ const HomeScreen = ({ route, navigation }) => {
 	const [featuredServicesArray, setFeaturedServicesArray] = useState([]);
 
 	const getFeaturedServices = () => {
-		fetch('https://alsocio.com/app/get-featured-services/', {
+		fetch('https://www.alsocio.com/app/get-featured-services/', {
 			method: 'GET',
 			// body: usercategory,
 		})
@@ -114,7 +115,7 @@ const HomeScreen = ({ route, navigation }) => {
 	const [featuredReviewsArray, setFeaturedReviewsArray] = useState([]);
 
 	const getFeaturedReviews = () => {
-		fetch('https://alsocio.com/app/get-featured-reviews/', {
+		fetch('https://www.alsocio.com/app/get-featured-reviews/', {
 			method: 'GET',
 			// body: usercategory,
 		})
@@ -174,81 +175,29 @@ const HomeScreen = ({ route, navigation }) => {
 		);
 	};
 
-	// Subscribe
-	
-
-	// // Unsubscribe
-	// useEffect(() => {
-	// 	var t = setInterval(() => {
-	// 		unsubscribe();
-	// 		// console.log(loginState.userName)
-	// 	}, 5000);
-	// 	return () => {
-	// 		clearTimeout(t);
-	// 	};
-	// });
-	// const [isInternet, setIsInternet] = useState(false)
-	// useEffect(()=>{
-	// 	const unsubscribe = NetInfo.addEventListener((state) => {
-	// 		handleConnectivityChange(state);
-	// 	});
-	// 	unsubscribe();
-	// 	return () =>{
-	// 		unsubscribe && unsubscribe();
-	// 	}
-	// })
-
-	// const handleConnectivityChange =(state)=>{
-	// 	setIsInternet(true);
-	// 	if(isI)
+	// function CheckConnection() {
+	// 	const netInfo = useNetInfo();
+	// 	return (
+	// 		// this is just for an example you can design this as per your need
+	// 		<Text>{netInfo ? 'Online' : 'Offline'}</Text>
+	// 	);
 	// }
-	// const [isInternetReachable, setIsInternetReachable] = useState(false)
-
-	// useEffect(() => {
-    //     // Subscribe
-    //     const unsubscribe = NetInfo.addEventListener((state) => {
-    //         setIsInternetReachable(state.isInternetReachable);
-    //         console.log("Connection type", state.type);
-    //         console.log("Is internet Reachable?", isInternetReachable);
-    //     });
-    //     return () => {
-    //         unsubscribe();
-    //     };
-    // },[])
-
-	function useNetInfo() {
-		// useState hook for setting netInfo
-		const [netInfo, setNetInfo] = useState(false)
-	  
-		// It calls when connection changes
-		onChange = (newState) => {
-		  setNetInfo(newState)
-		}
-	  
-		// useEffect hook calls only once like componentDidMount()
-		useEffect(() => {
-		  // To get current network connection status
-		  NetInfo.isConnected.fetch().then((connectionInfo) => {
-			setNetInfo(connectionInfo)
-		  })
-		  // Whenever connection status changes below event fires
-		  NetInfo.isConnected.addEventListener('connectionChange', onChange)
-	  
-		  // Our event cleanup function
-		  return () => {
-			NetInfo.isConnected.removeEventListener('connectionChange', onChange)
-		  }
-		}, [])
-		
-		// returns current network connection status 
-		return netInfo
-	  }
-	  useEffect(() => {
-		useNetInfo.then((netInfo) =>
-			alert(netInfo)
-		);
-	  });
-
+	const [isOffline, setIsOffline] = useState(false);
+	
+	const netInfo = useNetInfo();
+	useEffect(() => {
+		var t = setInterval(() => {
+			if (!netInfo.isConnected) {
+				console.log('Offline')
+				setIsOffline(true);
+			} else{
+				setIsOffline(false);
+			}
+		}, 500);
+		return () => {
+			clearTimeout(t);
+		};
+	});
 	return (
 		<React.Fragment>
 			<View style={styles.container}>
@@ -259,7 +208,6 @@ const HomeScreen = ({ route, navigation }) => {
 						height: 0,
 						marginTop: 0,
 					}}></Appbar.Header>
-
 				<View
 					style={{
 						flexDirection: 'row',
@@ -302,135 +250,147 @@ const HomeScreen = ({ route, navigation }) => {
 						{fetchCartCount()}
 					</View>
 				</View>
-				{isLoading ? (
-					<MaterialIndicator color='#262262' />
+				{isOffline ? (
+					<View
+						style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<Text>Offline</Text>
+					</View>
 				) : (
-					<ScrollView style={styles.scrollView}>
-						<View
-							style={{
-								marginTop: 10,
-								flexDirection: 'row',
-								flexWrap: 'wrap',
-							}}>
-							{mainCategoryArray.map((item) => {
-								return (
-									<TouchableOpacity
-										style={styles.iconcontainer}
-										onPress={() => showcategory(item)}>
-										{showImage(item)}
-										<Text accessibilityRole='button' style={styles.icontext}>
-											{item}
+					<>
+						{isLoading ? (
+							<MaterialIndicator color='#262262' />
+						) : (
+							<ScrollView style={styles.scrollView}>
+								<View
+									style={{
+										marginTop: 10,
+										flexDirection: 'row',
+										flexWrap: 'wrap',
+									}}>
+									{mainCategoryArray.map((item) => {
+										return (
+											<TouchableOpacity
+												style={styles.iconcontainer}
+												onPress={() => showcategory(item)}>
+												{showImage(item)}
+												<Text
+													accessibilityRole='button'
+													style={styles.icontext}>
+													{item}
+												</Text>
+											</TouchableOpacity>
+										);
+									})}
+								</View>
+								{featuredServicesArray.length != 0 ? (
+									<View
+										style={{
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}>
+										<Text
+											style={{
+												fontSize: 18,
+												marginVertical: 15,
+												fontWeight: '900',
+											}}>
+											Servicios destacados
 										</Text>
-									</TouchableOpacity>
-								);
-							})}
-						</View>
-						{featuredServicesArray.length != 0 ? (
-							<View
-								style={{
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}>
-								<Text
-									style={{
-										fontSize: 18,
-										marginVertical: 15,
-										fontWeight: '900',
-									}}>
-									Servicios destacados
-								</Text>
-								<Swiper
-									showsButtons={false}
-									paginationStyle={{ margin: 0 }}
-									height={300}
-									// style={{ flexGrow:0.5}}
-								>
-									{featuredServicesArray.map((item) => {
-										return (
-											<Card
-												style={{
-													marginHorizontal: 10,
-													borderWidth: 0.6,
-													alignItems: 'stretch',
-													justifyContent: 'center',
-												}}
-												onPress={() =>
-													navigation.navigate('showFeaturedServices', {
-														featured_service: item.service,
-														region: a.regionValue,
-														city: a.cityValue,
-													})
-												}>
-												<Card.Cover
-													source={{
-														uri: 'https://alsocio.com/media/' + item.image,
-													}}
-												/>
-												<Card.Content
-													style={{
-														padding: 10,
-													}}>
-													<Text style={{ textAlign: 'center' }}>
-														{item.service}
-													</Text>
-												</Card.Content>
-											</Card>
-										);
-									})}
-								</Swiper>
-							</View>
-						) : null}
-
-						{featuredReviewsArray.length != 0 ? (
-							<View
-								style={{
-									alignItems: 'center',
-									justifyContent: 'center',
-									marginVertical: 20,
-								}}>
-								<Text
-									style={{
-										fontSize: 18,
-										marginVertical: 15,
-										fontWeight: '900',
-									}}>
-									Comentarios
-								</Text>
-								<Swiper showsButtons={false} height={215}>
-									{featuredReviewsArray.map((item) => {
-										return (
-											<Card
-												style={{
-													marginHorizontal: 10,
-													borderWidth: 0.6,
-													alignItems: 'stretch',
-													justifyContent: 'center',
-												}}>
-												<Card.Content
-													style={{
-														alignItems: 'center',
-														justifyContent: 'center',
-													}}>
-													<Text style={styles.text}>
-														{item.customer_username}
-													</Text>
-													<Text
+										<Swiper
+											showsButtons={false}
+											paginationStyle={{ margin: 0 }}
+											height={300}
+											// style={{ flexGrow:0.5}}
+										>
+											{featuredServicesArray.map((item) => {
+												return (
+													<Card
 														style={{
-															textAlign: 'center',
-															marginTop: 15,
-															fontSize: 18,
+															marginHorizontal: 10,
+															borderWidth: 0.6,
+															alignItems: 'stretch',
+															justifyContent: 'center',
+														}}
+														onPress={() =>
+															navigation.navigate('showFeaturedServices', {
+																featured_service: item.service,
+																region: a.regionValue,
+																city: a.cityValue,
+															})
+														}>
+														<Card.Cover
+															source={{
+																uri:
+																	'https://www.alsocio.com/media/' + item.image,
+															}}
+														/>
+														<Card.Content
+															style={{
+																padding: 10,
+															}}>
+															<Text style={{ textAlign: 'center' }}>
+																{item.service}
+															</Text>
+														</Card.Content>
+													</Card>
+												);
+											})}
+										</Swiper>
+									</View>
+								) : null}
+
+								{featuredReviewsArray.length != 0 ? (
+									<View
+										style={{
+											alignItems: 'center',
+											justifyContent: 'center',
+											marginVertical: 20,
+										}}>
+										<Text
+											style={{
+												fontSize: 18,
+												marginVertical: 15,
+												fontWeight: '900',
+											}}>
+											Comentarios
+										</Text>
+										<Swiper showsButtons={false} height={215}>
+											{featuredReviewsArray.map((item) => {
+												return (
+													<Card
+														style={{
+															marginHorizontal: 10,
+															borderWidth: 0.6,
+															alignItems: 'stretch',
+															justifyContent: 'center',
 														}}>
-														{item.review}
-													</Text>
-													{showStars(item.rating)}
-												</Card.Content>
-											</Card>
-										);
-									})}
-								</Swiper>
-							</View>
-						) : null}
-					</ScrollView>
+														<Card.Content
+															style={{
+																alignItems: 'center',
+																justifyContent: 'center',
+															}}>
+															<Text style={styles.text}>
+																{item.customer_username}
+															</Text>
+															<Text
+																style={{
+																	textAlign: 'center',
+																	marginTop: 15,
+																	fontSize: 18,
+																}}>
+																{item.review}
+															</Text>
+															{showStars(item.rating)}
+														</Card.Content>
+													</Card>
+												);
+											})}
+										</Swiper>
+									</View>
+								) : null}
+							</ScrollView>
+						)}
+					</>
 				)}
 			</View>
 		</React.Fragment>

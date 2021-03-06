@@ -37,7 +37,7 @@ const ExploreScreen = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.com/app/get-bookings/', {
+		fetch('https://www.alsocio.com/app/get-bookings/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -69,7 +69,7 @@ const ExploreScreen = ({ navigation }) => {
 			let bookingdetails = new FormData();
 			bookingdetails.append('booking_id', bookingId);
 			bookingdetails.append('username', username);
-			fetch('https://alsocio.com/app/decline-booking/', {
+			fetch('https://www.alsocio.com/app/decline-booking/', {
 				method: 'POST',
 				body: bookingdetails,
 			})
@@ -367,7 +367,7 @@ const ExploreScreen = ({ navigation }) => {
 								let slotDetails = new FormData();
 								slotDetails.append('day', day);
 								slotDetails.append('service_id', id);
-								fetch('https://alsocio.com/app/get-time-slots/', {
+								fetch('https://www.alsocio.com/app/get-time-slots/', {
 									method: 'POST',
 									body: slotDetails,
 								})
@@ -415,7 +415,7 @@ const ExploreScreen = ({ navigation }) => {
 							bookingdetails.append('username', a.UserName);
 							bookingdetails.append('service_date', date);
 							bookingdetails.append('service_time', slotValue);
-							fetch('https://alsocio.com/app/update-service-date-time/', {
+							fetch('https://www.alsocio.com/app/update-service-date-time/', {
 								method: 'POST',
 								body: bookingdetails,
 							})
@@ -521,7 +521,7 @@ const ExploreScreen = ({ navigation }) => {
 								if (review != null) {
 									ratingDetails.append('review', review);
 								}
-								fetch('https://alsocio.com/app/update-rating-review/', {
+								fetch('https://www.alsocio.com/app/update-rating-review/', {
 									method: 'POST',
 									body: ratingDetails,
 								})

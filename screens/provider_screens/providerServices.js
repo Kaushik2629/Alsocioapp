@@ -46,7 +46,7 @@ const providerServices = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.com/app/get-provider-services/', {
+		fetch('https://www.alsocio.com/app/get-provider-services/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -69,7 +69,7 @@ const providerServices = ({ navigation }) => {
 	const [mainCategoryValue, setMainCategoryValue] = useState();
 
 	const showMainCategoryArray = () => {
-		fetch('https://alsocio.com/app/get-main-categories/', {
+		fetch('https://www.alsocio.com/app/get-main-categories/', {
 			method: 'GET',
 			// body: usercategory,
 		})
@@ -101,7 +101,7 @@ const providerServices = ({ navigation }) => {
 		if (mainCategoryValue != null) {
 			let usercategory = new FormData();
 			usercategory.append('main_category', mainCategoryValue);
-			fetch('https://alsocio.com/app/get-categories-subcategories/', {
+			fetch('https://www.alsocio.com/app/get-categories-subcategories/', {
 				method: 'POST',
 				body: usercategory,
 			})
@@ -133,7 +133,7 @@ const providerServices = ({ navigation }) => {
 			let usercategory = new FormData();
 			usercategory.append('main_category', mainCategoryValue);
 			usercategory.append('category', CategoryValue);
-			fetch('https://alsocio.com/app/get-sub-categories/', {
+			fetch('https://www.alsocio.com/app/get-sub-categories/', {
 				method: 'POST',
 				body: usercategory,
 			})
@@ -214,7 +214,7 @@ const providerServices = ({ navigation }) => {
 		} else {
 			serviceDetails.append('additional_charges', 'No');
 		}
-		fetch('https://alsocio.com/app/add-provider-service/', {
+		fetch('https://www.alsocio.com/app/add-provider-service/', {
 			method: 'POST',
 			body: serviceDetails,
 			headers: {

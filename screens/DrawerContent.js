@@ -129,7 +129,7 @@ export function DrawerContent(props) {
 		let region_array = [];
 		let showCity_array = [];
 		let showRegion_array = [];
-		fetch('https://alsocio.com/app/get-city-region/', {
+		fetch('https://www.alsocio.com/app/get-city-region/', {
 			method: 'GET',
 		})
 			.then((response) => response.json())

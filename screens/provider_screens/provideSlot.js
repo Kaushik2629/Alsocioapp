@@ -34,7 +34,7 @@ const providerSlot = ({ navigation }) => {
   const fetchUsername = async () => {
     let customer_name = new FormData();
     customer_name.append("username", a.UserName);
-    fetch("https://alsocio.com/app/get-provider-business-hours/", {
+    fetch("https://www.alsocio.com/app/get-provider-business-hours/", {
       method: "POST",
       body: customer_name,
     })
@@ -368,7 +368,7 @@ const providerSlot = ({ navigation }) => {
                 slotdetails.append("username", a.UserName);
                 slotdetails.append("start", startTime);
                 slotdetails.append("end", endTime);
-                fetch("https://alsocio.com/app/edit-business-hours/", {
+                fetch("https://www.alsocio.com/app/edit-business-hours/", {
                   method: "POST",
                   body: slotdetails,
                 })

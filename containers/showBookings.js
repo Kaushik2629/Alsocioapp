@@ -57,7 +57,7 @@ const showBookings = ({ route, navigation }, props) => {
 				const element = check[index];
 				let servicedetails = new FormData();
 				servicedetails.append('service_id', element[0]);
-				fetch('https://alsocio.com/app/get-service-details/', {
+				fetch('https://www.alsocio.com/app/get-service-details/', {
 					method: 'POST',
 					body: servicedetails,
 				})
@@ -85,7 +85,7 @@ const showBookings = ({ route, navigation }, props) => {
 		let recieptDetails = new FormData();
 		recieptDetails.append('cart_items', JSON.stringify(recieptCartItem));
 		recieptDetails.append('cost', recieptTotalCost);
-		fetch('https://alsocio.com/app/get-cart-items/', {
+		fetch('https://www.alsocio.com/app/get-cart-items/', {
 			method: 'POST',
 			body: recieptDetails,
 		})
@@ -188,7 +188,7 @@ const showBookings = ({ route, navigation }, props) => {
 		let region_array = [];
 		let showCity_array = [];
 		let showRegion_array = [];
-		fetch('https://alsocio.com/app/get-city-region/', {
+		fetch('https://www.alsocio.com/app/get-city-region/', {
 			method: 'GET',
 		})
 			.then((response) => response.json())
@@ -304,7 +304,7 @@ const showBookings = ({ route, navigation }, props) => {
 		servicedetails.append('address', properties.address);
 		servicedetails.append('payment_radio', properties.paymentMethod);
 
-		fetch('https://alsocio.com/app/book-order/', {
+		fetch('https://www.alsocio.com/app/book-order/', {
 			method: 'POST',
 			body: servicedetails,
 		})
@@ -360,10 +360,7 @@ const showBookings = ({ route, navigation }, props) => {
 					paymentMethod: 'COD',
 				}}
 				onSubmit={(values) => {
-					if (values.paymentMethod == 'COD') {
-						fetchPayment(values);
-					}
-					if (values.paymentMethod == 'Card') {
+					{
 						navigation.navigate('paymentsScreen', {
 							cartItems: route.params.cartDetails,
 							cost: route.params.cost,
@@ -371,7 +368,7 @@ const showBookings = ({ route, navigation }, props) => {
 							region: values.region,
 							address: values.address,
 							paymentMethod: values.paymentMethod,
-							username: checkName.UserName
+							username: checkName.UserName,
 						});
 					}
 				}}
@@ -732,7 +729,7 @@ const showBookings = ({ route, navigation }, props) => {
 										</Text>
 									</View>
 								</View>
-								<View
+								{/* <View
 									style={{
 										flexGrow: 1,
 										flexDirection: 'row',
@@ -767,7 +764,7 @@ const showBookings = ({ route, navigation }, props) => {
 										style={{ width: 75, height: 30, marginLeft: 2 }}
 										source={require('../assets/visa-image.png')}
 									/>
-								</View>
+								</View> */}
 							</Card>
 						</ScrollView>
 						{showPopUp(props)}

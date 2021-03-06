@@ -107,7 +107,7 @@ const SignInScreen = ({ navigation }) => {
 		let userdetails = new FormData();
 		userdetails.append('username', userName);
 		userdetails.append('password', password);
-		fetch('https://alsocio.com/app/check-login/', {
+		fetch('https://www.alsocio.com/app/check-login/', {
 			method: 'POST',
 			body: userdetails,
 		})

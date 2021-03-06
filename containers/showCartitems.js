@@ -63,7 +63,7 @@ const showCartitems = ({ route, navigation }, props) => {
 				const element = cartCount[index];
 				let servicedetails = new FormData();
 				servicedetails.append('service_id', element[0]);
-				fetch('https://alsocio.com/app/get-service-details/', {
+				fetch('https://www.alsocio.com/app/get-service-details/', {
 					method: 'POST',
 					body: servicedetails,
 				})

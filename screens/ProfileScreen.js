@@ -32,7 +32,7 @@ const ProfileScreen = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.com/app/get-profile/', {
+		fetch('https://www.alsocio.com/app/get-profile/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -58,7 +58,7 @@ const ProfileScreen = ({ navigation }) => {
 		let region_array = [];
 		let showCity_array = [];
 		let showRegion_array = [];
-		fetch('https://alsocio.com/app/get-city-region/', {
+		fetch('https://www.alsocio.com/app/get-city-region/', {
 			method: 'GET',
 			// body: usercategory,
 		})
@@ -187,7 +187,7 @@ const ProfileScreen = ({ navigation }) => {
 		userDetails.append('email', parameters.email);
 		userDetails.append('password', parameters.confirm_password);
 		userDetails.append('username', parameters.username);
-		fetch('https://alsocio.com/app/update-password/', {
+		fetch('https://www.alsocio.com/app/update-password/', {
 			method: 'POST',
 			body: userDetails,
 		})
@@ -451,7 +451,7 @@ const ProfileScreen = ({ navigation }) => {
 									userdetails.append('contact', values.contact);
 									userdetails.append('region', values.region);
 									userdetails.append('city', values.city);
-									fetch('https://alsocio.com/app/update-profile/', {
+									fetch('https://www.alsocio.com/app/update-profile/', {
 										method: 'POST',
 										body: userdetails,
 									})
@@ -834,7 +834,7 @@ const ProfileScreen = ({ navigation }) => {
 									userdetails.append('region', values.region);
 									userdetails.append('city', values.city);
 									userdetails.append('company_name', values.companyName);
-									fetch('https://alsocio.com/app/update-profile/', {
+									fetch('https://www.alsocio.com/app/update-profile/', {
 										method: 'POST',
 										body: userdetails,
 									})

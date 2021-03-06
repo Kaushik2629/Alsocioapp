@@ -34,7 +34,7 @@ const providerTeamMembers = ({ navigation }) => {
 	const fetchUsername = async () => {
 		let customer_name = new FormData();
 		customer_name.append('username', a.UserName);
-		fetch('https://alsocio.com/app/get-provider-team-members/', {
+		fetch('https://www.alsocio.com/app/get-provider-team-members/', {
 			method: 'POST',
 			body: customer_name,
 		})
@@ -182,7 +182,7 @@ const providerTeamMembers = ({ navigation }) => {
 											name: filename,
 											type,
 										});
-										fetch('https://alsocio.com/app/add-provider-team-member/', {
+										fetch('https://www.alsocio.com/app/add-provider-team-member/', {
 											method: 'POST',
 											body: teamMemberDetails,
 											headers: {
